@@ -1,1 +1,1 @@
-# cap-salesforce
+# cap-sfcore
