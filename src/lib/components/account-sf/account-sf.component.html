@@ -1,0 +1,715 @@
+<div class="container">
+  <div class="row" *ngIf="createAccount || updateAccount">
+    <div class="col-lg-12">
+      <form [formGroup]="form">
+        <div id="accordion">
+          <div class="card">
+            <div class="card-header" id="headingOne">
+              <h5 class="mb-0">
+                <button
+                  [ngClass]="{
+                    'text-danger': isInvalid
+                  }"
+                  class="btn btn-link"
+                  data-toggle="collapse"
+                  data-target="#collapseGeneralInformation"
+                  aria-expanded="true"
+                  aria-controls="collapseGeneralInformation"
+                >
+                  Account Information
+                </button>
+              </h5>
+            </div>
+
+            <div
+              id="collapseGeneralInformation"
+              class="collapse show"
+              aria-labelledby="headingOne"
+              data-parent="#accordion"
+            >
+              <div class="card-body">
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label for="inputAccountName">Account Name</label>
+                    <input
+                      [ngClass]="{
+                        'is-invalid': isInvalid && !form.controls.name.value
+                      }"
+                      type="email"
+                      class="form-control"
+                      id="inputAccountName"
+                      formControlName="name"
+                    />
+                  </div>
+
+                  <div class="form-group col-md-4">
+                    <label for="inputSalutation">Parent Account</label>
+                    <select
+                      formControlName="parentId"
+                      id="inputSalutation"
+                      class="form-control"
+                    >
+                      <option value="" selected disabled hidden
+                        >Choose here</option
+                      >
+                      <option
+                        *ngFor="let account of lookUpAccount"
+                        value="{{ account.SfId }}"
+                        class="form-control"
+                        >{{ account.Name }}</option
+                      >
+                    </select>
+                  </div>
+
+
+                  <div class="form-group col-md-4">
+                    <label for="inputAccountNumber">Account Number</label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="inputAccountNumber"
+                      formControlName="accountNumber"
+                    />
+                  </div>
+                </div>
+                <div class="form-row ">
+                  <div class="form-group col-md-4">
+                    <label for="inputAccountSite">Account Site</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputAccountSite"
+                      formControlName="site"
+                    />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputAccountType">Account Type</label>
+                    <select
+                      formControlName="type"
+                      id="inputAccountType"
+                      class="form-control"
+                    >
+                      <option value="" selected disabled hidden
+                        >Choose here</option
+                      >
+                      <option
+                        *ngFor="let type of typeValues"
+                        value="{{ type }}"
+                        class="form-control"
+                        >{{ type }}</option
+                      >
+                    </select>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputIndustry">Industry</label>
+                    <select
+                      formControlName="industry"
+                      id="inputIndustry"
+                      class="form-control"
+                    >
+                      <option value="" selected disabled hidden
+                        >Choose here</option
+                      >
+                      <option
+                        *ngFor="let type of industryValues"
+                        value="{{ type }}"
+                        class="form-control"
+                        >{{ type }}</option
+                      >
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label for="inputAnnualRevenue">Annual Revenue</label>
+                    <input
+                      [ngClass]="{
+                        'is-invalid': form.controls.annualRevenue.errors
+                      }"
+                      type="text"
+                      class="form-control"
+                      id="inputAnnualRevenue"
+                      formControlName="annualRevenue"
+                    />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputRating">Rating</label>
+                    <select
+                      formControlName="rating"
+                      id="inputRating"
+                      class="form-control"
+                    >
+                      <option value="" selected disabled hidden
+                        >Choose here</option
+                      >
+                      <option
+                        *ngFor="let type of ratingValues"
+                        value="{{ type }}"
+                        class="form-control"
+                        >{{ type }}</option
+                      >
+                    </select>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputPhone">Phone</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputPhone"
+                      formControlName="phone"
+                    />
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label for="inputFax">Fax</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputFax"
+                      formControlName="fax"
+                    />
+                  </div>
+                  <div class="form-group col-md-5">
+                    <label for="inputWebsite">Website</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputWebsite"
+                      formControlName="website"
+                    />
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="inputTickerSymbol">Ticker Symbol</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputTickerSymbol"
+                      formControlName="tickerSymbol"
+                    />
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label for="inputOwnership">Ownership</label>
+                    <select
+                      formControlName="ownership"
+                      id="inputOwnership"
+                      class="form-control"
+                    >
+                      <option value="" selected disabled hidden
+                        >Choose here</option
+                      >
+                      <option
+                        *ngFor="let type of ownershipValues"
+                        value="{{ type }}"
+                        class="form-control"
+                        >{{ type }}</option
+                      >
+                    </select>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputEmployees">Employees</label>
+                    <input
+                      [ngClass]="{
+                        'is-invalid': form.controls.numberOfEmployees.errors
+                      }"
+                      type="text"
+                      class="form-control"
+                      id="inputEmployees"
+                      formControlName="numberOfEmployees"
+                    />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputSicCode">SIC Code</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputSicCode"
+                      formControlName="sic"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header" id="headingTwo">
+              <h5 class="mb-0">
+                <button
+                  class="btn btn-link collapsed"
+                  data-toggle="collapse"
+                  data-target="#collapseAddressInformation"
+                  aria-expanded="false"
+                  aria-controls="collapseAddressInformation"
+                >
+                  Address Information
+                </button>
+              </h5>
+            </div>
+            <div
+              id="collapseAddressInformation"
+              class="collapse"
+              aria-labelledby="headingTwo"
+              data-parent="#accordion"
+            >
+              <div class="card-body">
+                <div class="form-group">
+                  <label for="inputBillingStreet">Billing Street</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="inputBillingStreet"
+                    formControlName="billingStreet"
+                  />
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label for="inputBillingCity">Billing City</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputBillingCity"
+                      formControlName="billingCity"
+                    />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputBillingState"
+                      >Billing State/Province</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputBillingState"
+                      formControlName="billingState"
+                    />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputBillingPostalCode"
+                      >Billing Zip/Postal Code</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputBillingPostalCode"
+                      formControlName="billingPostalCode"
+                    />
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label for="inputBillingCountry">Billing Country</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputBillingCountry"
+                      formControlName="billingCountry"
+                    />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputShippingStreet">Shipping Street </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputShippingStreet"
+                      formControlName="shippingStreet"
+                    />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputShippingCity">Shipping City</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputShippingCity"
+                      formControlName="shippingCity"
+                    />
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label for="inputShippingState"
+                      >Shipping State/Province
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputShippingState"
+                      formControlName="shippingState"
+                    />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputShippingPostalCode"
+                      >Shipping Zip/Postal Code</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputShippingPostalCode"
+                      formControlName="shippingPostalCode"
+                    />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputShippingCountry">Shipping Country</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputShippingCountry"
+                      formControlName="shippingCountry"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header" id="headingThree">
+              <h5 class="mb-0">
+                <button
+                  class="btn btn-link collapsed"
+                  data-toggle="collapse"
+                  data-target="#collapseAdditionalInformation"
+                  aria-expanded="false"
+                  aria-controls="collapseAdditionalInformation"
+                >
+                  Additional Information
+                </button>
+              </h5>
+            </div>
+            <div
+              id="collapseAdditionalInformation"
+              class="collapse"
+              aria-labelledby="headingThree"
+              data-parent="#accordion"
+            >
+              <div class="card-body">
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label for="inputCustomPriority">Customer Priority</label>
+                    <select
+                      formControlName="customerPriority__c"
+                      id="inputCustomPriority"
+                      class="form-control"
+                    >
+                      <option value="" selected disabled hidden
+                        >Choose here</option
+                      >
+                      <option
+                        *ngFor="let type of customerPriorityValues"
+                        value="{{ type }}"
+                        class="form-control"
+                        >{{ type }}</option
+                      >
+                    </select>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputSlaExpirationDate"
+                      >SLA Expiration Date</label
+                    >
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="inputSlaExpirationDate"
+                      formControlName="slaExpirationDate__c"
+                    />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputNumberOfLocations"
+                      >Number of Locations</label
+                    >
+                    <input
+                    [ngClass]="{
+                      'is-invalid': form.controls.numberOfLocations__c.errors
+                    }"
+                      type="text"
+                      class="form-control"
+                      id="inputNumberOfLocations"
+                      formControlName="numberOfLocations__c"
+                    />
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-3">
+                    <label for="inputActive">Active</label>
+                    <select
+                      formControlName="active__c"
+                      id="inputActive"
+                      class="form-control"
+                    >
+                      <option value="" selected disabled hidden
+                        >Choose here</option
+                      >
+                      <option
+                        *ngFor="let type of activeValues"
+                        value="{{ type }}"
+                        class="form-control"
+                        >{{ type }}</option
+                      >
+                    </select>
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="inputSla">SLA</label>
+                    <select
+                      formControlName="sla__c"
+                      id="inputSla"
+                      class="form-control"
+                    >
+                      <option value="" selected disabled hidden
+                        >Choose here</option
+                      >
+                      <option
+                        *ngFor="let type of slaValues"
+                        value="{{ type }}"
+                        class="form-control"
+                        >{{ type }}</option
+                      >
+                    </select>
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="inputSlaSerialNumber">SLA Serial Number </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputSlaSerialNumber"
+                      formControlName="slaSerialNumber__c"
+                      maxlength="10"
+                    />
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="inputUpsellOpportunity"
+                      >Upsell Opportunity</label
+                    >
+                    <select
+                      formControlName="upsellOpportunity__c"
+                      id="inputUpsellOpportunity"
+                      class="form-control"
+                    >
+                      <option value="" selected disabled hidden
+                        >Choose here</option
+                      >
+                      <option
+                        *ngFor="let type of upsellOpportunityValues"
+                        value="{{ type }}"
+                        class="form-control"
+                        >{{ type }}</option
+                      >
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header" id="headingFour">
+              <h5 class="mb-0">
+                <button
+                  class="btn btn-link collapsed"
+                  data-toggle="collapse"
+                  data-target="#collapseDescription"
+                  aria-expanded="false"
+                  aria-controls="collapseDescription"
+                >
+                  Description Information
+                </button>
+              </h5>
+            </div>
+            <div
+              id="collapseDescription"
+              class="collapse"
+              aria-labelledby="headingFour"
+              data-parent="#accordion"
+            >
+              <div class="card-body">
+                <div class="form-group">
+                  <label for="description">Description:</label>
+                  <textarea
+                    formControlName="description"
+                    class="form-control"
+                    rows="5"
+                    id="description"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-row text-center mt-2">
+          <div class="col-md-6">
+            <button *ngIf="updateAccount" (click)="onSubmit(true)" class="btn btn-primary">Submit</button>
+            <button *ngIf="createAccount" (click)="onSubmit(false)" class="btn btn-primary">Submit</button>
+          </div>
+          <div class="col-md-6">
+            <button *ngIf="createAccount" type="button" (click)="cancelAction(true)" class="btn btn-secondary">Cancel</button>
+            <button *ngIf="updateAccount" type="button" (click)="cancelAction()" class="btn btn-secondary">Cancel</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div *ngIf="viewAccount">
+    <div class="row">
+      <div class="col-8">
+        <h2>Account</h2>
+        <button (click)="cancelAction(true)" type="button" class="btn btn-secondary">Go back</button>
+      </div>
+      <div class="col-4">
+          <button type="button" (click)="createForm(account)" class="btn btn-primary ml-1">
+            Update
+        </button>
+      </div>
+    </div>
+
+    <div class="row mt-2">
+      <div class="col-md-6">
+        <table class="table table-sm">
+          <thead>
+            <tr></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Account Name</th>
+              <td>{{ account.Name }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Parent Account</th>
+              <td>{{ LookUpParentAccount(account.ParentId)}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Account Site</th>
+              <td>{{ account.Site }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Type</th>
+              <td>{{ account.Type }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Industry</th>
+              <td>{{ account.Industry }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Annual Revenue</th>
+              <td>{{ account.AnnualRevenue }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Billing Address</th>
+              <td>{{ account.BillingStreet }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Customer Priority</th>
+              <td>{{ account.CustomerPriority__c }}</td>
+            </tr>
+            <tr>
+              <th scope="row">SLA Expiration Date</th>
+              <td>{{ account.SLAExpirationDate__c | date :['MM/dd/yyyy']}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Number of Locations</th>
+              <td>{{ account.NumberofLocations__c }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Active</th>
+              <td>{{ account.Active__c }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Description</th>
+              <td>{{ account.Description }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Rating</th>
+              <td>{{ account.Rating }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Phone</th>
+              <td>{{ account.Phone }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Fax</th>
+              <td>{{ account.Fax }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md 6">
+        <table class="table table-sm">
+          <thead>
+            <tr></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Website</th>
+              <td>{{ account.Website }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Ticker Symbol</th>
+              <td>{{ account.TickerSymbol }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Ownership</th>
+              <td>{{ account.Ownership }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Employees</th>
+              <td>{{ account.NumberOfEmployees }}</td>
+            </tr>
+            <tr>
+              <th scope="row">SIC Code</th>
+              <td>{{ account.Sic }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Billing City</th>
+              <td>{{ account.BillingCity }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Billing State/Province</th>
+              <td>{{ account.BillingState }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Billing Zip/Postal Code</th>
+              <td>{{ account.BillingPostalCode }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Billing Country</th>
+              <td>{{ account.BillingCountry }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Shipping City</th>
+              <td>{{ account.ShippingCity }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Shipping State/Province</th>
+              <td>{{ account.ShippingState }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Shipping Zip/Postal Code</th>
+              <td>{{ account.ShippingPostalCode }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Shipping Country</th>
+              <td>{{ account.ShippingCountry }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Shipping Address</th>
+              <td>{{ account.ShippingStreet }}</td>
+            </tr>
+            <tr>
+              <th scope="row">SLA</th>
+              <td>{{ account.SLA__c }}</td>
+            </tr>
+            <tr>
+              <th scope="row">SLA Serial Number</th>
+              <td>{{ account.SLASerialNumber__c }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Upsell Opportunity</th>
+              <td>{{ account.UpsellOpportunity__c }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

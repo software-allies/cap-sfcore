@@ -1,0 +1,440 @@
+<div class="container">
+  <div class="row" *ngIf="createOpportunity || updateOpportunity">
+    <div class="col-lg-12">
+      <form [formGroup]="form">
+        <div id="accordion">
+          <div class="card">
+            <div class="card-header" id="headingOne">
+              <h5 class="mb-0">
+                <button
+                  [ngClass]="{
+                    'text-danger': isInvalid
+                  }"
+                  class="btn btn-link"
+                  data-toggle="collapse"
+                  data-target="#collapseOpportunityInformation"
+                  aria-expanded="true"
+                  aria-controls="collapseOpportunityInformation"
+                >
+                  Opportunity Information
+                </button>
+              </h5>
+            </div>
+
+            <div
+              id="collapseOpportunityInformation"
+              class="collapse show"
+              aria-labelledby="headingOne"
+              data-parent="#accordion"
+            >
+              <div class="card-body">
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputOpportunityName">Opportunity Name</label>
+                    <input
+                      [ngClass]="{
+                        'is-invalid': isInvalid && !form.controls.name.value
+                      }"
+                      type="email"
+                      class="form-control"
+                      id="inputOpportunityName"
+                      formControlName="name"
+                    />
+                  </div>
+
+                  <div class="form-group col-md-6">
+                    <label for="inputSalutation">Account Name</label>
+                    <select
+                      formControlName="accountId"
+                      id="inputSalutation"
+                      class="form-control"
+                    >
+                      <option value="" selected disabled hidden
+                        >Choose here</option
+                      >
+                      <option
+                        *ngFor="let account of lookUpAccount"
+                        value="{{ account.SfId }}"
+                        class="form-control"
+                        >{{ account.Name }}</option
+                      >
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row ">
+
+                  <div class="form-group col-md-6">
+                    <label for="inputType">Type</label>
+                    <select
+                      formControlName="type"
+                      id="inputType"
+                      class="form-control"
+                    >
+                      <option value="" selected disabled hidden
+                        >Choose here</option
+                      >
+                      <option
+                        *ngFor="let type of typeValues"
+                        value="{{ type }}"
+                        class="form-control"
+                        >{{ type }}</option
+                      >
+                    </select>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="inputLeadSource">Lead Source</label>
+                    <select
+                      formControlName="leadSource"
+                      id="inputLeadSource"
+                      class="form-control"
+                    >
+                      <option value="" selected disabled hidden
+                        >Choose here</option
+                      >
+                      <option
+                        *ngFor="let type of leadSourceValues"
+                        value="{{ type }}"
+                        class="form-control"
+                        >{{ type }}</option
+                      >
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label for="inputAmount">Amount</label>
+                    <input
+                    [ngClass]="{
+                      'is-invalid': form.controls.amount.errors
+                    }"
+                      type="text"
+                      class="form-control"
+                      id="inputAmount"
+                      formControlName="amount"
+                    />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputCloseDate">Close Date</label>
+                    <input
+                      [ngClass]="{
+                        'is-invalid': isInvalid && !form.controls.closeDate.value
+                      }"
+                      type="date"
+                      class="form-control"
+                      id="inputCloseDate"
+                      formControlName="closeDate"
+                    />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputNextStep">Next Step</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputNextStep"
+                      formControlName="nextStep"
+                    />
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label for="inputStage">Stage</label>
+                    <select
+                      [ngClass]="{
+                        'is-invalid': isInvalid && !form.controls.stageName.value
+                      }"
+                      formControlName="stageName"
+                      id="inputStage"
+                      class="form-control"
+                    >
+                      <option value="" selected disabled hidden
+                        >Choose here</option
+                      >
+                      <option
+                        *ngFor="let type of stageValues"
+                        value="{{ type }}"
+                        class="form-control"
+                        >{{ type }}</option
+                      >
+                    </select>
+                  </div>
+
+                  <div class="form-group col-md-4">
+                    <label for="inputProbability">Probability (%)</label>
+                    <input
+                    [ngClass]="{
+                      'is-invalid': form.controls.probability.errors
+                    }"
+                      type="text"
+                      class="form-control"
+                      id="inputProbability"
+                      formControlName="probability"
+                    />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputCampainId">Primary Campaign Source</label>
+                    <select
+                      formControlName="campaignId"
+                      id="inputCampainId"
+                      class="form-control"
+                    >
+                      <option value="" selected disabled hidden
+                        >Choose here</option
+                      >
+                      <option
+                        *ngFor="let contact of lookUpContact"
+                        value="{{ contact.SfId }}"
+                        class="form-control"
+                        >{{ contact.Salutation }} {{ contact.FirstName }} {{ contact.LastName }}</option
+                      >
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group form-check">
+                  <input
+                    formControlName="isPrivate"
+                    type="checkbox"
+                    class="form-check-input"
+                    id="inputPrivate"
+                  />
+                  <label class="form-check-label" for="inputPrivate"
+                    >Private</label
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header" id="headingThree">
+              <h5 class="mb-0">
+                <button
+                  class="btn btn-link collapsed"
+                  data-toggle="collapse"
+                  data-target="#collapseAdditionalInformation"
+                  aria-expanded="false"
+                  aria-controls="collapseAdditionalInformation"
+                >
+                  Additional Information
+                </button>
+              </h5>
+            </div>
+            <div
+              id="collapseAdditionalInformation"
+              class="collapse"
+              aria-labelledby="headingThree"
+              data-parent="#accordion"
+            >
+              <div class="card-body">
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label for="inputOrderNumber">Order Number</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputOrderNumber"
+                      formControlName="orderNumber__c"
+                    />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputCurrentGenerator"
+                      >Current Generator(s)</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputCurrentGenerator"
+                      formControlName="currentGenerators__c"
+                    />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputTrackingNumber">Tracking Number</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputTrackingNumber"
+                      formControlName="trackingNumber__c"
+                    />
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputMainCompetitors">Main Competitor(s)</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputMainCompetitors"
+                      formControlName="mainCompetitors__c"
+                    />
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="inputDelivery"
+                      >Delivery/Installation Status</label
+                    >
+                    <select
+                      formControlName="deliveryInstallationStatus__c"
+                      id="inputDelivery"
+                      class="form-control"
+                    >
+                      <option value="" selected disabled hidden
+                        >Choose here</option
+                      >
+                      <option
+                        *ngFor="let type of deliveryInstallationStatus__cValues"
+                        value="{{ type }}"
+                        class="form-control"
+                        >{{ type }}</option
+                      >
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header" id="headingFour">
+              <h5 class="mb-0">
+                <button
+                  class="btn btn-link collapsed"
+                  data-toggle="collapse"
+                  data-target="#collapseDescription"
+                  aria-expanded="false"
+                  aria-controls="collapseDescription"
+                >
+                  Description Information
+                </button>
+              </h5>
+            </div>
+            <div
+              id="collapseDescription"
+              class="collapse"
+              aria-labelledby="headingFour"
+              data-parent="#accordion"
+            >
+              <div class="card-body">
+                <div class="form-group">
+                  <label for="description">Description:</label>
+                  <textarea
+                    formControlName="description"
+                    class="form-control"
+                    rows="5"
+                    id="description"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-row text-center mt-2">
+          <div class="col-md-6">
+            <button *ngIf="updateOpportunity" (click)="onSubmit(true)" class="btn btn-primary">Submit</button>
+            <button *ngIf="createOpportunity" (click)="onSubmit(false)" class="btn btn-primary">Submit</button>
+          </div>
+          <div class="col-md-6">
+            <button *ngIf="createOpportunity" type="button" (click)="cancelAction(true)" class="btn btn-secondary">Cancel</button>
+            <button *ngIf="updateOpportunity" type="button" (click)="cancelAction()" class="btn btn-secondary">Cancel</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div *ngIf="viewOpportunity">
+    <div class="row">
+      <div class="col-8">
+        <h2>Opportunity</h2>
+        <button (click)="cancelAction(true)" type="button" class="btn btn-secondary">Go back</button>
+      </div>
+      <div class="col-4">
+          <button type="button" (click)="createForm(opportunity)" class="btn btn-primary ml-1">
+            Update
+        </button>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-md-6">
+        <table class="table table-sm">
+          <thead>
+            <tr></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Name</th>
+              <td>{{ opportunity.Name }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Account Name</th>
+              <td >{{ LookUpAccountName(opportunity.AccountId) }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Type</th>
+                <td>{{ opportunity.Type }}</td>
+              </tr>
+            <tr>
+                <th scope="row">Lead Source</th>
+                <td>{{ opportunity.LeadSource }}</td>
+              </tr>
+            <tr>
+              <th scope="row">Amount</th>
+              <td>{{ opportunity.Amount }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Close Date</th>
+              <td>{{ opportunity.CloseDate | date :['MM/dd/yyyy']}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Next Step</th>
+              <td>{{ opportunity.NextStep }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Stage</th>
+              <td>{{ opportunity.StageName }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md 6">
+        <table class="table table-sm">
+          <thead>
+            <tr></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Probability (%)</th>
+              <td>{{ opportunity.Probability }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Primary Campaign Source</th>
+              <td>{{ opportunity.CampaignId }}</td>
+            </tr>
+
+            <tr>
+              <th scope="row">Order Number</th>
+              <td>{{ opportunity.OrderNumber__c }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Current Generator(s)</th>
+              <td>{{ opportunity.CurrentGenerators__c }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Tracking Number</th>
+              <td>{{ opportunity.TrackingNumber__c }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Main Competitor(s)</th>
+              <td>{{ opportunity.Status }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Delivery/Installation Status</th>
+              <td>{{ opportunity.AssistantPhone }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Description</th>
+              <td>{{ opportunity.Description }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

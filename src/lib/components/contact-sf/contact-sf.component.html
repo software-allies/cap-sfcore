@@ -1,0 +1,632 @@
+<div class="container">
+
+  <div class="row" *ngIf="createContact || updateContact">
+    <div class="col-lg-12">
+      <form [formGroup]="form">
+        <div id="accordion">
+          <div class="card">
+            <div class="card-header" id="headingOne">
+              <h5 class="mb-0">
+                <button
+                  [ngClass]="{
+                    'text-danger': isInvalid
+                  }"
+                  class="btn btn-link"
+                  data-toggle="collapse"
+                  data-target="#collapseContactInformation"
+                  aria-expanded="true"
+                  aria-controls="collapseContactInformation"
+                >
+                  Contact Information
+                </button>
+              </h5>
+            </div>
+
+            <div
+              id="collapseContactInformation"
+              class="collapse show"
+              aria-labelledby="headingOne"
+              data-parent="#accordion"
+            >
+              <div class="card-body">
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputSalutation">Salutation</label>
+                    <select
+                      formControlName="salutation"
+                      id="inputSalutation"
+                      class="form-control"
+                    >
+                      <option value="" selected disabled hidden
+                        >Choose here</option
+                      >
+                      <option
+                        *ngFor="let type of salutationValues"
+                        value="{{ type }}"
+                        class="form-control"
+                        >{{ type }}</option
+                      >
+                    </select>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="inputSalutation">Account Name</label>
+                    <select
+                      formControlName="accountId"
+                      id="inputSalutation"
+                      class="form-control"
+                    >
+                      <option value="" selected disabled hidden
+                        >Choose here</option
+                      >
+                      <option
+                        *ngFor="let account of lookUpAccount"
+                        value="{{ account.SfId }}"
+                        class="form-control"
+                        >{{ account.Name }}</option
+                      >
+                    </select>
+                  </div>
+
+                </div>
+                <div class="form-row ">
+                  <div class="form-group col-md-6">
+                    <label for="inputFirstName">First Name</label>
+                    <input
+                      [ngClass]="{
+                        'is-invalid': form.controls.firstName.errors
+                      }"
+                      type="text"
+                      class="form-control"
+                      id="inputFirstName"
+                      formControlName="firstName"
+                    />
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="inputLastName">Last Name</label>
+                    <input
+                      [ngClass]="{
+                        'is-invalid': isInvalid && !form.controls.lastName.value
+                      }"
+                      type="text"
+                      class="form-control"
+                      id="inputLastName"
+                      formControlName="lastName"
+                    />
+                  </div>
+
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label for="inputTitle">Title</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputTitle"
+                      formControlName="title"
+                    />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputDepartment">Department</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputDepartment"
+                      formControlName="department"
+                    />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputBirthdate">Birthdate</label>
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="inputBirthdate"
+                      formControlName="birthdate"
+                    />
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputReportsTo">Reports To</label>
+                    <select
+                      formControlName="reportsToId"
+                      id="inputReportsTo"
+                      class="form-control"
+                    >
+                      <option value="" selected disabled hidden
+                        >Choose here</option
+                      >
+                      <option
+                        *ngFor="let contact of lookUpContact"
+                        value="{{ contact.SfId }}"
+                        class="form-control"
+                        >{{ contact.Salutation }} {{ contact.FirstName }} {{ contact.LastName }}</option
+                      >
+                    </select>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="inputLeadSource">Lead Source</label>
+                    <select
+                      formControlName="leadSource"
+                      id="inputLeadSource"
+                      class="form-control"
+                    >
+                      <option value="" selected disabled hidden
+                        >Choose here</option
+                      >
+                      <option
+                        *ngFor="let type of leadSourceValues"
+                        value="{{ type }}"
+                        class="form-control"
+                        >{{ type }}</option
+                      >
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-3">
+                    <label for="inputPhone">Phone</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputPhone"
+                      formControlName="phone"
+                    />
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="inputHomePhone">Home Phone</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputHomePhone"
+                      formControlName="homePhone"
+                    />
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="inputMobile">Mobile</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputMobile"
+                      formControlName="mobilePhone"
+                    />
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="inputOtherPhone">Other Phone</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputOtherPhone"
+                      formControlName="otherPhone"
+                    />
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label for="inputFax">Fax</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputFax"
+                      formControlName="fax"
+                    />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputEmail">Email</label>
+                    <input
+                      [ngClass]="{
+                        'is-invalid': form.controls.email.errors
+                      }"
+                      type="text"
+                      class="form-control"
+                      id="inputEmail"
+                      formControlName="email"
+                    />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputAssistant">Assistant</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputAssistant"
+                      formControlName="assistantName"
+                    />
+                  </div>
+                </div>
+                <div class="form-group ">
+                  <label for="inputAssistantPhone">Asst. Phone</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputAssistantPhone"
+                    formControlName="assistantPhone"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header" id="headingTwo">
+              <h5 class="mb-0">
+                <button
+                  class="btn btn-link collapsed"
+                  data-toggle="collapse"
+                  data-target="#collapseAddressInformation"
+                  aria-expanded="false"
+                  aria-controls="collapseAddressInformation"
+                >
+                  Address Information
+                </button>
+              </h5>
+            </div>
+            <div
+              id="collapseAddressInformation"
+              class="collapse"
+              aria-labelledby="headingTwo"
+              data-parent="#accordion"
+            >
+              <div class="card-body">
+                <div class="form-group">
+                  <label for="inputBillingStreet">Mailing Street</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="inputMailingStreet"
+                    formControlName="mailingStreet"
+                  />
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label for="inputMailingCity">Mailing City</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputMailingCity"
+                      formControlName="mailingCity"
+                    />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputMailingState"
+                      >Mailing State/Province</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputMailingState"
+                      formControlName="mailingState"
+                    />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputMailingPostalCode"
+                      >Mailing Zip/Postal Code</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputMailingPostalCode"
+                      formControlName="mailingPostalCode"
+                    />
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label for="inputMailingCountry">Mailing Country</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputMailingCountry"
+                      formControlName="mailingCountry"
+                    />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputOtherStreet">Other Street </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputOtherStreet"
+                      formControlName="otherStreet"
+                    />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputOtherCity">Other City</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputOtherCity"
+                      formControlName="otherCity"
+                    />
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label for="inputOtherState">Other State/Province </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputOtherState"
+                      formControlName="otherState"
+                    />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputOtherPostalCode"
+                      >Other Zip/Postal Code</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputOtherPostalCode"
+                      formControlName="otherPostalCode"
+                    />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputOtherCountry">Other Country</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputOtherCountry"
+                      formControlName="otherCountry"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header" id="headingThree">
+              <h5 class="mb-0">
+                <button
+                  class="btn btn-link collapsed"
+                  data-toggle="collapse"
+                  data-target="#collapseAdditionalInformation"
+                  aria-expanded="false"
+                  aria-controls="collapseAdditionalInformation"
+                >
+                  Additional Information
+                </button>
+              </h5>
+            </div>
+            <div
+              id="collapseAdditionalInformation"
+              class="collapse"
+              aria-labelledby="headingThree"
+              data-parent="#accordion"
+            >
+              <div class="card-body">
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputLanguages">Languages</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputLanguages"
+                      formControlName="languages__c"
+                    />
+                  </div>
+
+                  <div class="form-group col-md-6">
+                    <label for="inputLevel">Level</label>
+                    <select
+                      formControlName="level__c"
+                      id="inputLevel"
+                      class="form-control"
+                    >
+                      <option value="" selected disabled hidden
+                        >Choose here</option
+                      >
+                      <option
+                        *ngFor="let type of levelValues"
+                        value="{{ type }}"
+                        class="form-control"
+                        >{{ type }}</option
+                      >
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header" id="headingFour">
+              <h5 class="mb-0">
+                <button
+                  class="btn btn-link collapsed"
+                  data-toggle="collapse"
+                  data-target="#collapseDescription"
+                  aria-expanded="false"
+                  aria-controls="collapseDescription"
+                >
+                  Description Information
+                </button>
+              </h5>
+            </div>
+            <div
+              id="collapseDescription"
+              class="collapse"
+              aria-labelledby="headingFour"
+              data-parent="#accordion"
+            >
+              <div class="card-body">
+                <div class="form-group">
+                  <label for="description">Description:</label>
+                  <textarea
+                    formControlName="description"
+                    class="form-control"
+                    rows="5"
+                    id="description"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-row text-center mt-2">
+          <div class="col-md-6">
+            <button *ngIf="updateContact" (click)="onSubmit(true)" class="btn btn-primary">Submit</button>
+            <button *ngIf="createContact" (click)="onSubmit(false)" class="btn btn-primary">Submit</button>
+          </div>
+          <div class="col-md-6">
+            <button *ngIf="createContact" type="button" (click)="cancelAction(true)" class="btn btn-secondary">Cancel</button>
+            <button *ngIf="updateContact" type="button" (click)="cancelAction()" class="btn btn-secondary">Cancel</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div *ngIf="viewContact">
+    <div class="row">
+      <div class="col-8">
+        <h2>Contact</h2>
+        <button (click)="cancelAction(true)" type="button" class="btn btn-secondary">Go back</button>
+      </div>
+      <div class="col-4">
+          <button type="button" (click)="createForm(contact)" class="btn btn-primary ml-1">
+            Update
+        </button>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-md-6">
+        <table class="table table-sm">
+          <thead>
+            <tr></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">First Name</th>
+              <td>{{ contact.FirstName }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Salutation</th>
+              <td>{{ contact.Salutation }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Last Name</th>
+              <td>{{ contact.LastName }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Account Name</th>
+                <td>{{ LookUpAccountName(contact.AccountId) }}</td>
+              </tr>
+            <tr>
+              <th scope="row">Title</th>
+              <td>{{ contact.Title }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Department</th>
+              <td>{{ contact.Department }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Birthdate</th>
+              <td>{{ contact.Birthdate | date :['MM/dd/yyyy']}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Reports To</th>
+              <td>{{ LookUpReportsTo(contact.ReportsToId) }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Lead Source</th>
+              <td>{{ contact.LeadSource }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Phone</th>
+              <td>{{ contact.Phone }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Home Phone</th>
+              <td>{{ contact.HomePhone }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Mobile</th>
+              <td>{{ contact.MobilePhone }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Other Phone</th>
+              <td>{{ contact.OtherPhone }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Fax</th>
+              <td>{{ contact.Fax }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Email</th>
+              <td>{{ contact.Email }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md 6">
+        <table class="table table-sm">
+          <thead>
+            <tr></tr>
+          </thead>
+          <tbody>
+
+            <tr>
+              <th scope="row">Assistant</th>
+              <td>{{ contact.AssistantName }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Asst. Phone</th>
+              <td>{{ contact.AssistantPhone }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Mailing Street</th>
+              <td>{{ contact.MailingStreet }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Mailing City</th>
+              <td>{{ contact.MailingCity }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Mailing State/Province</th>
+              <td>{{ contact.MailingState}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Mailing Zip/Postal Code</th>
+              <td>{{ contact.MailingPostalCode }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Mailing Country</th>
+              <td>{{ contact.MailingCountry }}</td>
+            </tr>
+
+            <tr>
+              <th scope="row">Other Street</th>
+              <td>{{ contact.OtherStreet }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Other City</th>
+              <td>{{ contact.OtherCity }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Other Zip/Postal Code</th>
+              <td>{{ contact.OtherPostalCode }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Other Country</th>
+              <td>{{ contact.OtherCountry }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Languages</th>
+              <td>{{ contact.Languages__c }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Level</th>
+              <td>{{ contact.Level__c}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Description</th>
+              <td>{{ contact.Description }}</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
