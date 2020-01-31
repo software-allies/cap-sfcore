@@ -1,9 +1,10 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { IConfig } from './interfaces/config.interface';
+import { ConfigService } from './services/config.service';
 import { LoopbackRoutingModule } from './loopback-routing.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { LoopbackService } from './services/loopback.service';
@@ -41,4 +42,16 @@ import { OpportunitySFComponent } from './components/opportunity-sf/opportunity-
   ],
   providers: [LoopbackService]
 })
-export class LoopbackModule {}
+export class LoopbackModule {
+  static forRoot(config: IConfig): ModuleWithProviders {
+    return {
+      ngModule: LoopbackModule,
+      providers: [
+        {
+          provide: ConfigService,
+          useValue: config,
+        },
+      ]
+    };
+  }
+}

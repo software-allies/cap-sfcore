@@ -1,15 +1,22 @@
-import { Injectable , Inject, PLATFORM_ID } from "@angular/core";
+import { Injectable , Inject, PLATFORM_ID } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { isPlatformBrowser } from '@angular/common';
-import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
-import { map } from "rxjs/operators";
-import { JwtHelperService } from "@auth0/angular-jwt";
+import { ConfigService } from './config.service';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class LoopbackService {
+
   url: string;
   limit: number;
-  constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId) {
-    this.url = 'https://heroku-app-api.herokuapp.com/api';
+
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigService,
+    @Inject(PLATFORM_ID) private platformId
+  ) {
+    this.url = this.configService.endPoint;
     this.limit = 20;
   }
 
@@ -40,7 +47,9 @@ export class LoopbackService {
         'Authorization': `Bearer ${this.getToken()}`
       })
     };
-    return this.http.get(`${this.url}/${tableName}?filter={"where":{"UUID__c": {"nlike": "null" }},"order":"Name","limit":${this.limit},"offset":${offset}}`, httpOptions);
+    return this.http.get(
+      `${this.url}/${tableName}?filter={"where":{"UUID__c": {"nlike": "null" }},"order":"Name","limit":${this.limit},"offset":${offset}}`,
+      httpOptions);
   }
 
   getWithFilter(query: string) {
