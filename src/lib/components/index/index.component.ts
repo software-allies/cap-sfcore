@@ -57,7 +57,7 @@ import Swal from 'sweetalert2';
 
               <td *ngIf="objectComponent === 'account' || objectComponent === 'lead'  " >{{ object.Phone }}</td>
               <td *ngIf="objectComponent === 'contact' " >{{ object.MobilePhone }}</td>
-              <td *ngIf="objectComponent === 'opportunity' " >{{ object.CloseDate | date: medium}}</td>
+              <td *ngIf="objectComponent === 'opportunity' " >{{ object.CloseDate | date: 'MM/dd/yyyy'}}</td>
               <!-- <td *ngIf="objectComponent === 'lead' " >{{ object.Phone }}</td> -->
               <td >
                 <button
@@ -93,7 +93,17 @@ import Swal from 'sweetalert2';
     <app-pagination #PaginationComponentChild (pageChange)="actionPage($event)"></app-pagination>
   </div>
   `,
-  styles: [``]
+  styles: [`
+  @media only screen and (max-width: 600px) {
+    button {
+        display: block;
+        width: 100%;
+        border: none;
+        cursor: pointer;
+        text-align: center;
+    }
+  }
+  `]
 })
 export class IndexComponent implements OnInit {
 
