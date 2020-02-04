@@ -42,10 +42,10 @@ import { OpportunitySFComponent } from './components/opportunity-sf/opportunity-
   ],
   providers: [LoopbackService]
 })
-export class LoopbackModule {
+export class CapSalesForceCore {
   static forRoot(config: IConfig): ModuleWithProviders {
     return {
-      ngModule: LoopbackModule,
+      ngModule: CapSalesForceCore,
       providers: [
         {
           provide: ConfigService,
