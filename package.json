@@ -1,6 +1,18 @@
 {
-  "name": "cap-salesforce",
+  "name": "cap-sfcore",
   "version": "1.0.0",
+  "author": {
+    "email": "lenin_emmanuel@hotmail.com",
+    "name": "Lenin Emmanuel Espinoza",
+    "url": "https://github.com/leninEmmanuel"
+  },
+  "keywords": [
+    "angular",
+    "authentication",
+    "loopback",
+    "cap-authentication",
+    "sales force"
+  ],
   "peerDependencies": {
     "@angular/common": "^8.2.14",
     "@angular/core": "^8.2.14",
@@ -9,5 +21,6 @@
     "sweetalert2": "^9.5.3",
     "@auth0/angular-jwt": "^3.0.1",
     "bootstrap": "^4.4.1"
-  }
+  },
+  "license": "MIT"
 }
