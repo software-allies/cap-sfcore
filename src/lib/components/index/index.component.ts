@@ -5,7 +5,7 @@ import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-index',
+  selector: 'app-index-sf',
   template: `
 
   <div class="container">

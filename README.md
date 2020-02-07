@@ -8,7 +8,7 @@
 * Opportunity
 
 ---
-## **Previous requirements**
+## Previous requirements
 
 In order for your CRUD to work, you must have your own authentication module or use a cap product as [cap-authentication](https://www.npmjs.com/package/cap-authentication) and configure an Auth0 server. When installing this module, you must have `@auth0/angular-jwt` installed to decrypt the user token.
 ```
@@ -45,9 +45,15 @@ Finally, you also have to install `sweetalert2` for some security animations and
 ```
 npm i sweetalert2 --save 
 ```
-
 ---
-### **Implementation into a module**
+
+## Installation
+```
+npm i cap-sfcore
+```
+---
+
+## Implementation into a module
 
 To use this module go to the app.module.ts and into the section import and put the cap-sfcore module.
 ```
@@ -66,7 +72,7 @@ export class AppModule { }
 ```
 
 ---
-### **configure routing**
+## configure routing
 
 Within our angular project we will have a file called `app-routin.module.ts` or in another way, there goes the routing of the components. Now we will modify the routes variable that has defined the routes of the components to have it as follows.
 ```
@@ -99,11 +105,11 @@ export class AppRoutingModule {}
 In the components that you defined of each object will go the selectors (tags) that will render the content of each object, within each one the CRUD can be done.
 
 ---
-### **HTML tags**
+## HTML tags
 
 *  **Objects List** => IndexComponent
 ```
-<app-index></app-index>
+<app-index-sf></app-index-sf>
 ```
 
 *  **Account CRUD** => AccountComponent
