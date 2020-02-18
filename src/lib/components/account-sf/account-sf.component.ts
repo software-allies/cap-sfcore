@@ -118,7 +118,7 @@ export class AccountSFComponent implements OnInit {
     if (account) {
       this.form = new FormGroup({
         id: new FormControl(account.id, [Validators.required]),
-        uuid__c: new FormControl(account.UUID__c, [Validators.required]),
+        uuid__c: new FormControl(account.SACAP__UUID__c, [Validators.required]),
         name: new FormControl(account.Name, [Validators.required]),
         accountNumber: new FormControl(account.AccountNumber),
         parentId: new FormControl(account.ParentId),
@@ -200,7 +200,7 @@ export class AccountSFComponent implements OnInit {
   onSubmit(updateOrcreate?: boolean) {
     if (this.form.valid) {
       this.objectToSend = {
-        UUID__c: this.form.get('uuid__c').value,
+        SACAP__UUID__c: this.form.get('uuid__c').value,
         Name: this.form.get('name').value,
         AccountNumber: this.form.get('accountNumber').value,
         ParentId: this.form.get('parentId').value,

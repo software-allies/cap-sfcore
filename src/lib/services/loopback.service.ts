@@ -48,7 +48,7 @@ export class LoopbackService {
       })
     };
     return this.http.get(
-      `${this.url}/${tableName}?filter={"where":{"UUID__c": {"nlike": "null" }},"order":"Name","limit":${this.limit},"offset":${offset}}`,
+      `${this.url}/${tableName}?filter={"where":{"SACAP__UUID__c": {"nlike": "null" }},"order":"Name","limit":${this.limit},"offset":${offset}}`,
       httpOptions);
   }
 
@@ -69,7 +69,7 @@ export class LoopbackService {
         'Authorization': `Bearer ${this.getToken()}`
       })
     };
-    return this.http.get(`${this.url}/${tableName}/count?where={"UUID__c": {"nlike": "null" }}`, httpOptions)
+    return this.http.get(`${this.url}/${tableName}/count?where={"SACAP__UUID__c": {"nlike": "null" }}`, httpOptions)
       .pipe(map( (data: any) => {
           return data.count;
         })

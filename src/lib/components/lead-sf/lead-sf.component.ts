@@ -135,7 +135,7 @@ export class LeadSFComponent implements OnInit {
     if (contact) {
       this.form = new FormGroup({
         id: new FormControl(contact.id, [Validators.required]),
-        uuid__c: new FormControl(contact.UUID__c, [Validators.required]),
+        uuid__c: new FormControl(contact.SACAP__UUID__c, [Validators.required]),
         salutation: new FormControl(contact.Salutation),
         firstName: new FormControl(contact.FirstName),
         lastName: new FormControl(contact.LastName, [Validators.required]),
@@ -207,7 +207,7 @@ export class LeadSFComponent implements OnInit {
   onSubmit(updateOrcreate?: boolean) {
     if (this.form.valid) {
       this.objectToSend = {
-        UUID__c: this.form.get('uuid__c').value,
+        SACAP__UUID__c: this.form.get('uuid__c').value,
         Salutation: this.form.get('salutation').value,
         FirstName: this.form.get('firstName').value,
         LastName: this.form.get('lastName').value,

@@ -132,7 +132,7 @@ export class OpportunitySFComponent implements OnInit {
     if (opportunity) {
       this.form = new FormGroup({
         id: new FormControl(opportunity.id, [Validators.required]),
-        uuid__c: new FormControl(opportunity.UUID__c, [Validators.required]),
+        uuid__c: new FormControl(opportunity.SACAP__UUID__c, [Validators.required]),
         isPrivate: new FormControl(opportunity.IsPrivate),
         name: new FormControl(opportunity.Name, [Validators.required]),
         accountId: new FormControl(opportunity.AccountId),
@@ -182,7 +182,7 @@ export class OpportunitySFComponent implements OnInit {
   onSubmit(updateOrcreate?: boolean) {
     if (this.form.valid) {
       this.objectToSend = {
-        UUID__c: this.form.get('uuid__c').value,
+        SACAP__UUID__c: this.form.get('uuid__c').value,
         IsPrivate: this.form.get('isPrivate').value,
         Name: this.form.get('name').value,
         AccountId: this.form.get('accountId').value,
