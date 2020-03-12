@@ -4,7 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { LoopbackService } from '../../services/loopback.service';
 import { Location } from '@angular/common';
 import Swal from 'sweetalert2';
-import Uuidv4 from 'uuid/v4';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-contact-sf',
@@ -152,7 +152,7 @@ export class ContactSFComponent implements OnInit {
       this.updateContact = true;
     } else {
       this.form = new FormGroup({
-        uuid__c: new FormControl(Uuidv4(), [Validators.required]),
+        uuid__c: new FormControl(uuidv4(), [Validators.required]),
         salutation: new FormControl(''),
         firstName: new FormControl('', [Validators.pattern('^[A-Za-z ]{0,}$')]),
         lastName: new FormControl('', [Validators.required, Validators.pattern('^[A-Za-z ]{0,}$')]),

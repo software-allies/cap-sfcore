@@ -4,7 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { LoopbackService } from '../../services/loopback.service';
 import { Location } from '@angular/common';
 import Swal from 'sweetalert2';
-import Uuidv4 from 'uuid/v4';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-account-sf',
@@ -158,7 +158,7 @@ export class AccountSFComponent implements OnInit {
       this.updateAccount = true;
     } else {
       this.form = new FormGroup({
-        uuid__c: new FormControl(Uuidv4(), [Validators.required]),
+        uuid__c: new FormControl(uuidv4(), [Validators.required]),
         name: new FormControl('', [Validators.required]),
         accountNumber: new FormControl(''),
         parentId: new FormControl(null),
