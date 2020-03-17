@@ -1,6 +1,7 @@
 {
   "name": "cap-sfcore",
-  "version": "1.0.4",
+  "version": "1.0.5",
+  "description": "CRUD for SalesForce objects",
   "author": {
     "email": "lenin_emmanuel@hotmail.com",
     "name": "Lenin Emmanuel Espinoza",
