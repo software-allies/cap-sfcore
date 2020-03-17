@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { LoopbackService } from '../../services/loopback.service';
 import { Location } from '@angular/common';
@@ -14,7 +14,7 @@ import { v4 as uuidv4 } from 'uuid';
 export class ContactSFComponent implements OnInit {
 
   form: FormGroup;
-  salutationValues: string[] = ['Mr.', 'Ms.', 'Mrs.', 'Dr.', 'Prof'];
+  salutationValues: string[] = ['Mr.', 'Ms.', 'Mrs.', 'Dr.', 'Prof.'];
   leadSourceValues: string[] = [
     'Web',
     'Phone Inquiry',
@@ -100,13 +100,13 @@ export class ContactSFComponent implements OnInit {
   }
 
   LookUpAccountName(AccountId: string): string {
-    return  this.lookUpAccount && AccountId && this.lookUpAccount.find(x => x.SfId === AccountId)?
+    return  this.lookUpAccount && AccountId && this.lookUpAccount.find(x => x.SfId === AccountId) ?
             this.lookUpAccount.find(x => x.SfId === AccountId).Name
             : '';
   }
 
   LookUpReportsTo(ReportsToId: string): string {
-    return  this.lookUpContact && ReportsToId && this.lookUpContact.find(x => x.SfId === ReportsToId)?
+    return  this.lookUpContact && ReportsToId && this.lookUpContact.find(x => x.SfId === ReportsToId) ?
             this.lookUpContact.find(x => x.SfId === ReportsToId).FirstName
             : '';
   }

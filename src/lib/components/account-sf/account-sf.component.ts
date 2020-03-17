@@ -32,7 +32,31 @@ export class AccountSFComponent implements OnInit {
     'Chemicals',
     'Communications',
     'Construction',
-    'Consulting'
+    'Consulting',
+    'Education',
+    'Electronics',
+    'Energy',
+    'Engineering',
+    'Entertainment',
+    'Environmental',
+    'Finance',
+    'Food & Beverage',
+    'Government',
+    'Healthcare',
+    'Hospitality',
+    'Insurance',
+    'Machinery',
+    'Manufacturing',
+    'Media',
+    'Not For Profit',
+    'Recreation',
+    'Retail',
+    'Shipping',
+    'Technology',
+    'Telecommunications',
+    'Transportation',
+    'Utilities',
+    'Other'
   ];
   ratingValues: string[] = ['Hot', 'Warm', 'Cold'];
   ownershipValues: string[] = ['Public', 'Private', 'Subsidiary', 'Other'];

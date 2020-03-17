@@ -14,7 +14,7 @@ import { v4 as uuidv4 } from 'uuid';
 export class LeadSFComponent implements OnInit {
 
   form: FormGroup;
-  salutationValues: string[] = ['Mr.', 'Ms.', 'Mrs.', 'Dr.', 'Prof'];
+  salutationValues: string[] = ['Mr.', 'Ms.', 'Mrs.', 'Dr.', 'Prof.'];
   leadSourceValues: string[] = [
     'Web',
     'Phone Inquiry',
@@ -57,6 +57,7 @@ export class LeadSFComponent implements OnInit {
     'Hospitality',
     'Insurance',
     'Machinery',
+    'Media',
     'Manufacturing',
     'Not For Profit',
     'Recreation',
@@ -211,7 +212,7 @@ export class LeadSFComponent implements OnInit {
         Salutation: this.form.get('salutation').value,
         FirstName: this.form.get('firstName').value,
         LastName: this.form.get('lastName').value,
-        Company:this.form.get('company').value,
+        Company: this.form.get('company').value,
         Title: this.form.get('title').value,
         LeadSource: this.form.get('leadSource').value,
         // CampaignId: this.form.get('campaignId').value,
