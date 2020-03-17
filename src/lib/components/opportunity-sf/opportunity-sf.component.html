@@ -30,7 +30,7 @@
               <div class="card-body">
                 <div class="form-row">
                   <div class="form-group col-md-6">
-                    <label for="inputOpportunityName">Opportunity Name</label>
+                    <label for="inputOpportunityName">Opportunity Name*</label>
                     <input
                       [ngClass]="{
                         'is-invalid': isInvalid && !form.controls.name.value
@@ -114,7 +114,7 @@
                     />
                   </div>
                   <div class="form-group col-md-4">
-                    <label for="inputCloseDate">Close Date</label>
+                    <label for="inputCloseDate">Close Date*</label>
                     <input
                       [ngClass]="{
                         'is-invalid': isInvalid && !form.controls.closeDate.value
@@ -138,7 +138,7 @@
 
                 <div class="form-row">
                   <div class="form-group col-md-4">
-                    <label for="inputStage">Stage</label>
+                    <label for="inputStage">Stage*</label>
                     <select
                       [ngClass]="{
                         'is-invalid': isInvalid && !form.controls.stageName.value
