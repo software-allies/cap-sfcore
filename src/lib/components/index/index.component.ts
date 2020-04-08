@@ -16,30 +16,30 @@ import Swal from 'sweetalert2';
           <a routerLink="/{{objectComponent}}/create" class="btn btn-success pull-right"
             >Add New {{objectComponent | titlecase}}</a>
         </div>
-        <table class="table table-striped mt-3">
+        <table class="table table-striped table-condensed mt-3 rwd_auto">
           <thead>
             <tr *ngIf="objectComponent === 'account'">
               <th scope="col">Account Name</th>
               <th scope="col">Billing City</th>
-              <th scope="col">Phone</th>
+              <th scope="col discard">Phone</th>
               <th scope="col">Actions</th>
             </tr>
             <tr *ngIf="objectComponent === 'contact'">
               <th scope="col">Name</th>
               <th scope="col">Account Name</th>
-              <th scope="col">Phone</th>
+              <th scope="col discard">Phone</th>
               <th scope="col">Actions</th>
             </tr>
             <tr *ngIf="objectComponent === 'opportunity'">
               <th scope="col">Opportunity Name</th>
               <th scope="col">Account Name</th>
-              <th scope="col">Close Date</th>
+              <th scope="col discard">Close Date</th>
               <th scope="col">Actions</th>
             </tr>
             <tr *ngIf="objectComponent === 'lead'">
               <th scope="col">Name</th>
               <th scope="col">Company</th>
-              <th scope="col">Phone</th>
+              <th scope="col discard">Phone</th>
               <th scope="col">Actions</th>
             </tr>
           </thead>
@@ -59,28 +59,17 @@ import Swal from 'sweetalert2';
               <td *ngIf="objectComponent === 'contact' " >{{ object.MobilePhone }}</td>
               <td *ngIf="objectComponent === 'opportunity' " >{{ object.CloseDate | date: 'MM/dd/yyyy'}}</td>
               <!-- <td *ngIf="objectComponent === 'lead' " >{{ object.Phone }}</td> -->
-              <td >
-                <button
-                routerLink="/{{objectComponent}}/{{ object.SfId }}"
-                  type="button"
-                  class="btn btn-primary ml-1"
-                >
-                  Update
-                </button>
-                <button
-                  (click)="deleteItem(object.id)"
-                  type="button"
-                  class="btn btn-danger ml-1"
-                >
-                  Delete
-                </button>
-                <button
-                  routerLink="/{{objectComponent}}/{{ object.SfId }}"
-                  type="button"
-                  class="btn btn-primary ml-1"
-                >
-                  View
-              </button>
+              <td>
+                <div class="dropdown">
+                  <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-ellipsis-h"></i>
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="actions">
+                    <button class="dropdown-item" type="button" routerLink="/{{objectComponent}}/{{ object.SfId }}">Update</button>
+                    <button class="dropdown-item" type="button" (click)="deleteItem(object.id)">Delete</button>
+                    <button class="dropdown-item" type="button" routerLink="/{{objectComponent}}/{{ object.SfId }}">View</button>
+                  </div>
+                </div>
               </td>
             </tr>
           </tbody>
@@ -94,15 +83,30 @@ import Swal from 'sweetalert2';
   </div>
   `,
   styles: [`
-  @media only screen and (max-width: 600px) {
-    button {
-        display: block;
-        width: 100%;
-        border: none;
-        cursor: pointer;
-        text-align: center;
-    }
-  }
+
+	table.rwd_auto { border:1px solid #ccc;width:100%;margin:0 0 50px 0; }
+  .rwd_auto th { background:#ccc;padding:5px;text-align:center; }
+  .rwd_auto td { border-bottom:1px solid #ccc;padding:5px;text-align:center; }
+  .rwd_auto tr:last-child td { border:0; }
+	.rwd_auto th, .rwd_auto td { white-space: nowrap; }
+			
+	@media only screen and (max-width: 760px), (min-width: 768px) and (max-width: 1024px)  
+	{
+		.discard {display:none;}
+	}
+	
+	/* Smartphones (portrait and landscape) ----------- */
+	@media only screen and (min-width : 320px) and (max-width : 480px) 
+	{
+		.discard {display:none;}
+	}
+	
+	/* iPads (portrait and landscape) ----------- */
+	@media only screen and (min-width: 768px) and (max-width: 1024px) 
+	{
+		.discard {display:none;}
+	}
+  
   `]
 })
 export class IndexComponent implements OnInit {
