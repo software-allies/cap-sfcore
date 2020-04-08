@@ -1,19 +1,29 @@
 {
   "name": "cap-sfcore",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "CRUD for SalesForce objects",
+  "scripts": {
+    "packagr": "ng-packagr -p ng-package.json"
+  },
   "private": false,
   "author": {
-    "email": "lenin_emmanuel@hotmail.com",
-    "name": "Lenin Emmanuel Espinoza",
-    "url": "https://github.com/leninEmmanuel"
+    "name": "Software Allies",
+    "url": "https://softwareallies.com"
   },
+  "contributors": [
+    {
+      "email": "lenin_emmanuel@hotmail.com",
+      "name": "Lenin Emmanuel",
+      "url": "https://github.com/leninEmmanuel"
+    }
+  ],
   "keywords": [
     "angular",
-    "authentication",
+    "salesforce",
     "loopback",
-    "cap-authentication",
-    "sales force"
+    "cap-sfcore",
+    "salesforce crud",
+    "salesforce objects"
   ],
   "repository": {
     "type": "git",
@@ -58,7 +68,10 @@
     "tslib": "^1.10.0",
     "tslint": "~5.15.0",
     "typescript": "~3.5.3",
-    "zone.js": "~0.9.1"
+    "zone.js": "~0.9.1",
+    "ngx-pagination": "^5.0.0",
+    "sweetalert2": "^9.5.3",
+    "@auth0/angular-jwt": "^3.0.1"
   },
   "license": "MIT"
 }
