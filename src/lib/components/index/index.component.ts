@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, Output, EventEmitter } from '@angular/core';
 import { LoopbackService } from '../../services/loopback.service';
 import { PaginationComponent } from '../pagination/pagination.component';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
@@ -89,33 +89,41 @@ import Swal from 'sweetalert2';
   .rwd_auto td { border-bottom:1px solid #ccc;padding:5px;text-align:center; }
   .rwd_auto tr:last-child td { border:0; }
 	.rwd_auto th, .rwd_auto td { white-space: nowrap; }
-			
-	@media only screen and (max-width: 760px), (min-width: 768px) and (max-width: 1024px)  
+	
+  @media only screen and (max-width: 760px), (min-width: 768px) and (max-width: 1024px)  
 	{
-		.discard {display:none;}
+		.discard { display:none; }
 	}
 	
 	/* Smartphones (portrait and landscape) ----------- */
 	@media only screen and (min-width : 320px) and (max-width : 480px) 
 	{
-		.discard {display:none;}
+		.discard { display:none; }
 	}
 	
 	/* iPads (portrait and landscape) ----------- */
 	@media only screen and (min-width: 768px) and (max-width: 1024px) 
 	{
-		.discard {display:none;}
+		.discard { display:none; }
 	}
-  
+
+	/* Mobile ----------- */
+	@media (max-width: 767px) {
+		.discard { display:none; }
+  }
+
+
   `]
 })
 export class IndexComponent implements OnInit {
 
-  @ViewChild('PaginationComponentChild', { static: true })paginationComponent: PaginationComponent;
+  @ViewChild('PaginationComponentChild', { static: true }) paginationComponent: PaginationComponent;
   listings: any;
   currentPage: number;
   skipFilter: number;
 
+  @Output('setTitle') objectComponentTitle: EventEmitter<string> = new EventEmitter();
+  
   object: any;
   objectAPI: string;
   objectComponent: string;
@@ -137,6 +145,7 @@ export class IndexComponent implements OnInit {
     this.totalItems = null;
     this.objectAPI = null;
     this.objectComponent = null;
+    this.objectComponentTitle.emit('');
   }
 
   ngOnInit() {
@@ -144,6 +153,9 @@ export class IndexComponent implements OnInit {
       this.object = this.objects.find(x => x.object === params.object);
       this.objectAPI = this.object.api;
       this.objectComponent = this.object.object;
+
+      this.objectComponentTitle.emit(this.object.object);
+
       this.skipFilter = 0;
       this.search(this.objectAPI);
     });
