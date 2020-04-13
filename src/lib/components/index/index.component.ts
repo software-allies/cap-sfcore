@@ -20,26 +20,26 @@ import Swal from 'sweetalert2';
           <thead>
             <tr *ngIf="objectComponent === 'account'">
               <th scope="col">Account Name</th>
-              <th scope="col">Billing City</th>
-              <th scope="col discard">Phone</th>
+              <th scope="col" class="discard">Billing City</th>
+              <th scope="col" class="discard">Phone</th>
               <th scope="col">Actions</th>
             </tr>
             <tr *ngIf="objectComponent === 'contact'">
               <th scope="col">Name</th>
-              <th scope="col">Account Name</th>
-              <th scope="col discard">Phone</th>
+              <th scope="col" class="discard">Account Name</th>
+              <th scope="col" class="discard">Phone</th>
               <th scope="col">Actions</th>
             </tr>
             <tr *ngIf="objectComponent === 'opportunity'">
               <th scope="col">Opportunity Name</th>
-              <th scope="col">Account Name</th>
-              <th scope="col discard">Close Date</th>
+              <th scope="col" class="discard">Account Name</th>
+              <th scope="col" class="discard">Close Date</th>
               <th scope="col">Actions</th>
             </tr>
             <tr *ngIf="objectComponent === 'lead'">
               <th scope="col">Name</th>
-              <th scope="col">Company</th>
-              <th scope="col discard">Phone</th>
+              <th scope="col" class="discard">Company</th>
+              <th scope="col" class="discard">Phone</th>
               <th scope="col">Actions</th>
             </tr>
           </thead>
@@ -47,19 +47,19 @@ import Swal from 'sweetalert2';
             <tr *ngFor="let object of listings | paginate: { id: 'pagination', itemsPerPage: 20, currentPage: currentPage, totalItems: totalItems}">
 
               <td *ngIf="objectComponent === 'account'">{{ object.Name }}</td>
-              <td *ngIf="objectComponent === 'account'">{{ object.BillingCity }}</td>
+              <td *ngIf="objectComponent === 'account'" class="discard">{{ object.BillingCity }}</td>
               <td *ngIf="objectComponent === 'account'" class="numeric discard">{{ object.Phone }}</td>
 
               <td *ngIf="objectComponent === 'contact'">{{ object.FirstName }} {{object.LastName}}</td>
-              <td *ngIf="objectComponent === 'contact'">{{ object.accountName }}</td>
+              <td *ngIf="objectComponent === 'contact'" class="discard">{{ object.accountName }}</td>
               <td *ngIf="objectComponent === 'contact'" class="numeric discard">{{ object.MobilePhone }}</td>
 
               <td *ngIf="objectComponent === 'opportunity'">{{ object.Name }}</td>
-              <td *ngIf="objectComponent === 'opportunity'">{{ object.accountName }}</td>
+              <td *ngIf="objectComponent === 'opportunity'" class="discard">{{ object.accountName }}</td>
               <td *ngIf="objectComponent === 'opportunity'" class="date discard">{{ object.CloseDate | date: 'MM/dd/yyyy'}}</td>
 
               <td *ngIf="objectComponent === 'lead'">{{ object.FirstName }} {{object.LastName}}</td>
-              <td *ngIf="objectComponent === 'lead'">{{ object.Company }}</td>
+              <td *ngIf="objectComponent === 'lead'" class="discard">{{ object.Company }}</td>
               <td *ngIf="objectComponent === 'lead'" class="numeric discard">{{ object.Phone }}</td>
 
               <td>
@@ -91,10 +91,10 @@ import Swal from 'sweetalert2';
 	table.rwd_auto { border: 1px solid #ccc; width: 100%; margin: 0 0 50px 0; }
   .rwd_auto th { background:#ccc; padding:5px; text-align: center; }
   .rwd_auto td { border-bottom: 1px solid #ccc; padding: 5px; text-align: left; }
-  .rwd_auto td.numeric { text-align: rigth; }
+  .rwd_auto td.numeric { text-align: right; }
   .rwd_auto td.date { text-align: center; }
   .rwd_auto tr:last-child td { border:0; }
-  .rwd_auto th.discard, .rwd_auto td.discard { display: block; }
+
 
 	/* Mobile ----------- */
 	@media (max-width: 767px) {
