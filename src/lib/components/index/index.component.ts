@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, Output, EventEmitter } from '@angular/core';
 import { LoopbackService } from '../../services/loopback.service';
 import { PaginationComponent } from '../pagination/pagination.component';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
@@ -12,9 +12,9 @@ import Swal from 'sweetalert2';
     <div class="row">
       <div class="col-lg-12 mx-auto">
         <div class="page-header clearfix">
-          <h2 class="pull-left">{{objectAPI}}</h2>
-          <a routerLink="/{{objectComponent}}/create" class="btn btn-success pull-right"
-            >Add New {{objectComponent | titlecase}}</a>
+          <a routerLink="/{{objectComponent}}/create" class="btn btn-success pull-right">
+            Add New {{objectComponent | titlecase}}
+          </a>
         </div>
         <table class="table table-striped table-condensed mt-3 rwd_auto">
           <thead>
@@ -45,20 +45,23 @@ import Swal from 'sweetalert2';
           </thead>
           <tbody>
             <tr *ngFor="let object of listings | paginate: { id: 'pagination', itemsPerPage: 20, currentPage: currentPage, totalItems: totalItems}">
-              <td *ngIf="objectComponent === 'account' || objectComponent === 'opportunity'" >{{ object.Name }}</td>
-              <td *ngIf="objectComponent === 'contact' || objectComponent === 'lead' " >{{ object.FirstName }} {{object.LastName}}</td>
-              <!-- <td *ngIf="objectComponent === 'opportunity' " >{{ object.Name }}</td> -->
-              <!-- <td *ngIf="objectComponent === 'lead' " >{{ object.FirstName }}</td> -->
 
-              <td *ngIf="objectComponent === 'account' " >{{ object.BillingCity }}</td>
-              <td *ngIf="objectComponent === 'contact' || objectComponent === 'opportunity' " >{{ object.accountName }}</td>
-              <td *ngIf="objectComponent === 'lead' " >{{ object.Company }}</td>
-              <!-- <td *ngIf="objectComponent === 'opportunity' " >{{ object.AccountId }}</td> -->
+              <td *ngIf="objectComponent === 'account'">{{ object.Name }}</td>
+              <td *ngIf="objectComponent === 'account'">{{ object.BillingCity }}</td>
+              <td *ngIf="objectComponent === 'account'" class="numeric discard">{{ object.Phone }}</td>
 
-              <td *ngIf="objectComponent === 'account' || objectComponent === 'lead'  " >{{ object.Phone }}</td>
-              <td *ngIf="objectComponent === 'contact' " >{{ object.MobilePhone }}</td>
-              <td *ngIf="objectComponent === 'opportunity' " >{{ object.CloseDate | date: 'MM/dd/yyyy'}}</td>
-              <!-- <td *ngIf="objectComponent === 'lead' " >{{ object.Phone }}</td> -->
+              <td *ngIf="objectComponent === 'contact'">{{ object.FirstName }} {{object.LastName}}</td>
+              <td *ngIf="objectComponent === 'contact'">{{ object.accountName }}</td>
+              <td *ngIf="objectComponent === 'contact'" class="numeric discard">{{ object.MobilePhone }}</td>
+
+              <td *ngIf="objectComponent === 'opportunity'">{{ object.Name }}</td>
+              <td *ngIf="objectComponent === 'opportunity'">{{ object.accountName }}</td>
+              <td *ngIf="objectComponent === 'opportunity'" class="date discard">{{ object.CloseDate | date: 'MM/dd/yyyy'}}</td>
+
+              <td *ngIf="objectComponent === 'lead'">{{ object.FirstName }} {{object.LastName}}</td>
+              <td *ngIf="objectComponent === 'lead'">{{ object.Company }}</td>
+              <td *ngIf="objectComponent === 'lead'" class="numeric discard">{{ object.Phone }}</td>
+
               <td>
                 <div class="dropdown">
                   <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -71,6 +74,7 @@ import Swal from 'sweetalert2';
                   </div>
                 </div>
               </td>
+
             </tr>
           </tbody>
         </table>
@@ -84,38 +88,30 @@ import Swal from 'sweetalert2';
   `,
   styles: [`
 
-	table.rwd_auto { border:1px solid #ccc;width:100%;margin:0 0 50px 0; }
-  .rwd_auto th { background:#ccc;padding:5px;text-align:center; }
-  .rwd_auto td { border-bottom:1px solid #ccc;padding:5px;text-align:center; }
+	table.rwd_auto { border: 1px solid #ccc; width: 100%; margin: 0 0 50px 0; }
+  .rwd_auto th { background:#ccc; padding:5px; text-align: center; }
+  .rwd_auto td { border-bottom: 1px solid #ccc; padding: 5px; text-align: left; }
+  .rwd_auto td.numeric { text-align: rigth; }
+  .rwd_auto td.date { text-align: center; }
   .rwd_auto tr:last-child td { border:0; }
-	.rwd_auto th, .rwd_auto td { white-space: nowrap; }
-			
-	@media only screen and (max-width: 760px), (min-width: 768px) and (max-width: 1024px)  
-	{
-		.discard {display:none;}
-	}
-	
-	/* Smartphones (portrait and landscape) ----------- */
-	@media only screen and (min-width : 320px) and (max-width : 480px) 
-	{
-		.discard {display:none;}
-	}
-	
-	/* iPads (portrait and landscape) ----------- */
-	@media only screen and (min-width: 768px) and (max-width: 1024px) 
-	{
-		.discard {display:none;}
-	}
-  
+  .rwd_auto th.discard, .rwd_auto td.discard { display: block; }
+
+	/* Mobile ----------- */
+	@media (max-width: 767px) {
+		.rwd_auto th.discard, .rwd_auto td.discard { display: none !important; }
+  }
+
   `]
 })
 export class IndexComponent implements OnInit {
 
-  @ViewChild('PaginationComponentChild', { static: true })paginationComponent: PaginationComponent;
+  @ViewChild('PaginationComponentChild', { static: true }) paginationComponent: PaginationComponent;
   listings: any;
   currentPage: number;
   skipFilter: number;
 
+  @Output('setTitle') objectComponentTitle: EventEmitter<string> = new EventEmitter();
+  
   object: any;
   objectAPI: string;
   objectComponent: string;
@@ -137,6 +133,7 @@ export class IndexComponent implements OnInit {
     this.totalItems = null;
     this.objectAPI = null;
     this.objectComponent = null;
+    this.objectComponentTitle.emit('');
   }
 
   ngOnInit() {
@@ -144,6 +141,9 @@ export class IndexComponent implements OnInit {
       this.object = this.objects.find(x => x.object === params.object);
       this.objectAPI = this.object.api;
       this.objectComponent = this.object.object;
+
+      this.objectComponentTitle.emit(this.object.object);
+
       this.skipFilter = 0;
       this.search(this.objectAPI);
     });
