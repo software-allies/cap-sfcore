@@ -8,7 +8,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
       id="pagination"
       (pageChange)="pageChange.emit($event)"
       maxSize="9"
-      responsive="false"
+      responsive="true"
       previousLabel="Previous"
       nextLabel="Next"
       directionLinks="true"
@@ -16,7 +16,11 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
     </pagination-controls>
   </div>
   `,
-  styles: [``]
+  styles: [`
+  .ngx-pagination {
+    padding: 0 !important;
+  }
+  `]
 })
 export class PaginationComponent implements OnInit {
 
