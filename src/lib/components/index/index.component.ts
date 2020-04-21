@@ -62,7 +62,7 @@ import Swal from 'sweetalert2';
               <td *ngIf="objectComponent === 'lead'" class="discard">{{ object.Company }}</td>
               <td *ngIf="objectComponent === 'lead'" class="numeric discard">{{ object.Phone }}</td>
 
-              <td>
+              <td class="text-center">
                 <div class="dropdown">
                   <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-ellipsis-h"></i>
@@ -89,7 +89,7 @@ import Swal from 'sweetalert2';
   styles: [`
 
 	table.rwd_auto { border: 1px solid #ccc; width: 100%; margin: 0 0 50px 0; }
-  .rwd_auto th { background:#ccc; padding:5px; text-align: center; }
+  .rwd_auto th { background:#ccc; padding:5px; text-align: left; }
   .rwd_auto td { border-bottom: 1px solid #ccc; padding: 5px; text-align: left; }
   .rwd_auto td.numeric { text-align: right; }
   .rwd_auto td.date { text-align: center; }
@@ -99,6 +99,10 @@ import Swal from 'sweetalert2';
 	/* Mobile ----------- */
 	@media (max-width: 767px) {
 		.rwd_auto th.discard, .rwd_auto td.discard { display: none !important; }
+  }
+
+  .ngx-pagination {
+    padding: 0 !important;
   }
 
   `]
