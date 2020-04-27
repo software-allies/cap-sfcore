@@ -269,7 +269,7 @@ export class AccountSFComponent implements OnInit {
                   title: 'Your account has been saved',
                   showConfirmButton: false,
                   timer: 1500
-                }).then(result => this.router.navigate([`/account`]));
+                }).then(result => window.location.assign(`${window.location.origin}/account`));
               }
             });
       } else {
@@ -280,7 +280,7 @@ export class AccountSFComponent implements OnInit {
             title: 'Your account has been saved',
             showConfirmButton: false,
             timer: 1500
-          }).then(result => this.router.navigate([`/account`]));
+          }).then(result => window.location.assign(`${window.location.origin}/account`));
         });
       }
 

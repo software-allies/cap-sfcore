@@ -211,7 +211,7 @@ export class OpportunitySFComponent implements OnInit {
               title: 'Your opportunity has been saved',
               showConfirmButton: false,
               timer: 1500
-            }).then(result => this.router.navigate([`/opportunity`]));
+            }).then(result => window.location.assign(`${window.location.origin}/opportunity`));
           }
         });
 
@@ -224,7 +224,7 @@ export class OpportunitySFComponent implements OnInit {
               title: 'Your opportunity has been saved',
               showConfirmButton: false,
               timer: 1500
-            }).then(result => this.router.navigate([`/opportunity`]));
+            }).then(result => window.location.assign(`${window.location.origin}/opportunity`));
           }
         });
       }

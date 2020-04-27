@@ -232,7 +232,7 @@ export class ContactSFComponent implements OnInit {
               title: 'Your contact has been saved',
               showConfirmButton: false,
               timer: 1500
-            }).then(result => this.router.navigate([`/contact`]));
+            }).then(result => window.location.assign(`${window.location.origin}/contact`));
           }
         });
       } else {
@@ -244,7 +244,7 @@ export class ContactSFComponent implements OnInit {
               title: 'Your contact has been saved',
               showConfirmButton: false,
               timer: 1500
-            }).then(result => this.router.navigate([`/contact`]));
+            }).then(result => window.location.assign(`${window.location.origin}/contact`));
           }
         });
       }

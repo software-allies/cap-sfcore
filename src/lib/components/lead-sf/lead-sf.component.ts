@@ -247,7 +247,7 @@ export class LeadSFComponent implements OnInit {
               title: 'Your lead has been saved',
               showConfirmButton: false,
               timer: 1500
-            }).then(result => this.router.navigate([`/lead`]));
+            }).then(result => window.location.assign(`${window.location.origin}/lead`));
           }
         });
       } else {
@@ -259,7 +259,7 @@ export class LeadSFComponent implements OnInit {
               title: 'Your contact has been saved',
               showConfirmButton: false,
               timer: 1500
-            }).then(result => this.router.navigate([`/lead`]));
+            }).then(result => window.location.assign(`${window.location.origin}/lead`));
           }
         });
       }
