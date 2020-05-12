@@ -69,6 +69,7 @@ export class ContactSFComponent implements OnInit {
   getObject(sfid: string) {
     this.loopbackService.getRecordWithFindOne(this.objectAPI, sfid).subscribe((object: any) => {
       this.contact = object;
+      console.log(object);
       this.viewContact = object ? true : false;
     });
   }
@@ -79,6 +80,7 @@ export class ContactSFComponent implements OnInit {
     });
     this.loopbackService.getAllRequest('Contacts').subscribe((contacts: Array<{any}>) => {
       this.lookUpContact = contacts;
+      console.log(contacts);
     });
   }
 
@@ -106,9 +108,14 @@ export class ContactSFComponent implements OnInit {
   }
 
   LookUpReportsTo(ReportsToId: string): string {
-    return  this.lookUpContact && ReportsToId && this.lookUpContact.find(x => x.SfId === ReportsToId) ?
+    if (this.lookUpContact && ReportsToId && this.lookUpContact.find(x => x.SfId === ReportsToId)) {
+      const contact = this.lookUpContact.find(x => x.SfId === ReportsToId);
+      return contact.FirstName + ' ' + contact.LastName;
+    }
+    return '';
+    /*return  this.lookUpContact && ReportsToId && this.lookUpContact.find(x => x.SfId === ReportsToId) ?
             this.lookUpContact.find(x => x.SfId === ReportsToId).FirstName
-            : '';
+            : '';*/
   }
 
   createForm(contact?: any) {

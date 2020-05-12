@@ -578,6 +578,10 @@
               <td>{{ LookUpParentAccount(account.ParentId)}}</td>
             </tr>
             <tr>
+              <th scope="row">Account Number</th>
+              <td>{{ account.AccountNumber }}</td>
+            </tr>
+            <tr>
               <th scope="row">Account Site</th>
               <td>{{ account.Site }}</td>
             </tr>
@@ -594,16 +598,12 @@
               <td>{{ account.AnnualRevenue }}</td>
             </tr>
             <tr>
-              <th scope="row">Billing Address</th>
-              <td>{{ account.BillingStreet }}</td>
-            </tr>
-            <tr>
               <th scope="row">Customer Priority</th>
               <td>{{ account.CustomerPriority__c }}</td>
             </tr>
             <tr>
               <th scope="row">SLA Expiration Date</th>
-              <td>{{ account.SLAExpirationDate__c | date :'MM/dd/yyyy'}}</td>
+              <td>{{ account.SLAExpirationDate__c | date :'MM/dd/yyyy' : 'UTC/GMT' }}</td>
             </tr>
             <tr>
               <th scope="row">Number of Locations</th>
@@ -629,6 +629,10 @@
               <th scope="row">Fax</th>
               <td>{{ account.Fax }}</td>
             </tr>
+            <tr>
+              <th scope="row">Website</th>
+              <td>{{ account.Website }}</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -638,10 +642,7 @@
             <tr></tr>
           </thead>
           <tbody>
-            <tr>
-              <th scope="row">Website</th>
-              <td>{{ account.Website }}</td>
-            </tr>
+
             <tr>
               <th scope="row">Ticker Symbol</th>
               <td>{{ account.TickerSymbol }}</td>
@@ -657,6 +658,10 @@
             <tr>
               <th scope="row">SIC Code</th>
               <td>{{ account.Sic }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Billing Street</th>
+              <td>{{ account.BillingStreet }}</td>
             </tr>
             <tr>
               <th scope="row">Billing City</th>
@@ -691,7 +696,7 @@
               <td>{{ account.ShippingCountry }}</td>
             </tr>
             <tr>
-              <th scope="row">Shipping Address</th>
+              <th scope="row">Shipping Street</th>
               <td>{{ account.ShippingStreet }}</td>
             </tr>
             <tr>

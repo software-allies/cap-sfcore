@@ -379,7 +379,7 @@
             </tr>
             <tr>
               <th scope="row">Close Date</th>
-              <td>{{ opportunity.CloseDate | date :'MM/dd/yyyy'}}</td>
+              <td>{{ opportunity.CloseDate | date : 'MM/dd/yyyy' : 'UTC/GMT'}}</td>
             </tr>
             <tr>
               <th scope="row">Next Step</th>
@@ -388,6 +388,10 @@
             <tr>
               <th scope="row">Stage</th>
               <td>{{ opportunity.StageName }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Private</th>
+              <td>{{ opportunity.IsPrivate }}</td>
             </tr>
           </tbody>
         </table>
@@ -400,7 +404,7 @@
           <tbody>
             <tr>
               <th scope="row">Probability (%)</th>
-              <td>{{ opportunity.Probability }}</td>
+              <td>{{ opportunity.Probability }}%</td>
             </tr>
             <tr>
               <th scope="row">Primary Campaign Source</th>
@@ -421,11 +425,11 @@
             </tr>
             <tr>
               <th scope="row">Main Competitor(s)</th>
-              <td>{{ opportunity.Status }}</td>
+              <td>{{ opportunity.MainCompetitors__c }}</td>
             </tr>
             <tr>
               <th scope="row">Delivery/Installation Status</th>
-              <td>{{ opportunity.AssistantPhone }}</td>
+              <td>{{ opportunity.DeliveryInstallationStatus__c }}</td>
             </tr>
             <tr>
               <th scope="row">Description</th>

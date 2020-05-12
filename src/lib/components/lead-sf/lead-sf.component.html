@@ -503,17 +503,9 @@
           </thead>
           <tbody>
             <tr>
-              <th scope="row">First Name</th>
-              <td>{{ lead.FirstName }}</td>
+              <th scope="row">Name</th>
+              <td>{{ lead.Salutation }} {{ lead.FirstName }} {{ lead.LastName }}</td>
             </tr>
-            <tr>
-              <th scope="row">Last Name</th>
-              <td>{{ lead.LastName }}</td>
-            </tr>
-            <tr>
-                <th scope="row">Salutation</th>
-                <td>{{ lead.Salutation }}</td>
-              </tr>
             <tr>
                 <th scope="row">Company</th>
                 <td>{{ lead.Company }}</td>
@@ -526,10 +518,10 @@
               <th scope="row">Lead Source</th>
               <td>{{ lead.LeadSource }}</td>
             </tr>
-            <tr>
+            <!-- <tr>
               <th scope="row">Birthdate</th>
               <td>{{ lead.Birthdate }}</td>
-            </tr>
+            </tr> -->
             <tr>
               <th scope="row">Industry</th>
               <td>{{ lead.Industry }}</td>
@@ -558,6 +550,10 @@
               <th scope="row">Web Site</th>
               <td>{{ lead.Website }}</td>
             </tr>
+            <tr>
+              <th scope="row">Lead Status</th>
+              <td>{{ lead.Status }}</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -567,15 +563,10 @@
             <tr></tr>
           </thead>
           <tbody>
-
-            <tr>
-              <th scope="row">Lead Status</th>
-              <td>{{ lead.Status }}</td>
-            </tr>
-            <tr>
+            <!-- <tr>
               <th scope="row">Asst. Phone</th>
               <td>{{ lead.AssistantPhone }}</td>
-            </tr>
+            </tr> -->
             <tr>
               <th scope="row">Rating</th>
               <td>{{ lead.Rating }}</td>

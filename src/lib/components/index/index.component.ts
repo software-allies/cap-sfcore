@@ -56,7 +56,7 @@ import Swal from 'sweetalert2';
 
               <td *ngIf="objectComponent === 'opportunity'">{{ object.Name }}</td>
               <td *ngIf="objectComponent === 'opportunity'" class="discard">{{ object.accountName }}</td>
-              <td *ngIf="objectComponent === 'opportunity'" class="date discard">{{ object.CloseDate | date: 'MM/dd/yyyy'}}</td>
+              <td *ngIf="objectComponent === 'opportunity'" class="date discard">{{ object.CloseDate | date: 'MM/dd/yyyy' : 'UTC/GMT'}}</td>
 
               <td *ngIf="objectComponent === 'lead'">{{ object.FirstName }} {{object.LastName}}</td>
               <td *ngIf="objectComponent === 'lead'" class="discard">{{ object.Company }}</td>
@@ -115,7 +115,7 @@ export class IndexComponent implements OnInit {
   skipFilter: number;
 
   @Output('setTitle') objectComponentTitle: EventEmitter<string> = new EventEmitter();
-  
+
   object: any;
   objectAPI: string;
   objectComponent: string;

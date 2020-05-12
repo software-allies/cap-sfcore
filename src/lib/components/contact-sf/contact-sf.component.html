@@ -495,16 +495,12 @@
           </thead>
           <tbody>
             <tr>
-              <th scope="row">First Name</th>
-              <td>{{ contact.FirstName }}</td>
+              <th scope="row">Contact Owner</th>
+              <td>{{contact.FirstName}} {{ contact.LastName }} </td>
             </tr>
             <tr>
-              <th scope="row">Salutation</th>
-              <td>{{ contact.Salutation }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Last Name</th>
-              <td>{{ contact.LastName }}</td>
+              <th scope="row">Name</th>
+              <td>{{contact.Salutation}} {{ contact.FirstName }} </td>
             </tr>
             <tr>
                 <th scope="row">Account Name</th>
@@ -520,7 +516,7 @@
             </tr>
             <tr>
               <th scope="row">Birthdate</th>
-              <td>{{ contact.Birthdate | date :'MM/dd/yyyy'}}</td>
+              <td>{{ contact.Birthdate | date :'MM/dd/yyyy' : 'UTC/GMT' }}</td>
             </tr>
             <tr>
               <th scope="row">Reports To</th>
