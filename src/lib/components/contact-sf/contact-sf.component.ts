@@ -69,7 +69,6 @@ export class ContactSFComponent implements OnInit {
   getObject(sfid: string) {
     this.loopbackService.getRecordWithFindOne(this.objectAPI, sfid).subscribe((object: any) => {
       this.contact = object;
-      console.log(object);
       this.viewContact = object ? true : false;
     });
   }
@@ -80,7 +79,6 @@ export class ContactSFComponent implements OnInit {
     });
     this.loopbackService.getAllRequest('Contacts').subscribe((contacts: Array<{any}>) => {
       this.lookUpContact = contacts;
-      console.log(contacts);
     });
   }
 
@@ -96,8 +94,11 @@ export class ContactSFComponent implements OnInit {
 
   changeFormatDate(formatDate: any) {
     const date = new Date(formatDate);
+    date.setDate(date.getUTCDate());
     const day = ('0' + date.getDate()).slice(-2);
-    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    const month = date.getDate() === 1
+      ? ('0' + (date.getMonth() + 2)).slice(-2)
+      : ('0' + (date.getMonth() + 1)).slice(-2);
     return date.getFullYear() + '-' + month + '-' + day;
   }
 
