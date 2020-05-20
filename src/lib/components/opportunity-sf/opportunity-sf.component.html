@@ -358,8 +358,12 @@
           </thead>
           <tbody>
             <tr>
-              <th scope="row">Name</th>
+              <th scope="row">Opportunity Name</th>
               <td>{{ opportunity.Name }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Private</th>
+              <td>{{ opportunity.IsPrivate }}</td>
             </tr>
             <tr>
               <th scope="row">Account Name</th>
@@ -389,10 +393,6 @@
               <th scope="row">Stage</th>
               <td>{{ opportunity.StageName }}</td>
             </tr>
-            <tr>
-              <th scope="row">Private</th>
-              <td>{{ opportunity.IsPrivate }}</td>
-            </tr>
           </tbody>
         </table>
       </div>
@@ -408,7 +408,7 @@
             </tr>
             <tr>
               <th scope="row">Primary Campaign Source</th>
-              <td>{{ opportunity.CampaignId }}</td>
+              <td>{{ LookUpCampaignId(opportunity.CampaignId) }}</td>
             </tr>
 
             <tr>

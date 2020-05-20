@@ -117,15 +117,26 @@ export class OpportunitySFComponent implements OnInit {
 
   changeFormatDate(formatDate: any) {
     const date = new Date(formatDate);
+    date.setDate(date.getUTCDate());
     const day = ('0' + date.getDate()).slice(-2);
-    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    const month = date.getDate() === 1
+      ? ('0' + (date.getMonth() + 2)).slice(-2)
+      : ('0' + (date.getMonth() + 1)).slice(-2);
     return date.getFullYear() + '-' + month + '-' + day;
   }
 
   LookUpAccountName(AccountId: string): string {
-    return  this.lookUpAccount && AccountId && this.lookUpAccount.find(x => x.SfId === AccountId) ?
+    return  this.lookUpContact && AccountId && this.lookUpContact.find(x => x.SfId === AccountId) ?
             this.lookUpAccount.find(x => x.SfId === AccountId).Name
             : '';
+  }
+
+  LookUpCampaignId(CampaignId: string): string {
+    if (this.lookUpContact && CampaignId && this.lookUpContact.find(x => x.SfId === CampaignId)) {
+      const contact = this.lookUpContact.find(x => x.SfId === CampaignId);
+      return contact.FirstName + ' ' + contact.LastName;
+    }
+    return '';
   }
 
   createForm(opportunity?: any) {
