@@ -145,15 +145,13 @@ export class IndexComponent implements OnInit {
       this.object = this.objects.find(x => x.object === params.object);
       this.objectAPI = this.object.api;
       this.objectComponent = this.object.object;
-
       this.objectComponentTitle.emit(this.object.object);
-
       this.skipFilter = 0;
-      this.search(this.objectAPI);
     });
     this.activateRoute.queryParams.subscribe(queryParams => {
       this.ApplyQueryParams(queryParams);
     });
+    this.search(this.objectAPI);
   }
 
   search(object: string) {
