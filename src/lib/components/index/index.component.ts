@@ -141,21 +141,25 @@ export class IndexComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.activateRoute.queryParams.subscribe(queryParams => {
+      this.resetFilters();
+      this.ApplyQueryParams(queryParams);
+    });
+
     this.activateRoute.params.subscribe(params => {
       this.object = this.objects.find(x => x.object === params.object);
       this.objectAPI = this.object.api;
       this.objectComponent = this.object.object;
       this.objectComponentTitle.emit(this.object.object);
-      this.skipFilter = 0;
+      this.search();
     });
-    this.activateRoute.queryParams.subscribe(queryParams => {
-      this.ApplyQueryParams(queryParams);
-    });
-    this.search(this.objectAPI);
+
   }
 
-  search(object: string) {
-    this.loopBackService.getAllRequest(object, this.skipFilter).subscribe(res => {
+  search() {
+    const object = this.objectAPI;
+    this.loopBackService.getAllRequest(this.objectAPI, this.skipFilter).subscribe(res => {
       this.listings = res;
       if (object === 'Contacts' || object === 'Opportunitys') {
         let sfIds = [];
@@ -180,6 +184,13 @@ export class IndexComponent implements OnInit {
     this.loopBackService.getTotalItems(object).subscribe(totalitmes => {
       this.totalItems = totalitmes;
     });
+  }
+
+  resetFilters() {
+    this.listings = [];
+    this.totalItems = null;
+    this.skipFilter = 0;
+    this.currentPage = 1;
   }
 
   deleteItem(id: number) {
@@ -222,7 +233,7 @@ export class IndexComponent implements OnInit {
     this.currentPage = page;
     this.skipFilter = this.currentPage > 1 ? (this.currentPage - 1) * 20 : null;
     const pageQueryParam = this.currentPage === 1 ? null : this.currentPage;
-    this.search(this.objectAPI);
+    this.search();
     const navigationExtras: NavigationExtras = {
       queryParams: { Page: pageQueryParam },
       queryParamsHandling: 'merge'
