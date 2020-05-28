@@ -1,6 +1,6 @@
 {
   "name": "cap-sfcore",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "CRUD for SalesForce objects",
   "scripts": {
     "packagr": "ng-packagr -p ng-package.json"
@@ -19,7 +19,7 @@
     {
       "email": "cesar_alonso_m_g@hotmail.com",
       "name": "César Alonso Magaña Gavilanes",
-      "url": "https://github.com/cesar-alonso-magana"
+      "url": "https://github.com/cesaralonso"
     }
   ],
   "keywords": [
