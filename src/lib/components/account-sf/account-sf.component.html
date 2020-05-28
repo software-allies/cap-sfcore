@@ -538,12 +538,12 @@
         </div>
         <div class="form-row text-center mt-2">
           <div class="col-md-6">
-            <button *ngIf="updateAccount" (click)="onSubmit(true)" class="btn btn-primary">Submit</button>
-            <button *ngIf="createAccount" (click)="onSubmit(false)" class="btn btn-primary">Submit</button>
+            <button *ngIf="updateAccount" (click)="onSubmit(true)" class="btn btn-primary mt-1 mb-1">Submit</button>
+            <button *ngIf="createAccount" (click)="onSubmit(false)" class="btn btn-primary mt-1 mb-1">Submit</button>
           </div>
           <div class="col-md-6">
-            <button *ngIf="createAccount" type="button" (click)="cancelAction(true)" class="btn btn-secondary">Cancel</button>
-            <button *ngIf="updateAccount" type="button" (click)="cancelAction()" class="btn btn-secondary">Cancel</button>
+            <button *ngIf="createAccount" type="button" (click)="cancelAction(true)" class="btn btn-secondary mt-1 mb-1">Cancel</button>
+            <button *ngIf="updateAccount" type="button" (click)="cancelAction()" class="btn btn-secondary mt-1 mb-1">Cancel</button>
           </div>
         </div>
       </form>
