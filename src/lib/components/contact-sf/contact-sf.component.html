@@ -464,12 +464,12 @@
         </div>
         <div class="form-row text-center mt-2">
           <div class="col-md-6">
-            <button *ngIf="updateContact" (click)="onSubmit(true)" class="btn btn-primary">Submit</button>
-            <button *ngIf="createContact" (click)="onSubmit(false)" class="btn btn-primary">Submit</button>
+            <button *ngIf="updateContact" (click)="onSubmit(true)" class="btn btn-primary mt-1 mb-1">Submit</button>
+            <button *ngIf="createContact" (click)="onSubmit(false)" class="btn btn-primary mt-1 mb-1">Submit</button>
           </div>
           <div class="col-md-6">
-            <button *ngIf="createContact" type="button" (click)="cancelAction(true)" class="btn btn-secondary">Cancel</button>
-            <button *ngIf="updateContact" type="button" (click)="cancelAction()" class="btn btn-secondary">Cancel</button>
+            <button *ngIf="createContact" type="button" (click)="cancelAction(true)" class="btn btn-secondary mt-1 mb-1">Cancel</button>
+            <button *ngIf="updateContact" type="button" (click)="cancelAction()" class="btn btn-secondary mt-1 mb-1">Cancel</button>
           </div>
         </div>
       </form>
