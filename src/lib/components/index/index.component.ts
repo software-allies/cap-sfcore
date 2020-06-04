@@ -74,17 +74,18 @@ import Swal from 'sweetalert2';
                   </div>
                 </div>
               </td>
-
             </tr>
           </tbody>
         </table>
       </div>
     </div>
+
+    <div class="padre">
+      <app-pagination #PaginationComponentChild (pageChange)="actionPage($event)"></app-pagination>
+    </div>
+
   </div>
 
-  <div *ngIf="totalItems > 20">
-    <app-pagination #PaginationComponentChild (pageChange)="actionPage($event)"></app-pagination>
-  </div>
   `,
   styles: [`
 
@@ -105,6 +106,13 @@ import Swal from 'sweetalert2';
     padding: 0 !important;
   }
 
+  .padre {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-right: 4rem;
+  }
   `]
 })
 export class IndexComponent implements OnInit {
@@ -141,7 +149,6 @@ export class IndexComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.activateRoute.queryParams.subscribe(queryParams => {
       this.resetFilters();
       this.ApplyQueryParams(queryParams);
@@ -154,7 +161,6 @@ export class IndexComponent implements OnInit {
       this.objectComponentTitle.emit(this.object.object);
       this.search();
     });
-
   }
 
   search() {

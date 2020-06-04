@@ -41,6 +41,9 @@ export class LoopbackService {
   }
 
   getAllRequest(tableName: string, offset: number = 0) {
+    const order = tableName === 'Accounts' || tableName === 'Opportunitys'
+      ? 'Name'
+      : 'FirstName';
     const httpOptions = {
       headers: new HttpHeaders({
         'content-type': 'application/json',
@@ -48,7 +51,7 @@ export class LoopbackService {
       })
     };
     return this.http.get(
-      `${this.url}/${tableName}?filter={"where":{"SACAP__UUID__c": {"nlike": "null" }},"order":"Name","limit":${this.limit},"offset":${offset}}`,
+      `${this.url}/${tableName}?filter={"where":{"SACAP__UUID__c": {"nlike": "null" }},"order":"${order}","limit":${this.limit},"offset":${offset}}`,
       httpOptions);
   }
 
