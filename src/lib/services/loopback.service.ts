@@ -47,7 +47,7 @@ export class LoopbackService {
     const httpOptions = {
       headers: new HttpHeaders({
         'content-type': 'application/json',
-        'Authorization': `Bearer ${this.getToken()}`
+        Authorization: `Bearer ${this.getToken()}`
       })
     };
     return this.http.get(
@@ -59,7 +59,7 @@ export class LoopbackService {
     const httpOptions = {
       headers: new HttpHeaders({
         'content-type': 'application/json',
-        'Authorization': `Bearer ${this.getToken()}`
+        Authorization: `Bearer ${this.getToken()}`
       })
     };
     return this.http.get(`${this.url}/${query}`, httpOptions);
@@ -69,7 +69,7 @@ export class LoopbackService {
     const httpOptions = {
       headers: new HttpHeaders({
         'content-type': 'application/json',
-        'Authorization': `Bearer ${this.getToken()}`
+        Authorization: `Bearer ${this.getToken()}`
       })
     };
     return this.http.get(`${this.url}/${tableName}/count?where={"SACAP__UUID__c": {"nlike": "null" }}`, httpOptions)
@@ -83,7 +83,7 @@ export class LoopbackService {
     const httpOptions = {
       headers: new HttpHeaders({
         'content-type': 'application/json',
-        'Authorization': `Bearer ${this.getToken()}`
+        Authorization: `Bearer ${this.getToken()}`
       })
     };
     return this.http.get(`${this.url}/${tableName}/findOne?filter={"where":{"SfId":"${sfid}"}}`, httpOptions);
@@ -93,7 +93,7 @@ export class LoopbackService {
     const httpOptions = {
       headers: new HttpHeaders({
         'content-type': 'application/json',
-        'Authorization': `Bearer ${this.getToken()}`
+        Authorization: `Bearer ${this.getToken()}`
       })
     };
     return this.http.get(`${this.url}/${tableName}/${id}`, httpOptions);
@@ -103,7 +103,7 @@ export class LoopbackService {
     const httpOptions = {
       headers: new HttpHeaders({
         'content-type': 'application/json',
-        'Authorization': `Bearer ${this.getToken()}`
+        Authorization: `Bearer ${this.getToken()}`
       })
     };
     return this.http.post(`${this.url}/${tableName}`, body, httpOptions);
@@ -113,7 +113,7 @@ export class LoopbackService {
     const httpOptions = {
       headers: new HttpHeaders({
         'content-type': 'application/json',
-        'Authorization': `Bearer ${this.getToken()}`
+        Authorization: `Bearer ${this.getToken()}`
       })
     };
     return this.http.patch(`${this.url}/${tableName}/${id}`, body, httpOptions);
@@ -123,7 +123,7 @@ export class LoopbackService {
     const httpOptions = {
       headers: new HttpHeaders({
         'content-type': 'application/json',
-        'Authorization': `Bearer ${this.getToken()}`
+        Authorization: `Bearer ${this.getToken()}`
       })
     };
     return this.http.delete(`${this.url}/${tableName}/${id}`, httpOptions);

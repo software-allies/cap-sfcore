@@ -1,6 +1,6 @@
 {
   "name": "cap-sfcore",
-  "version": "1.0.20",
+  "version": "1.0.21",
   "description": "CRUD for SalesForce objects",
   "scripts": {
     "packagr": "ng-packagr -p ng-package.json"
@@ -34,6 +34,7 @@
     "type": "git",
     "url": "https://github.com/software-allies/cap-sfcore"
   },
+  "homepage": "https://www.softwareallies.com/",
   "peerDependencies": {
     "@angular/common": "^8.2.14",
     "@angular/core": "^8.2.14",
