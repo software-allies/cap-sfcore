@@ -80,7 +80,7 @@ import Swal from 'sweetalert2';
       </div>
     </div>
 
-    <div class="padre">
+    <div class="padre" *ngIf="totalItems && currentPage">
       <app-pagination #PaginationComponentChild (pageChange)="actionPage($event)"></app-pagination>
     </div>
 
@@ -194,7 +194,7 @@ export class IndexComponent implements OnInit {
 
   resetFilters() {
     this.listings = [];
-    this.totalItems = null;
+    // this.totalItems = null;
     this.skipFilter = 0;
     this.currentPage = 1;
   }
@@ -232,7 +232,7 @@ export class IndexComponent implements OnInit {
     } else {
       this.currentPage = 1;
     }
-    // this.currentPage =queryParams && queryParams.Page ? Number(queryParams.Page) : 1;
+    // this.currentPage = queryParams && queryParams.Page ? Number(queryParams.Page) : 1;
   }
 
   actionPage(page: number) {
