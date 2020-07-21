@@ -8,14 +8,14 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
     (pageChange)="pageChange.emit($event)"
     maxSize="9"
     responsive="true"
-    previousLabel="Previous"
+    previousLabel="Prev"
     nextLabel="Next"
     directionLinks="true"
     auto-hide="true">
   </pagination-controls>
   `,
   styles: [`
-  .ngx-pagination {
+  pagination-controls {
     padding: 0 !important;
   }
   `]
