@@ -55,6 +55,17 @@ export class LoopbackService {
       httpOptions);
   }
 
+  getByFindOneSearch(tableName: string, attribute: string, findText: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'content-type': 'application/json',
+        Authorization: `Bearer ${this.getToken()}`
+      })
+    };
+    const query = `findOne?filter={"where":{"${attribute}":"${findText}"}}`;
+    return this.http.get(`${this.url}/${tableName}/${query}`, httpOptions);
+  }
+
   getWithFilter(query: string) {
     const httpOptions = {
       headers: new HttpHeaders({
