@@ -9,7 +9,10 @@ import { v4 as uuidv4 } from 'uuid';
 @Component({
   selector: 'app-account-sf',
   templateUrl: './account-sf.component.html',
-  styles: [``]
+  styles: [`
+  .record-detail {
+  }
+  `]
 })
 export class AccountSFComponent implements OnInit {
 
@@ -68,6 +71,7 @@ export class AccountSFComponent implements OnInit {
   createAccount: boolean;
   updateAccount: boolean;
   viewAccount: boolean;
+  status: boolean;
 
   objectAPI: string;
   objectToSend: any;
@@ -84,6 +88,7 @@ export class AccountSFComponent implements OnInit {
     this.createAccount = false;
     this.updateAccount = false;
     this.viewAccount = false;
+    this.status = false;
 
     this.account = {};
     this.objectToSend = {};
@@ -95,8 +100,9 @@ export class AccountSFComponent implements OnInit {
     if (this.location.prepareExternalUrl(this.location.path()).split('/')[2] === 'create') {
       this.createForm();
     } else {
-      this.activateRoute.params.subscribe((params: {id: string}) => {
+      this.activateRoute.params.subscribe((params: {id: string, status?: string}) => {
         this.getObject(params.id);
+        this.status = params.status === 'update' ? true : false;
       });
     }
     this.getAccountLookUp();
@@ -106,6 +112,9 @@ export class AccountSFComponent implements OnInit {
     this.loopbackService.getRecordWithFindOne(this.objectAPI, sfid).subscribe((object: any) => {
       this.account = object;
       this.viewAccount = object ? true : false;
+      if (this.status) {
+        this.createForm(object);
+      }
     });
   }
 

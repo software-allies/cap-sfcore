@@ -73,6 +73,7 @@ export class LeadSFComponent implements OnInit {
   createLead: boolean;
   updateLead: boolean;
   viewLead: boolean;
+  status: boolean;
 
   objectAPI: string;
   lead: any;
@@ -90,6 +91,7 @@ export class LeadSFComponent implements OnInit {
     this.createLead = false;
     this.updateLead = false;
     this.viewLead = false;
+    this.status = false;
 
     this.objectToSend = {};
     this.lead = {};
@@ -102,8 +104,9 @@ export class LeadSFComponent implements OnInit {
     if (this.location.prepareExternalUrl(this.location.path()).split('/')[2] === 'create') {
       this.createForm();
     } else {
-      this.activateRoute.params.subscribe((params: {id: string}) => {
+      this.activateRoute.params.subscribe((params: {id: string, status?: string}) => {
        this.getObject(params.id);
+       this.status = params.status === 'update' ? true : false;
       });
     }
     this.getContactLookUp();
@@ -113,6 +116,9 @@ export class LeadSFComponent implements OnInit {
     this.loopbackService.getRecordWithFindOne(this.objectAPI, sfid).subscribe((object: any) => {
       this.lead = object;
       this.viewLead = object ? true : false;
+      if (this.status) {
+        this.createForm(object);
+      }
     });
   }
 

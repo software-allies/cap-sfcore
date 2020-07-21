@@ -52,6 +52,7 @@ export class OpportunitySFComponent implements OnInit {
   createOpportunity: boolean;
   updateOpportunity: boolean;
   viewOpportunity: boolean;
+  status: boolean;
 
   opportunity: any;
   objectToSend: any;
@@ -71,6 +72,7 @@ export class OpportunitySFComponent implements OnInit {
     this.createOpportunity = false;
     this.updateOpportunity = false;
     this.viewOpportunity = false;
+    this.status = false;
 
     this.opportunity = {};
     this.objectToSend = {};
@@ -82,8 +84,9 @@ export class OpportunitySFComponent implements OnInit {
     if (this.location.prepareExternalUrl(this.location.path()).split('/')[2] === 'create') {
       this.createForm();
     } else {
-      this.activateRoute.params.subscribe((params: {id: string}) => {
+      this.activateRoute.params.subscribe((params: {id: string, status?: string}) => {
         this.getObject(params.id);
+        this.status = params.status === 'update' ? true : false;
       });
     }
     this.getLookUps();
@@ -93,6 +96,9 @@ export class OpportunitySFComponent implements OnInit {
     this.loopbackService.getRecordWithFindOne(this.objectAPI, sfid).subscribe((object: any) => {
       this.opportunity = object;
       this.viewOpportunity = object ? true : false;
+      if (this.status) {
+        this.createForm(object);
+      }
     });
   }
 

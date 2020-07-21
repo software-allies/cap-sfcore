@@ -32,6 +32,7 @@ export class ContactSFComponent implements OnInit {
   createContact: boolean;
   updateContact: boolean;
   viewContact: boolean;
+  status: boolean;
 
   lookUpAccount: any;
   lookUpContact: any;
@@ -45,6 +46,7 @@ export class ContactSFComponent implements OnInit {
     this.createContact = false;
     this.updateContact = false;
     this.viewContact = false;
+    this.status = false;
 
     this.isInvalid = false;
     this.objectToSend = {};
@@ -59,8 +61,9 @@ export class ContactSFComponent implements OnInit {
     if (this.location.prepareExternalUrl(this.location.path()).split('/')[2] === 'create') {
       this.createForm();
     } else {
-      this.activateRoute.params.subscribe((params: {id: string}) => {
+      this.activateRoute.params.subscribe((params: {id: string, status?: string}) => {
         this.getObject(params.id);
+        this.status = params.status === 'update' ? true : false;
       });
     }
     this.getLookUps();
@@ -70,6 +73,9 @@ export class ContactSFComponent implements OnInit {
     this.loopbackService.getRecordWithFindOne(this.objectAPI, sfid).subscribe((object: any) => {
       this.contact = object;
       this.viewContact = object ? true : false;
+      if (this.status) {
+        this.createForm(object);
+      }
     });
   }
 
