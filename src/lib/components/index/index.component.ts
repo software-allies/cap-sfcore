@@ -11,12 +11,33 @@ import Swal from 'sweetalert2';
   <div class="container">
     <div class="row">
       <div class="col-lg-12 mx-auto">
-        <div class="page-header clearfix">
-          <a routerLink="/{{objectComponent}}/create" class="btn btn-success pull-right">
-            Add New {{objectComponent | titlecase}}
-          </a>
+      <div class="page-header">
+        <div class="row">
+
+          <div class="col-md-3 mb-2">
+            <a routerLink="/{{objectComponent}}/create" class="btn btn-success pull-right">
+              Add New {{objectComponent | titlecase}}
+            </a>
+          </div>
+
+          <div class="col-md-9">
+            <div class="form-row">
+              <div class="col-md-3 mb-2">
+                <select class="custom-select" [(ngModel)]="selectAttribute">
+                  <option *ngFor="let search of object.search; let i = index" value="{{search}}">{{search}}</option>
+                </select>
+              </div>
+              <div class="input-group col-md-9 mb-2">
+                <input type="text" [(ngModel)]="searchAttribute" class="form-control">
+                <div class="input-group-append">
+                  <button (click)="searchBy()" class="btn btn-outline-secondary" type="button"> Search </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <table class="table table-striped table-condensed mt-3 rwd_auto">
+      </div>
+        <table *ngIf="listings.length && !listings404" class=" tbl-header table table-striped table-condensed mt-3 rwd_auto">
           <thead>
             <tr *ngIf="objectComponent === 'account'">
               <th scope="col">Account Name</th>
@@ -44,21 +65,36 @@ import Swal from 'sweetalert2';
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let object of listings | paginate: { id: 'pagination', itemsPerPage: 20, currentPage: currentPage, totalItems: totalItems}">
+            <tr *ngFor="let object of listings | paginate: { id: 'pagination', itemsPerPage: totalListings, currentPage: currentPage, totalItems: totalItems}">
 
-              <td *ngIf="objectComponent === 'account'">{{ object.Name }}</td>
+              <td *ngIf="objectComponent === 'account'">
+                <a routerLink="/{{objectComponent}}/{{object.SfId}}">{{ object.Name }}</a>
+              </td>
               <td *ngIf="objectComponent === 'account'" class="discard">{{ object.BillingCity }}</td>
               <td *ngIf="objectComponent === 'account'" class="numeric discard">{{ object.Phone }}</td>
 
-              <td *ngIf="objectComponent === 'contact'">{{ object.FirstName }} {{object.LastName}}</td>
-              <td *ngIf="objectComponent === 'contact'" class="discard">{{ object.accountName }}</td>
+
+              <td *ngIf="objectComponent === 'contact'">
+                <a routerLink="/{{objectComponent}}/{{object.SfId}}">{{ object.FirstName }} {{object.LastName}}</a>
+              </td>
+              <td *ngIf="objectComponent === 'contact'" class="discard">
+                <a routerLink="/account/{{object.AccountId}}">{{ object.accountName }}</a>
+              </td>
               <td *ngIf="objectComponent === 'contact'" class="numeric discard">{{ object.MobilePhone }}</td>
 
-              <td *ngIf="objectComponent === 'opportunity'">{{ object.Name }}</td>
-              <td *ngIf="objectComponent === 'opportunity'" class="discard">{{ object.accountName }}</td>
+
+              <td *ngIf="objectComponent === 'opportunity'">
+                <a routerLink="/{{objectComponent}}/{{object.SfId}}">{{ object.Name }}</a>
+              </td>
+              <td *ngIf="objectComponent === 'opportunity'" class="discard">
+                <a routerLink="/account/{{object.AccountId}}">{{ object.accountName }}</a>
+              </td>
               <td *ngIf="objectComponent === 'opportunity'" class="date discard">{{ object.CloseDate | date: 'MM/dd/yyyy' : 'UTC/GMT'}}</td>
 
-              <td *ngIf="objectComponent === 'lead'">{{ object.FirstName }} {{object.LastName}}</td>
+
+              <td *ngIf="objectComponent === 'lead'">
+                <a routerLink="/{{objectComponent}}/{{object.SfId}}">{{ object.FirstName }} {{object.LastName}}</a>
+              </td>
               <td *ngIf="objectComponent === 'lead'" class="discard">{{ object.Company }}</td>
               <td *ngIf="objectComponent === 'lead'" class="numeric discard">{{ object.Phone }}</td>
 
@@ -68,9 +104,8 @@ import Swal from 'sweetalert2';
                     <i class="fa fa-ellipsis-h"></i>
                   </button>
                   <div class="dropdown-menu" aria-labelledby="actions">
-                    <button class="dropdown-item" type="button" routerLink="/{{objectComponent}}/{{ object.SfId }}">Update</button>
+                    <button class="dropdown-item" type="button" routerLink="/{{objectComponent}}/{{ object.SfId }}/update">Update</button>
                     <button class="dropdown-item" type="button" (click)="deleteItem(object.id)">Delete</button>
-                    <button class="dropdown-item" type="button" routerLink="/{{objectComponent}}/{{ object.SfId }}">View</button>
                   </div>
                 </div>
               </td>
@@ -80,8 +115,17 @@ import Swal from 'sweetalert2';
       </div>
     </div>
 
-    <div class="padre" *ngIf="totalItems && currentPage">
+    <div class="pagination" *ngIf="totalItems && currentPage && totalItems > totalListings">
       <app-pagination #PaginationComponentChild (pageChange)="actionPage($event)"></app-pagination>
+    </div>
+
+    <div  *ngIf="!listings.length && listings404" class="card text-center mt-3">
+      <div class="card-body">
+        <h5 class="card-title">No records found.</h5>
+        <p class="card-text">
+          No records found found in {{objectComponent | titlecase}} object, try again later or check your organization info in SalesForce.
+        </p>
+      </div>
     </div>
 
   </div>
@@ -89,51 +133,95 @@ import Swal from 'sweetalert2';
   `,
   styles: [`
 
-	table.rwd_auto { border: 1px solid #ccc; width: 100%; margin: 0 0 50px 0; }
+  table.rwd_auto { border: 1px solid #ccc; width: 100%; margin: 0 0 50px 0; }
   .rwd_auto th { background:#ccc; padding:5px; text-align: left; }
+  .rwd_auto th:last-child {text-align: center; }
+
   .rwd_auto td { border-bottom: 1px solid #ccc; padding: 5px; text-align: left; }
-  .rwd_auto td.numeric { text-align: right; }
-  .rwd_auto td.date { text-align: center; }
+  .rwd_auto td.numeric { text-align: left; }
+  .rwd_auto td.date { text-align: left; }
   .rwd_auto tr:last-child td { border:0; }
 
 
 	/* Mobile ----------- */
 	@media (max-width: 767px) {
-		.rwd_auto th.discard, .rwd_auto td.discard { display: none !important; }
+    .rwd_auto th.discard, .rwd_auto td.discard { display: none !important; }
   }
 
   .ngx-pagination {
     padding: 0 !important;
   }
 
-  .padre {
+  .pagination {
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    margin-right: 4rem;
+    margin-right: 3rem;
+  }
+
+  a{
+    color: #000;
+  }
+
+  td{
+    text-align: left;
   }
   `]
 })
 export class IndexComponent implements OnInit {
 
   @ViewChild('PaginationComponentChild', { static: true }) paginationComponent: PaginationComponent;
-  listings: any;
-  currentPage: number;
-  skipFilter: number;
-
   @Output('setTitle') objectComponentTitle: EventEmitter<string> = new EventEmitter();
 
   object: any;
   objectAPI: string;
   objectComponent: string;
   objects = [
-    { object: 'account', api: 'Accounts' },
-    { object: 'contact', api: 'Contacts' },
-    { object: 'lead', api: 'Leads' },
-    { object: 'opportunity', api: 'Opportunitys' }
+    {
+      object: 'account',
+      api: 'Accounts',
+      search: [
+        'Name',
+        'SfId'
+      ]
+    },
+    {
+      object: 'contact',
+      api: 'Contacts',
+      search: [
+        'FirstName',
+        'SfId'
+      ]
+    },
+    {
+      object: 'lead',
+      api: 'Leads',
+      search: [
+        'FirstName',
+        'SfId'
+      ]
+    },
+    {
+      object: 'opportunity',
+      api: 'Opportunitys',
+      search: [
+        'Name',
+        'SfId'
+      ]
+    }
   ];
+
+  currentPage: number;
+  skipFilter: number;
   totalItems: number;
+
+  listings: any;
+  totalListings = 20;
+  listings404: boolean;
+
+  searchAttribute: string;
+  selectAttribute: string;
 
   constructor(
     private loopBackService: LoopbackService,
@@ -141,11 +229,14 @@ export class IndexComponent implements OnInit {
     private router: Router
   ) {
     this.listings = [];
+    this.listings404 = false;
     this.skipFilter = 0;
     this.totalItems = null;
     this.objectAPI = null;
     this.objectComponent = null;
     this.objectComponentTitle.emit('');
+    this.searchAttribute = '';
+    this.selectAttribute = '';
   }
 
   ngOnInit() {
@@ -158,6 +249,7 @@ export class IndexComponent implements OnInit {
       this.object = this.objects.find(x => x.object === params.object);
       this.objectAPI = this.object.api;
       this.objectComponent = this.object.object;
+      this.selectAttribute = this.object.search[0];
       this.objectComponentTitle.emit(this.object.object);
       this.search();
     });
@@ -186,17 +278,45 @@ export class IndexComponent implements OnInit {
             });
           });
       }
+    }, (error: any) => {
+      this.listings404 = true;
+      console.log(error.status + ' - ' + error.statusText);
     });
     this.loopBackService.getTotalItems(object).subscribe(totalitmes => {
       this.totalItems = totalitmes;
     });
   }
 
+  searchBy() {
+    if (this.searchAttribute) {
+      this.resetFiltersByFindOne();
+      this.loopBackService.getByFindOneSearch(this.objectAPI, this.selectAttribute, this.searchAttribute).subscribe((listing: any) => {
+        this.listings = [listing];
+      }, (error: any) => {
+        this.listings404 = true;
+        console.log(error.status + ' - ' + error.statusText);
+      });
+    } else {
+      this.resetFilters();
+      this.search();
+    }
+
+  }
+
   resetFilters() {
     this.listings = [];
-    // this.totalItems = null;
     this.skipFilter = 0;
     this.currentPage = 1;
+    this.listings404 = false;
+    // this.totalItems = null;
+  }
+
+  resetFiltersByFindOne() {
+    this.listings = [];
+    this.skipFilter = 0;
+    this.currentPage = 1;
+    this.totalItems = null;
+    this.listings404 = false;
   }
 
   deleteItem(id: number) {
