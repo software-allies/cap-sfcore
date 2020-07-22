@@ -62,7 +62,7 @@ export class LoopbackService {
         Authorization: `Bearer ${this.getToken()}`
       })
     };
-    const query = `findOne?filter={"where":{"${attribute}":"${findText}"}}`;
+    const query = `??filter={"where":{"SACAP__UUID__c": {"nlike": "null" }},"limit":${this.limit}}&filter={"where":{"${attribute}": {"regexp": "/^${findText}/"}}}`;
     return this.http.get(`${this.url}/${tableName}/${query}`, httpOptions);
   }
 
