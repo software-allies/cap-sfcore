@@ -552,17 +552,17 @@
 
   <div class="record-detail" *ngIf="viewAccount">
     <div class="row">
-      <div class="col-8">
-        <button (click)="cancelAction(true)" type="button" class="btn btn-secondary">Go back</button>
+      <div class="col-6 text-center">
+        <button (click)="cancelAction(true)" type="button" class="btn btn-outline-dark">Go back</button>
       </div>
-      <div class="col-4">
-          <button type="button" (click)="createForm(account)" class="btn btn-primary ml-1">
+      <div class="col-6 text-center">
+          <button type="button" (click)="createForm(account)" class="btn btn-outline-dark">
             Update
         </button>
       </div>
     </div>
 
-    <div class="row mt-2">
+    <div class="row mt-4">
       <div class="col-md-6">
         <table class="table table-sm">
           <thead>
