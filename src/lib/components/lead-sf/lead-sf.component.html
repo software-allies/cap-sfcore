@@ -1,5 +1,12 @@
 <div class="container">
   <div class="row" *ngIf="createLead || updateLead">
+
+
+
+
+
+
+
     <div class="col-lg-12">
       <form [formGroup]="form">
         <div id="accordion">
@@ -470,22 +477,23 @@
             </div>
           </div>
         </div>
-        <div class="form-row text-center mt-2">
+        <div class="form-row text-center mt-3">
           <div class="col-md-6">
-            <button *ngIf="updateLead" (click)="onSubmit(true)" class="btn btn-primary mt-1 mb-1">Submit</button>
-            <button *ngIf="createLead" (click)="onSubmit(false)" class="btn btn-primary mt-1 mb-1">Submit</button>
+            <button *ngIf="updateLead" (click)="onSubmit(true)" class="btn btn-outline-dark mt-1 mb-1">Submit</button>
+            <button *ngIf="createLead" (click)="onSubmit(false)" class="btn btn-outline-dark mt-1 mb-1">Submit</button>
           </div>
           <div class="col-md-6">
-            <button *ngIf="createLead" type="button" (click)="cancelAction(true)" class="btn btn-secondary mt-1 mb-1">Cancel</button>
-            <button *ngIf="updateLead" type="button" (click)="cancelAction()" class="btn btn-secondary mt-1 mb-1">Cancel</button>
+            <button *ngIf="createLead" type="button" (click)="cancelAction(true)" class="btn btn-outline-dark mt-1 mb-1">Cancel</button>
+            <button *ngIf="updateLead" type="button" (click)="cancelAction()" class="btn btn-outline-dark mt-1 mb-1">Cancel</button>
           </div>
         </div>
       </form>
     </div>
   </div>
 
+  <!-- VIEW -->
   <div *ngIf="viewLead">
-    <div class="row">
+    <div class="row mt-3 mb-3">
       <div class="col-6 text-center">
         <button (click)="cancelAction(true)" type="button" class="btn btn-outline-dark">Go back</button>
       </div>
@@ -495,135 +503,280 @@
         </button>
       </div>
     </div>
-    <div class="row mt-4">
-      <div class="col-md-6">
-        <table class="table table-sm">
-          <thead>
-            <tr></tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">Name</th>
-              <td>{{ lead.Salutation }} {{ lead.FirstName }} {{ lead.LastName }}</td>
-            </tr>
-            <tr>
-                <th scope="row">Company</th>
-                <td>{{ lead.Company }}</td>
-              </tr>
-            <tr>
-              <th scope="row">Title</th>
-              <td>{{ lead.Title }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Lead Source</th>
-              <td>{{ lead.LeadSource }}</td>
-            </tr>
-            <!-- <tr>
-              <th scope="row">Birthdate</th>
-              <td>{{ lead.Birthdate }}</td>
-            </tr> -->
-            <tr>
-              <th scope="row">Industry</th>
-              <td>{{ lead.Industry }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Annual Revenue</th>
-              <td>{{ lead.AnnualRevenue }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Phone</th>
-              <td>{{ lead.Phone }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Mobile</th>
-              <td>{{ lead.MobilePhone }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Fax</th>
-              <td>{{ lead.Fax }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Email</th>
-              <td>{{ lead.Email }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Web Site</th>
-              <td>{{ lead.Website }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Lead Status</th>
-              <td>{{ lead.Status }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="col-md 6">
-        <table class="table table-sm">
-          <thead>
-            <tr></tr>
-          </thead>
-          <tbody>
-            <!-- <tr>
-              <th scope="row">Asst. Phone</th>
-              <td>{{ lead.AssistantPhone }}</td>
-            </tr> -->
-            <tr>
-              <th scope="row">Rating</th>
-              <td>{{ lead.Rating }}</td>
-            </tr>
-            <tr>
-              <th scope="row">No. of Employees</th>
-              <td>{{ lead.NumberOfEmployees }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Street</th>
-              <td>{{ lead.Street}}</td>
-            </tr>
-            <tr>
-              <th scope="row">City</th>
-              <td>{{ lead.City }}</td>
-            </tr>
-            <tr>
-              <th scope="row">State/Province</th>
-              <td>{{ lead.State }}</td>
-            </tr>
 
-            <tr>
-              <th scope="row">Zip/Postal Code</th>
-              <td>{{ lead.PostalCode }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Country</th>
-              <td>{{ lead.Country }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Product Interest</th>
-              <td>{{ lead.ProductInterest__c }}</td>
-            </tr>
-            <tr>
-              <th scope="row">SIC Code</th>
-              <td>{{ lead.SICCode__c }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Number of Locations</th>
-              <td>{{ lead.NumberofLocations__c }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Current Generator(s)</th>
-              <td>{{ lead.CurrentGenerators__c }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Primary</th>
-              <td>{{ lead.Primary__c }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Description</th>
-              <td>{{ lead.Description }}</td>
-            </tr>
-          </tbody>
-        </table>
+    <div class="col-lg-12">
+
+      <div id="accordion">
+        <div class="card">
+          <div class="card-header" id="headingOne">
+            <h5 class="mb-0">
+              <button
+                [ngClass]="{
+                  'text-danger': isInvalid
+                }"
+                class="btn btn-link"
+                data-toggle="collapse"
+                data-target="#collapseLeadInformation"
+                aria-expanded="true"
+                aria-controls="collapseLeadInformation"
+              >
+                Lead Information
+              </button>
+            </h5>
+          </div>
+
+          <div
+            id="collapseLeadInformation"
+            class="collapse show"
+            aria-labelledby="headingOne"
+            data-parent="#accordion"
+          >
+            <div class="card-body row">
+              <div class="col-md-6">
+                <table class="table table-sm">
+                  <thead>
+                    <tr></tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Name</th>
+                      <td>{{ lead.Salutation }} {{ lead.FirstName }} {{ lead.LastName }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Company</th>
+                        <td>{{ lead.Company }}</td>
+                      </tr>
+                    <tr>
+                      <th scope="row">Title</th>
+                      <td>{{ lead.Title }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Lead Source</th>
+                      <td>{{ lead.LeadSource }}</td>
+                    </tr>
+                    <!-- <tr>
+                      <th scope="row">Birthdate</th>
+                      <td>{{ lead.Birthdate }}</td>
+                    </tr> -->
+                    <tr>
+                      <th scope="row">Industry</th>
+                      <td>{{ lead.Industry }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Annual Revenue</th>
+                      <td>{{ lead.AnnualRevenue }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Rating</th>
+                      <td>{{ lead.Rating }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="col-md 6">
+                <table class="table table-sm">
+                  <thead>
+                    <tr></tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Phone</th>
+                      <td>{{ lead.Phone }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Mobile</th>
+                      <td>{{ lead.MobilePhone }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Fax</th>
+                      <td>{{ lead.Fax }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Email</th>
+                      <td>{{ lead.Email }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Web Site</th>
+                      <td>{{ lead.Website }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Lead Status</th>
+                      <td>{{ lead.Status }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">No. of Employees</th>
+                      <td>{{ lead.NumberOfEmployees }}</td>
+                    </tr>
+
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingTwo">
+            <h5 class="mb-0">
+              <button
+                class="btn btn-link collapsed"
+                data-toggle="collapse"
+                data-target="#collapseAddressInformation"
+                aria-expanded="true"
+                aria-controls="collapseAddressInformation"
+              >
+                Address Information
+              </button>
+            </h5>
+          </div>
+          <div
+            id="collapseAddressInformation"
+            class="collapse show"
+            aria-labelledby="headingTwo"
+            data-parent="#accordion"
+          >
+            <div class="card-body row">
+              <div class="col-md-6">
+                <table class="table table-sm">
+                  <thead>
+                    <tr></tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Street</th>
+                      <td>{{ lead.Street}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">City</th>
+                      <td>{{ lead.City }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">State/Province</th>
+                      <td>{{ lead.State }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="col-md 6">
+                <table class="table table-sm">
+                  <thead>
+                    <tr></tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Zip/Postal Code</th>
+                      <td>{{ lead.PostalCode }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Country</th>
+                      <td>{{ lead.Country }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingThree">
+            <h5 class="mb-0">
+              <button
+                class="btn btn-link collapsed"
+                data-toggle="collapse"
+                data-target="#collapseAdditionalInformation"
+                aria-expanded="true"
+                aria-controls="collapseAdditionalInformation"
+              >
+                Additional Information
+              </button>
+            </h5>
+          </div>
+          <div
+            id="collapseAdditionalInformation"
+            class="collapse show"
+            aria-labelledby="headingThree"
+            data-parent="#accordion"
+          >
+            <div class="card-body row">
+              <div class="col-md-6">
+                <table class="table table-sm">
+                  <thead>
+                    <tr></tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Product Interest</th>
+                      <td>{{ lead.ProductInterest__c }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">SIC Code</th>
+                      <td>{{ lead.SICCode__c }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Number of Locations</th>
+                      <td>{{ lead.NumberofLocations__c }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="col-md 6">
+                <table class="table table-sm">
+                  <thead>
+                    <tr></tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Current Generator(s)</th>
+                      <td>{{ lead.CurrentGenerators__c }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Primary</th>
+                      <td>{{ lead.Primary__c }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingFour">
+            <h5 class="mb-0">
+              <button
+                class="btn btn-link collapsed"
+                data-toggle="collapse"
+                data-target="#collapseDescription"
+                aria-expanded="true"
+                aria-controls="collapseDescription"
+              >
+                Description Information
+              </button>
+            </h5>
+          </div>
+          <div
+            id="collapseDescription"
+            class="collapse show"
+            aria-labelledby="headingFour"
+            data-parent="#accordion"
+          >
+            <div class="card-body row">
+              <div class="col-md-12">
+                <table class="table table-sm">
+                  <thead>
+                    <tr></tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Description</th>
+                      <td>{{ lead.Description }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-
 </div>
