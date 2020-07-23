@@ -32,12 +32,12 @@ import Swal from 'sweetalert2';
             -->
 
               <div class="input-group col-md-12 mb-2">
-                <input type="text" [(ngModel)]="searchAttribute" class="form-control" (keyup.enter)="searchBy()">
+                <input type="text" id="search" name="search" [(ngModel)]="searchAttribute" class="form-control" (keyup.enter)="searchAttribute === '' ? '' :searchBy()">
+                
                 <div class="input-group-append">
-                  <button (click)="searchBy()" class="btn btn-outline-dark" type="button"> Search </button>
+                  <button (click)="searchBy()" class="btn btn-outline-dark" type="button" [disabled]="searchAttribute === '' || searchAttribute.invalid && (searchAttribute.dirty || searchAttribute.touched)"> Search </button>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
@@ -227,6 +227,7 @@ export class IndexComponent implements OnInit {
 
   searchAttribute: string;
   selectAttribute: string;
+
 
   constructor(
     private loopBackService: LoopbackService,
