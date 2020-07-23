@@ -462,22 +462,23 @@
             </div>
           </div>
         </div>
-        <div class="form-row text-center mt-2">
+        <div class="form-row text-center mt-3">
           <div class="col-md-6">
-            <button *ngIf="updateContact" (click)="onSubmit(true)" class="btn btn-primary mt-1 mb-1">Submit</button>
-            <button *ngIf="createContact" (click)="onSubmit(false)" class="btn btn-primary mt-1 mb-1">Submit</button>
+            <button *ngIf="updateContact" (click)="onSubmit(true)" class="btn btn-outline-dark mt-1 mb-1">Submit</button>
+            <button *ngIf="createContact" (click)="onSubmit(false)" class="btn btn-outline-dark mt-1 mb-1">Submit</button>
           </div>
           <div class="col-md-6">
-            <button *ngIf="createContact" type="button" (click)="cancelAction(true)" class="btn btn-secondary mt-1 mb-1">Cancel</button>
-            <button *ngIf="updateContact" type="button" (click)="cancelAction()" class="btn btn-secondary mt-1 mb-1">Cancel</button>
+            <button *ngIf="createContact" type="button" (click)="cancelAction(true)" class="btn btn-outline-dark mt-1 mb-1">Cancel</button>
+            <button *ngIf="updateContact" type="button" (click)="cancelAction()" class="btn btn-outline-dark mt-1 mb-1">Cancel</button>
           </div>
         </div>
       </form>
     </div>
   </div>
 
+  <!-- VIEW -->
   <div *ngIf="viewContact">
-    <div class="row">
+    <div class="row mt-3 mb-3">
       <div class="col-6 text-center">
         <button (click)="cancelAction(true)" type="button" class="btn btn-outline-dark">Go back</button>
       </div>
@@ -487,137 +488,288 @@
         </button>
       </div>
     </div>
-    <div class="row mt-4">
-      <div class="col-md-6">
-        <table class="table table-sm">
-          <thead>
-            <tr></tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">Name</th>
-              <td>{{contact.Salutation}} {{ contact.FirstName }} {{ contact.LastName }} </td>
-            </tr>
-            <tr>
-                <th scope="row">Account Name</th>
-                <td>{{ LookUpAccountName(contact.AccountId) }}</td>
-              </tr>
-            <tr>
-              <th scope="row">Title</th>
-              <td>{{ contact.Title }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Department</th>
-              <td>{{ contact.Department }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Birthdate</th>
-              <td>{{ contact.Birthdate | date :'MM/dd/yyyy' : 'UTC/GMT' }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Reports To</th>
-              <td>{{ LookUpReportsTo(contact.ReportsToId) }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Lead Source</th>
-              <td>{{ contact.LeadSource }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Phone</th>
-              <td>{{ contact.Phone }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Home Phone</th>
-              <td>{{ contact.HomePhone }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Mobile</th>
-              <td>{{ contact.MobilePhone }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Other Phone</th>
-              <td>{{ contact.OtherPhone }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Fax</th>
-              <td>{{ contact.Fax }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Email</th>
-              <td>{{ contact.Email }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="col-md 6">
-        <table class="table table-sm">
-          <thead>
-            <tr></tr>
-          </thead>
-          <tbody>
 
-            <tr>
-              <th scope="row">Assistant</th>
-              <td>{{ contact.AssistantName }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Asst. Phone</th>
-              <td>{{ contact.AssistantPhone }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Mailing Street</th>
-              <td>{{ contact.MailingStreet }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Mailing City</th>
-              <td>{{ contact.MailingCity }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Mailing State/Province</th>
-              <td>{{ contact.MailingState}}</td>
-            </tr>
-            <tr>
-              <th scope="row">Mailing Zip/Postal Code</th>
-              <td>{{ contact.MailingPostalCode }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Mailing Country</th>
-              <td>{{ contact.MailingCountry }}</td>
-            </tr>
+    <div class="col-lg-12">
+      <div id="accordion">
+        <div class="card">
+          <div class="card-header" id="headingOne">
+            <h5 class="mb-0">
+              <button
+                [ngClass]="{
+                  'text-danger': isInvalid
+                }"
+                class="btn btn-link"
+                data-toggle="collapse"
+                data-target="#collapseContactInformation"
+                aria-expanded="true"
+                aria-controls="collapseContactInformation"
+              >
+                Contact Information
+              </button>
+            </h5>
+          </div>
 
-            <tr>
-              <th scope="row">Other Street</th>
-              <td>{{ contact.OtherStreet }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Other City</th>
-              <td>{{ contact.OtherCity }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Other Zip/Postal Code</th>
-              <td>{{ contact.OtherPostalCode }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Other Country</th>
-              <td>{{ contact.OtherCountry }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Languages</th>
-              <td>{{ contact.Languages__c }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Level</th>
-              <td>{{ contact.Level__c}}</td>
-            </tr>
-            <tr>
-              <th scope="row">Description</th>
-              <td>{{ contact.Description }}</td>
-            </tr>
+          <div
+            id="collapseContactInformation"
+            class="collapse show"
+            aria-labelledby="headingOne"
+            data-parent="#accordion"
+          >
+            <div class="card-body row">
 
-          </tbody>
-        </table>
+
+
+              <div class="col-md-6">
+                <table class="table table-sm">
+                  <thead>
+                    <tr></tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Name</th>
+                      <td>{{contact.Salutation}} {{ contact.FirstName }} {{ contact.LastName }} </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Account Name</th>
+                      <td>{{ LookUpAccountName(contact.AccountId) }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Title</th>
+                      <td>{{ contact.Title }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Department</th>
+                      <td>{{ contact.Department }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Birthdate</th>
+                      <td>{{ contact.Birthdate | date :'MM/dd/yyyy' : 'UTC/GMT' }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Reports To</th>
+                      <td>{{ LookUpReportsTo(contact.ReportsToId) }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Lead Source</th>
+                      <td>{{ contact.LeadSource }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="col-md-6">
+                <table class="table table-sm">
+                  <thead>
+                    <tr></tr>
+                  </thead>
+                  <tbody>
+
+                    <tr>
+                      <th scope="row">Phone</th>
+                      <td>{{ contact.Phone }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Home Phone</th>
+                      <td>{{ contact.HomePhone }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Mobile</th>
+                      <td>{{ contact.MobilePhone }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Other Phone</th>
+                      <td>{{ contact.OtherPhone }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Fax</th>
+                      <td>{{ contact.Fax }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Email</th>
+                      <td>{{ contact.Email }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Assistant</th>
+                      <td>{{ contact.AssistantName }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Asst. Phone</th>
+                      <td>{{ contact.AssistantPhone }}</td>
+                    </tr>
+
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingTwo">
+            <h5 class="mb-0">
+              <button
+                class="btn btn-link collapsed"
+                data-toggle="collapse"
+                data-target="#collapseAddressInformation"
+                aria-expanded="true"
+                aria-controls="collapseAddressInformation"
+              >
+                Address Information
+              </button>
+            </h5>
+          </div>
+          <div
+            id="collapseAddressInformation"
+            class="collapse show"
+            aria-labelledby="headingTwo"
+            data-parent="#accordion"
+          >
+            <div class="card-body row">
+              <div class="col-md-6">
+                <table class="table table-sm">
+                  <thead>
+                    <tr></tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Mailing Street</th>
+                      <td>{{ contact.MailingStreet }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Mailing City</th>
+                      <td>{{ contact.MailingCity }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Mailing State/Province</th>
+                      <td>{{ contact.MailingState}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Mailing Zip/Postal Code</th>
+                      <td>{{ contact.MailingPostalCode }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Mailing Country</th>
+                      <td>{{ contact.MailingCountry }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="col-md-6">
+                <table class="table table-sm">
+                  <thead>
+                    <tr></tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Other Street</th>
+                      <td>{{ contact.OtherStreet }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Other City</th>
+                      <td>{{ contact.OtherCity }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Other Zip/Postal Code</th>
+                      <td>{{ contact.OtherPostalCode }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Other Country</th>
+                      <td>{{ contact.OtherCountry }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingThree">
+            <h5 class="mb-0">
+              <button
+                class="btn btn-link collapsed"
+                data-toggle="collapse"
+                data-target="#collapseAdditionalInformation"
+                aria-expanded="true"
+                aria-controls="collapseAdditionalInformation"
+              >
+                Additional Information
+              </button>
+            </h5>
+          </div>
+          <div
+            id="collapseAdditionalInformation"
+            class="collapse show"
+            aria-labelledby="headingThree"
+            data-parent="#accordion"
+          >
+            <div class="card-body row">
+              <div class="col-md-6">
+                <table class="table table-sm">
+                  <thead>
+                    <tr></tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Languages</th>
+                      <td>{{ contact.Languages__c }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="col-md-6">
+                <table class="table table-sm">
+                  <thead>
+                    <tr></tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Level</th>
+                      <td>{{ contact.Level__c}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingFour">
+            <h5 class="mb-0">
+              <button
+                class="btn btn-link collapsed"
+                data-toggle="collapse"
+                data-target="#collapseDescription"
+                aria-expanded="true"
+                aria-controls="collapseDescription"
+              >
+                Description Information
+              </button>
+            </h5>
+          </div>
+          <div
+            id="collapseDescription"
+            class="collapse show"
+            aria-labelledby="headingFour"
+            data-parent="#accordion"
+          >
+            <div class="card-body row">
+              <div class="col-md-12">
+                <table class="table table-sm">
+                  <thead>
+                    <tr></tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Description</th>
+                      <td>{{ contact.Description }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-
   </div>
 </div>
