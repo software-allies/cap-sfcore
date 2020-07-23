@@ -1,4 +1,12 @@
 <div class="container">
+
+
+
+
+
+
+
+
   <div class="row" *ngIf="createOpportunity || updateOpportunity">
     <div class="col-lg-12">
       <form [formGroup]="form">
@@ -327,20 +335,21 @@
         </div>
         <div class="form-row text-center mt-2">
           <div class="col-md-6">
-            <button *ngIf="updateOpportunity" (click)="onSubmit(true)" class="btn btn-primary mt-1 mb-1">Submit</button>
-            <button *ngIf="createOpportunity" (click)="onSubmit(false)" class="btn btn-primary mt-1 mb-1">Submit</button>
+            <button *ngIf="updateOpportunity" (click)="onSubmit(true)" class="btn btn-outline-dark mt-1 mb-1">Submit</button>
+            <button *ngIf="createOpportunity" (click)="onSubmit(false)" class="btn btn-outline-dark mt-1 mb-1">Submit</button>
           </div>
           <div class="col-md-6">
-            <button *ngIf="createOpportunity" type="button" (click)="cancelAction(true)" class="btn btn-secondary mt-1 mb-1">Cancel</button>
-            <button *ngIf="updateOpportunity" type="button" (click)="cancelAction()" class="btn btn-secondary mt-1 mb-1">Cancel</button>
+            <button *ngIf="createOpportunity" type="button" (click)="cancelAction(true)" class="btn btn-outline-dark mt-1 mb-1">Cancel</button>
+            <button *ngIf="updateOpportunity" type="button" (click)="cancelAction()" class="btn btn-outline-dark mt-1 mb-1">Cancel</button>
           </div>
         </div>
       </form>
     </div>
   </div>
 
+  <!-- VIEW -->
   <div *ngIf="viewOpportunity">
-    <div class="row">
+    <div class="row mt-3 mb-3">
       <div class="col-6 text-center">
         <button (click)="cancelAction(true)" type="button" class="btn btn-outline-dark">Go back</button>
       </div>
@@ -350,93 +359,201 @@
         </button>
       </div>
     </div>
-    <div class="row mt-4">
-      <div class="col-md-6">
-        <table class="table table-sm">
-          <thead>
-            <tr></tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">Opportunity Name</th>
-              <td>{{ opportunity.Name }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Private</th>
-              <td>{{ opportunity.IsPrivate }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Account Name</th>
-              <td >{{ LookUpAccountName(opportunity.AccountId) }}</td>
-            </tr>
-            <tr>
-                <th scope="row">Type</th>
-                <td>{{ opportunity.Type }}</td>
-              </tr>
-            <tr>
-                <th scope="row">Lead Source</th>
-                <td>{{ opportunity.LeadSource }}</td>
-              </tr>
-            <tr>
-              <th scope="row">Amount</th>
-              <td>{{ opportunity.Amount }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Close Date</th>
-              <td>{{ opportunity.CloseDate | date : 'MM/dd/yyyy' : 'UTC/GMT'}}</td>
-            </tr>
-            <tr>
-              <th scope="row">Next Step</th>
-              <td>{{ opportunity.NextStep }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Stage</th>
-              <td>{{ opportunity.StageName }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="col-md 6">
-        <table class="table table-sm">
-          <thead>
-            <tr></tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">Probability (%)</th>
-              <td>{{ opportunity.Probability }}%</td>
-            </tr>
-            <tr>
-              <th scope="row">Primary Campaign Source</th>
-              <td>{{ LookUpCampaignId(opportunity.CampaignId) }}</td>
-            </tr>
+    <div class="row">
+      <div class="col-lg-12">
 
-            <tr>
-              <th scope="row">Order Number</th>
-              <td>{{ opportunity.OrderNumber__c }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Current Generator(s)</th>
-              <td>{{ opportunity.CurrentGenerators__c }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Tracking Number</th>
-              <td>{{ opportunity.TrackingNumber__c }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Main Competitor(s)</th>
-              <td>{{ opportunity.MainCompetitors__c }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Delivery/Installation Status</th>
-              <td>{{ opportunity.DeliveryInstallationStatus__c }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Description</th>
-              <td>{{ opportunity.Description }}</td>
-            </tr>
-          </tbody>
-        </table>
+        <div id="accordion">
+          <div class="card">
+            <div class="card-header" id="headingOne">
+              <h5 class="mb-0">
+                <button
+                  [ngClass]="{
+                    'text-danger': isInvalid
+                  }"
+                  class="btn btn-link"
+                  data-toggle="collapse"
+                  data-target="#collapseOpportunityInformation"
+                  aria-expanded="true"
+                  aria-controls="collapseOpportunityInformation"
+                >
+                  Opportunity Information
+                </button>
+              </h5>
+            </div>
+
+            <div
+              id="collapseOpportunityInformation"
+              class="collapse show"
+              aria-labelledby="headingOne"
+              data-parent="#accordion"
+            >
+              <div class="card-body row">
+                <div class="col-md-6">
+                  <table class="table table-sm">
+                    <thead>
+                      <tr></tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">Opportunity Name</th>
+                        <td>{{ opportunity.Name }}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Private</th>
+                        <td>{{ opportunity.IsPrivate }}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Account Name</th>
+                        <td >{{ LookUpAccountName(opportunity.AccountId) }}</td>
+                      </tr>
+                      <tr>
+                          <th scope="row">Type</th>
+                          <td>{{ opportunity.Type }}</td>
+                        </tr>
+                      <tr>
+                          <th scope="row">Lead Source</th>
+                          <td>{{ opportunity.LeadSource }}</td>
+                        </tr>
+                      <tr>
+                      <tr>
+                        <th scope="row">Primary Campaign Source</th>
+                        <td>{{ LookUpCampaignId(opportunity.CampaignId) }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md 6">
+                  <table class="table table-sm">
+                    <thead>
+                      <tr></tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">Amount</th>
+                        <td>{{ opportunity.Amount }}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Close Date</th>
+                        <td>{{ opportunity.CloseDate | date : 'MM/dd/yyyy' : 'UTC/GMT'}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Next Step</th>
+                        <td>{{ opportunity.NextStep }}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Stage</th>
+                        <td>{{ opportunity.StageName }}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Probability (%)</th>
+                        <td>{{ opportunity.Probability }}%</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header" id="headingThree">
+              <h5 class="mb-0">
+                <button
+                  class="btn btn-link collapsed"
+                  data-toggle="collapse"
+                  data-target="#collapseAdditionalInformation"
+                  aria-expanded="true"
+                  aria-controls="collapseAdditionalInformation"
+                >
+                  Additional Information
+                </button>
+              </h5>
+            </div>
+            <div
+              id="collapseAdditionalInformation"
+              class="collapse show"
+              aria-labelledby="headingThree"
+              data-parent="#accordion"
+            >
+              <div class="card-body row">
+                <div class="col-md-6">
+                  <table class="table table-sm">
+                    <thead>
+                      <tr></tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">Order Number</th>
+                        <td>{{ opportunity.OrderNumber__c }}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Current Generator(s)</th>
+                        <td>{{ opportunity.CurrentGenerators__c }}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Tracking Number</th>
+                        <td>{{ opportunity.TrackingNumber__c }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md 6">
+                  <table class="table table-sm">
+                    <thead>
+                      <tr></tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">Main Competitor(s)</th>
+                        <td>{{ opportunity.MainCompetitors__c }}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Delivery/Installation Status</th>
+                        <td>{{ opportunity.DeliveryInstallationStatus__c }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header" id="headingFour">
+              <h5 class="mb-0">
+                <button
+                  class="btn btn-link collapsed"
+                  data-toggle="collapse"
+                  data-target="#collapseDescription"
+                  aria-expanded="true"
+                  aria-controls="collapseDescription"
+                >
+                  Description Information
+                </button>
+              </h5>
+            </div>
+            <div
+              id="collapseDescription"
+              class="collapse show"
+              aria-labelledby="headingFour"
+              data-parent="#accordion"
+            >
+              <div class="card-body">
+                <div class="col-md-12">
+                  <table class="table table-sm">
+                    <thead>
+                      <tr></tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">Description</th>
+                        <td>{{ opportunity.Description }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
