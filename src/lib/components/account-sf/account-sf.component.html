@@ -536,22 +536,24 @@
             </div>
           </div>
         </div>
-        <div class="form-row text-center mt-2">
+        <div class="form-row text-center mt-3">
           <div class="col-md-6">
-            <button *ngIf="updateAccount" (click)="onSubmit(true)" class="btn btn-primary mt-1 mb-1">Submit</button>
-            <button *ngIf="createAccount" (click)="onSubmit(false)" class="btn btn-primary mt-1 mb-1">Submit</button>
+            <button *ngIf="updateAccount" (click)="onSubmit(true)" class="btn btn-outline-dark mt-1 mb-1">Submit</button>
+            <button *ngIf="createAccount" (click)="onSubmit(false)" class="btn btn-outline-dark mt-1 mb-1">Submit</button>
           </div>
           <div class="col-md-6">
-            <button *ngIf="createAccount" type="button" (click)="cancelAction(true)" class="btn btn-secondary mt-1 mb-1">Cancel</button>
-            <button *ngIf="updateAccount" type="button" (click)="cancelAction()" class="btn btn-secondary mt-1 mb-1">Cancel</button>
+            <button *ngIf="createAccount" type="button" (click)="cancelAction(true)" class="btn btn-outline-dark mt-1 mb-1">Cancel</button>
+            <button *ngIf="updateAccount" type="button" (click)="cancelAction()" class="btn btn-outline-dark mt-1 mb-1">Cancel</button>
           </div>
         </div>
       </form>
     </div>
   </div>
 
-  <div class="record-detail" *ngIf="viewAccount">
-    <div class="row">
+  <!-- VIEW -->
+<div class="record-detail" *ngIf="viewAccount">
+  <div class="col-lg-12">
+    <div class="row mt-3 mb-3">
       <div class="col-6 text-center">
         <button (click)="cancelAction(true)" type="button" class="btn btn-outline-dark">Go back</button>
       </div>
@@ -562,157 +564,315 @@
       </div>
     </div>
 
-    <div class="row mt-4">
-      <div class="col-md-6">
-        <table class="table table-sm">
-          <thead>
-            <tr></tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">Account Name</th>
-              <td>{{ account.Name }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Parent Account</th>
-              <td>{{ LookUpParentAccount(account.ParentId)}}</td>
-            </tr>
-            <tr>
-              <th scope="row">Account Number</th>
-              <td>{{ account.AccountNumber }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Account Site</th>
-              <td>{{ account.Site }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Type</th>
-              <td>{{ account.Type }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Industry</th>
-              <td>{{ account.Industry }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Annual Revenue</th>
-              <td>{{ account.AnnualRevenue }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Customer Priority</th>
-              <td>{{ account.CustomerPriority__c }}</td>
-            </tr>
-            <tr>
-              <th scope="row">SLA Expiration Date</th>
-              <td>{{ account.SLAExpirationDate__c | date :'MM/dd/yyyy' : 'UTC/GMT' }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Number of Locations</th>
-              <td>{{ account.NumberofLocations__c }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Active</th>
-              <td>{{ account.Active__c }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Description</th>
-              <td>{{ account.Description }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Rating</th>
-              <td>{{ account.Rating }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Phone</th>
-              <td>{{ account.Phone }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Fax</th>
-              <td>{{ account.Fax }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Website</th>
-              <td>{{ account.Website }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="col-md 6">
-        <table class="table table-sm">
-          <thead>
-            <tr></tr>
-          </thead>
-          <tbody>
+    <div id="accordion">
+      <div class="card">
+        <div class="card-header" id="headingOne">
+          <h5 class="mb-0">
+            <button
+              [ngClass]="{
+                'text-danger': isInvalid
+              }"
+              class="btn btn-link"
+              data-toggle="collapse"
+              data-target="#collapseGeneralInformation"
+              aria-expanded="true"
+              aria-controls="collapseGeneralInformation"
+            >
+              Account Information
+            </button>
+          </h5>
+        </div>
 
-            <tr>
-              <th scope="row">Ticker Symbol</th>
-              <td>{{ account.TickerSymbol }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Ownership</th>
-              <td>{{ account.Ownership }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Employees</th>
-              <td>{{ account.NumberOfEmployees }}</td>
-            </tr>
-            <tr>
-              <th scope="row">SIC Code</th>
-              <td>{{ account.Sic }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Billing Street</th>
-              <td>{{ account.BillingStreet }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Billing City</th>
-              <td>{{ account.BillingCity }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Billing State/Province</th>
-              <td>{{ account.BillingState }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Billing Zip/Postal Code</th>
-              <td>{{ account.BillingPostalCode }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Billing Country</th>
-              <td>{{ account.BillingCountry }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Shipping City</th>
-              <td>{{ account.ShippingCity }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Shipping State/Province</th>
-              <td>{{ account.ShippingState }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Shipping Zip/Postal Code</th>
-              <td>{{ account.ShippingPostalCode }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Shipping Country</th>
-              <td>{{ account.ShippingCountry }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Shipping Street</th>
-              <td>{{ account.ShippingStreet }}</td>
-            </tr>
-            <tr>
-              <th scope="row">SLA</th>
-              <td>{{ account.SLA__c }}</td>
-            </tr>
-            <tr>
-              <th scope="row">SLA Serial Number</th>
-              <td>{{ account.SLASerialNumber__c }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Upsell Opportunity</th>
-              <td>{{ account.UpsellOpportunity__c }}</td>
-            </tr>
-          </tbody>
-        </table>
+        <div
+          id="collapseGeneralInformation"
+          class="collapse show"
+          aria-labelledby="headingOne"
+          data-parent="#accordion"
+        >
+          <div class="card-body row">
+
+            <div class="col-md-6">
+              <table class="table table-sm">
+                <thead>
+                  <tr></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Account Name</th>
+                    <td>{{ account.Name }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Parent Account</th>
+                    <td>{{ LookUpParentAccount(account.ParentId)}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Account Number</th>
+                    <td>{{ account.AccountNumber }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Account Site</th>
+                    <td>{{ account.Site }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Type</th>
+                    <td>{{ account.Type }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Industry</th>
+                    <td>{{ account.Industry }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Annual Revenue</th>
+                    <td>{{ account.AnnualRevenue }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="col-md-6">
+              <table class="table table-sm">
+                <thead>
+                  <tr></tr>
+                </thead>
+                <tbody>
+
+                  <tr>
+                    <th scope="row">Rating</th>
+                    <td>{{ account.Rating }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Phone</th>
+                    <td>{{ account.Phone }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Fax</th>
+                    <td>{{ account.Fax }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Website</th>
+                    <td>{{ account.Website }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Ownership</th>
+                    <td>{{ account.Ownership }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Ticker Symbol</th>
+                    <td>{{ account.TickerSymbol }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Employees</th>
+                    <td>{{ account.NumberOfEmployees }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">SIC Code</th>
+                    <td>{{ account.Sic }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header" id="headingTwo">
+          <h5 class="mb-0">
+            <button
+              class="btn btn-link collapsed"
+              data-toggle="collapse"
+              data-target="#collapseAddressInformation"
+              aria-expanded="true"
+              aria-controls="collapseAddressInformation"
+            >
+              Address Information
+            </button>
+          </h5>
+        </div>
+        <div
+          id="collapseAddressInformation"
+          class="collapse show"
+          aria-labelledby="headingTwo"
+          data-parent="#accordion"
+        >
+          <div class="card-body row">
+
+
+              <div class="col-md-6">
+                <table class="table table-sm">
+                  <thead>
+                    <tr></tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Billing Street</th>
+                      <td>{{ account.BillingStreet }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Billing City</th>
+                      <td>{{ account.BillingCity }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Billing State/Province</th>
+                      <td>{{ account.BillingState }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Billing Zip/Postal Code</th>
+                      <td>{{ account.BillingPostalCode }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Billing Country</th>
+                      <td>{{ account.BillingCountry }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="col-md-6">
+                <table class="table table-sm">
+                  <thead>
+                    <tr></tr>
+                  </thead>
+                  <tbody>
+
+                    <tr>
+                      <th scope="row">Shipping City</th>
+                      <td>{{ account.ShippingCity }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Shipping State/Province</th>
+                      <td>{{ account.ShippingState }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Shipping Zip/Postal Code</th>
+                      <td>{{ account.ShippingPostalCode }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Shipping Country</th>
+                      <td>{{ account.ShippingCountry }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Shipping Street</th>
+                      <td>{{ account.ShippingStreet }}</td>
+                    </tr>
+
+                  </tbody>
+                </table>
+              </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header" id="headingThree">
+          <h5 class="mb-0">
+            <button
+              class="btn btn-link collapsed"
+              data-toggle="collapse"
+              data-target="#collapseAdditionalInformation"
+              aria-expanded="true"
+              aria-controls="collapseAdditionalInformation"
+            >
+              Additional Information
+            </button>
+          </h5>
+        </div>
+        <div
+          id="collapseAdditionalInformation"
+          class="collapse show"
+          aria-labelledby="headingThree"
+          data-parent="#accordion"
+        >
+          <div class="card-body row">
+
+            <div class="col-md-6">
+              <table class="table table-sm">
+                <thead>
+                  <tr></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Customer Priority</th>
+                    <td>{{ account.CustomerPriority__c }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">SLA Expiration Date</th>
+                    <td>{{ account.SLAExpirationDate__c | date :'MM/dd/yyyy' : 'UTC/GMT' }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Number of Locations</th>
+                    <td>{{ account.NumberofLocations__c }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Active</th>
+                    <td>{{ account.Active__c }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="col-md-6">
+              <table class="table table-sm">
+                <thead>
+                  <tr></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">SLA</th>
+                    <td>{{ account.SLA__c }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">SLA Serial Number</th>
+                    <td>{{ account.SLASerialNumber__c }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Upsell Opportunity</th>
+                    <td>{{ account.UpsellOpportunity__c }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header" id="headingFour">
+          <h5 class="mb-0">
+            <button
+              class="btn btn-link collapsed"
+              data-toggle="collapse"
+              data-target="#collapseDescription"
+              aria-expanded="true"
+              aria-controls="collapseDescription"
+            >
+              Description Information
+            </button>
+          </h5>
+        </div>
+        <div
+          id="collapseDescription"
+          class="collapse show"
+          aria-labelledby="headingFour"
+          data-parent="#accordion"
+        >
+          <div class="card-body row">
+
+            <div class="col-md-12">
+              <table class="table table-sm">
+                <thead>
+                  <tr></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                      <th scope="row">Description</th>
+                      <td>{{ account.Description }}</td>
+                    </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
