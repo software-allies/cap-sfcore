@@ -35,7 +35,7 @@ import Swal from 'sweetalert2';
                 <input type="text" id="search" name="search" [(ngModel)]="searchAttribute" class="form-control" (keyup.enter)="searchAttribute === '' ? '' :searchBy()">
                 
                 <div class="input-group-append">
-                  <button (click)="searchBy()" class="btn btn-outline-dark" type="button" [disabled]="searchAttribute === '' || searchAttribute.invalid && (searchAttribute.dirty || searchAttribute.touched)"> Search </button>
+                  <button (click)="searchBy()" class="btn btn-outline-dark" type="button" [disabled]="searchAttribute === '' || searchAttribute.invalid"> Search </button>
                 </div>
               </div>
             </div>
