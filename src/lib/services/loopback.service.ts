@@ -56,14 +56,18 @@ export class LoopbackService {
   }
 
   getByFindOneSearch(tableName: string, attribute: string, findText: string) {
+    const order = tableName === 'Accounts' || tableName === 'Opportunitys'
+    ? 'Name'
+    : 'FirstName';
     const httpOptions = {
       headers: new HttpHeaders({
         'content-type': 'application/json',
         Authorization: `Bearer ${this.getToken()}`
       })
     };
-    const query = `??filter={"where":{"SACAP__UUID__c": {"nlike": "null" }},"limit":${this.limit}}&filter={"where":{"${attribute}": {"regexp": "/^${findText}/"}}}`;
-    return this.http.get(`${this.url}/${tableName}/${query}`, httpOptions);
+    const regexp = `${findText}/i`;
+    const query = `filter={"where":{"and":[{"SACAP__UUID__c":{"nlike":"null"}},{"${attribute}":{"regexp":"${regexp}"}}]},"order":"${order}","limit":${this.limit}}`;
+    return this.http.get(`${this.url}/${tableName}?${query}`, httpOptions);
   }
 
   getWithFilter(query: string) {
