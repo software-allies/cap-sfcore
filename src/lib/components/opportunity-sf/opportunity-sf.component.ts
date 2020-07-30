@@ -9,7 +9,19 @@ import { v4 as uuidv4 } from 'uuid';
 @Component({
   selector: 'app-opportunity-sf',
   templateUrl: './opportunity-sf.component.html',
-  styles: [``]
+  styles: [`
+    .col-width-35 {
+      width: 35%;
+    }
+
+    .col-width-25 {
+      width: 25%;
+    }
+
+    .col-width-15{
+      width: 17%; 
+    }
+  `]
 })
 
 export class OpportunitySFComponent implements OnInit {
@@ -84,7 +96,7 @@ export class OpportunitySFComponent implements OnInit {
     if (this.location.prepareExternalUrl(this.location.path()).split('/')[2] === 'create') {
       this.createForm();
     } else {
-      this.activateRoute.params.subscribe((params: {id: string, status?: string}) => {
+      this.activateRoute.params.subscribe((params: { id: string, status?: string }) => {
         this.getObject(params.id);
         this.status = params.status === 'update' ? true : false;
       });
@@ -103,11 +115,13 @@ export class OpportunitySFComponent implements OnInit {
   }
 
   getLookUps() {
-    this.loopbackService.getAllRequest('Accounts').subscribe((accounts: Array<{any}>) => {
+    this.loopbackService.getAllRequest('Accounts').subscribe((accounts: Array<{ any }>) => {
       this.lookUpAccount = accounts;
+      console.log('this.lookUpAccount: ', this.lookUpAccount);
     });
-    this.loopbackService.getAllRequest('Contacts').subscribe((contacts: Array<{any}>) => {
+    this.loopbackService.getAllRequest('Contacts').subscribe((contacts: Array<{ any }>) => {
       this.lookUpContact = contacts;
+      console.log('this.lookUpContact: ', this.lookUpContact);
     });
   }
 
@@ -128,10 +142,29 @@ export class OpportunitySFComponent implements OnInit {
     return date.getUTCFullYear() + '-' + month + '-' + day;
   }
 
-  LookUpAccountName(AccountId: string): string {
-    return  this.lookUpContact && AccountId && this.lookUpContact.find(x => x.SfId === AccountId) ?
-            this.lookUpAccount.find(x => x.SfId === AccountId).Name
-            : '';
+  LookUpAccountName(id: string): string {
+    if (this.lookUpContact && id) {
+      this.lookUpContact.forEach(contact => {
+        console.log(`
+        id: ${id}
+        contact.SfId: ${contact.SfId}
+        contact.accountId ${contact.AccountId}`);
+        if(id === contact.AccountId){
+          console.log('contact: ', contact);
+          
+        }
+        // console.log('id: ', id, 'element: ', element.AccountId);
+      });
+      let gg = this.lookUpContact.find(contact => contact.AccountId === id)
+      console.log('gg: ', gg);
+      if(gg) return  `${gg.FirstName} ${gg.LastName}`
+      // return this.lookUpContact.find(x => {
+      //   console.log('x: ', x);
+      //   x.AccountId === AccountId
+      // }) ? this.lookUpAccount.find(x => x.SfId === AccountId).Name : '';
+    }
+
+
   }
 
   LookUpCampaignId(CampaignId: string): string {
@@ -217,17 +250,17 @@ export class OpportunitySFComponent implements OnInit {
       };
       if (updateOrcreate) {
         this.loopbackService.patchRequest(this.objectAPI, this.form.get('id').value, this.objectToSend)
-        .subscribe((opportunityUpdate: any) => {
-          if (opportunityUpdate) {
-            Swal.fire({
-              position: 'top-end',
-              icon: 'success',
-              title: 'Your opportunity has been saved',
-              showConfirmButton: false,
-              timer: 1500
-            }).then(result => window.location.assign(`${window.location.origin}/opportunity`));
-          }
-        });
+          .subscribe((opportunityUpdate: any) => {
+            if (opportunityUpdate) {
+              Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Your opportunity has been saved',
+                showConfirmButton: false,
+                timer: 1500
+              }).then(result => window.location.assign(`${window.location.origin}/opportunity`));
+            }
+          });
 
       } else {
         this.loopbackService.postRequest(this.objectAPI, this.objectToSend).subscribe((opportunity: any) => {

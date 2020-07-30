@@ -520,37 +520,37 @@
 
 
               <div class="col-md-6">
-                <table class="table table-sm">
+                <table class="table table-bordered">
                   <thead>
                     <tr></tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <th scope="row">Name</th>
+                      <th scope="row" class="col-width-35">Name</th>
                       <td>{{contact.Salutation}} {{ contact.FirstName }} {{ contact.LastName }} </td>
                     </tr>
                     <tr>
-                      <th scope="row">Account Name</th>
+                      <th scope="row" class="col-width-35">Account Name</th>
                       <td>{{ LookUpAccountName(contact.AccountId) }}</td>
                     </tr>
                     <tr>
-                      <th scope="row">Title</th>
+                      <th scope="row" class="col-width-35">Title</th>
                       <td>{{ contact.Title }}</td>
                     </tr>
                     <tr>
-                      <th scope="row">Department</th>
+                      <th scope="row" class="col-width-35">Department</th>
                       <td>{{ contact.Department }}</td>
                     </tr>
                     <tr>
-                      <th scope="row">Birthdate</th>
+                      <th scope="row" class="col-width-35">Birthdate</th>
                       <td>{{ contact.Birthdate | date :'MM/dd/yyyy' : 'UTC/GMT' }}</td>
                     </tr>
                     <tr>
-                      <th scope="row">Reports To</th>
+                      <th scope="row" class="col-width-35">Reports To</th>
                       <td>{{ LookUpReportsTo(contact.ReportsToId) }}</td>
                     </tr>
                     <tr>
-                      <th scope="row">Lead Source</th>
+                      <th scope="row" class="col-width-35">Lead Source</th>
                       <td>{{ contact.LeadSource }}</td>
                     </tr>
                   </tbody>
@@ -558,42 +558,42 @@
               </div>
 
               <div class="col-md-6">
-                <table class="table table-sm">
+                <table class="table table-bordered">
                   <thead>
                     <tr></tr>
                   </thead>
                   <tbody>
 
                     <tr>
-                      <th scope="row">Phone</th>
+                      <th scope="row" class="col-width-35">Phone</th>
                       <td>{{ contact.Phone }}</td>
                     </tr>
                     <tr>
-                      <th scope="row">Home Phone</th>
+                      <th scope="row" class="col-width-35">Home Phone</th>
                       <td>{{ contact.HomePhone }}</td>
                     </tr>
                     <tr>
-                      <th scope="row">Mobile</th>
+                      <th scope="row" class="col-width-35">Mobile</th>
                       <td>{{ contact.MobilePhone }}</td>
                     </tr>
                     <tr>
-                      <th scope="row">Other Phone</th>
+                      <th scope="row" class="col-width-35">Other Phone</th>
                       <td>{{ contact.OtherPhone }}</td>
                     </tr>
                     <tr>
-                      <th scope="row">Fax</th>
+                      <th scope="row" class="col-width-35">Fax</th>
                       <td>{{ contact.Fax }}</td>
                     </tr>
                     <tr>
-                      <th scope="row">Email</th>
+                      <th scope="row" class="col-width-35">Email</th>
                       <td>{{ contact.Email }}</td>
                     </tr>
                     <tr>
-                      <th scope="row">Assistant</th>
+                      <th scope="row" class="col-width-35">Assistant</th>
                       <td>{{ contact.AssistantName }}</td>
                     </tr>
                     <tr>
-                      <th scope="row">Asst. Phone</th>
+                      <th scope="row" class="col-width-35">Asst. Phone</th>
                       <td>{{ contact.AssistantPhone }}</td>
                     </tr>
 
@@ -626,54 +626,54 @@
           >
             <div class="card-body row">
               <div class="col-md-6">
-                <table class="table table-sm">
+                <table class="table table-bordered">
                   <thead>
                     <tr></tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <th scope="row">Mailing Street</th>
+                      <th scope="row" class="col-width-35">Mailing Street</th>
                       <td>{{ contact.MailingStreet }}</td>
                     </tr>
                     <tr>
-                      <th scope="row">Mailing City</th>
+                      <th scope="row" class="col-width-35">Mailing City</th>
                       <td>{{ contact.MailingCity }}</td>
                     </tr>
                     <tr>
-                      <th scope="row">Mailing State/Province</th>
+                      <th scope="row" class="col-width-35">Mailing State/Province</th>
                       <td>{{ contact.MailingState}}</td>
                     </tr>
                     <tr>
-                      <th scope="row">Mailing Zip/Postal Code</th>
+                      <th scope="row" class="col-width-35">Mailing Zip/Postal Code</th>
                       <td>{{ contact.MailingPostalCode }}</td>
                     </tr>
                     <tr>
-                      <th scope="row">Mailing Country</th>
+                      <th scope="row" class="col-width-35">Mailing Country</th>
                       <td>{{ contact.MailingCountry }}</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
               <div class="col-md-6">
-                <table class="table table-sm">
+                <table class="table table-bordered">
                   <thead>
                     <tr></tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <th scope="row">Other Street</th>
+                      <th scope="row" class="col-width-35">Other Street</th>
                       <td>{{ contact.OtherStreet }}</td>
                     </tr>
                     <tr>
-                      <th scope="row">Other City</th>
+                      <th scope="row" class="col-width-35">Other City</th>
                       <td>{{ contact.OtherCity }}</td>
                     </tr>
                     <tr>
-                      <th scope="row">Other Zip/Postal Code</th>
+                      <th scope="row" class="col-width-35">Other Zip/Postal Code</th>
                       <td>{{ contact.OtherPostalCode }}</td>
                     </tr>
                     <tr>
-                      <th scope="row">Other Country</th>
+                      <th scope="row" class="col-width-35">Other Country</th>
                       <td>{{ contact.OtherCountry }}</td>
                     </tr>
                   </tbody>
@@ -704,26 +704,26 @@
           >
             <div class="card-body row">
               <div class="col-md-6">
-                <table class="table table-sm">
+                <table class="table table-bordered">
                   <thead>
                     <tr></tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <th scope="row">Languages</th>
+                      <th scope="row" class="col-width-35">Languages</th>
                       <td>{{ contact.Languages__c }}</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
               <div class="col-md-6">
-                <table class="table table-sm">
+                <table class="table table-bordered">
                   <thead>
                     <tr></tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <th scope="row">Level</th>
+                      <th scope="row" class="col-width-35">Level</th>
                       <td>{{ contact.Level__c}}</td>
                     </tr>
                   </tbody>
@@ -754,13 +754,13 @@
           >
             <div class="card-body row">
               <div class="col-md-12">
-                <table class="table table-sm">
+                <table class="table table-bordered">
                   <thead>
                     <tr></tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <th scope="row">Description</th>
+                      <th scope="row" class="col-width-15">Description</th>
                       <td>{{ contact.Description }}</td>
                     </tr>
                   </tbody>

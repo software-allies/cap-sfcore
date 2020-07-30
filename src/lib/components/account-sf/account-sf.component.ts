@@ -12,6 +12,18 @@ import { v4 as uuidv4 } from 'uuid';
   styles: [`
   .record-detail {
   }
+
+  .col-width-35 {
+    width: 35%;
+  }
+
+  .col-width-25 {
+    width: 25%;
+  }
+
+  .col-width-15{
+    width: 17%; 
+  }
   `]
 })
 export class AccountSFComponent implements OnInit {

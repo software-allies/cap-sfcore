@@ -137,7 +137,7 @@ import Swal from 'sweetalert2';
   </div>
 
   `,
-  styles: [`
+  styles: [`
   table {
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   }
@@ -279,9 +279,11 @@ export class IndexComponent implements OnInit {
           .getWithFilter(query)
           .subscribe((accounts: Array<any>) => {
             this.listings.forEach((item, index) => {
-              this.listings[index].accountName = accounts.filter(
-                account => account.SfId === item.AccountId
-              )[0].Name;
+              let account = accounts.filter(account => account.SfId === item.AccountId)
+              if(account[0] !== undefined){
+                this.listings[index].accountName = account[0].Name;
+                // this.listings[index].accountName = accounts.filter(account => account.SfId === item.AccountId)[0].Name;
+              }
             });
           });
       }
