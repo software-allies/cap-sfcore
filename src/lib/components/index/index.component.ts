@@ -8,7 +8,7 @@ import Swal from 'sweetalert2';
   selector: 'app-index-sf',
   template: `
 
-  <div class="container">
+  <div class="container-sm">
     <div class="row">
       <div class="col-lg-12 mx-auto">
       <div class="page-header">
@@ -96,7 +96,7 @@ import Swal from 'sweetalert2';
 
 
               <td *ngIf="objectComponent === 'contact'" scope="row">
-                <a routerLink="/{{objectComponent}}/{{object.SfId}}">{{ object.FirstName }} {{object.LastName}}</a>
+                <a routerLink="/{{objectComponent}}/{{object.SfId}}">{{ object.Name }}</a>
               </td>
               <td *ngIf="objectComponent === 'contact'" class="discard">
                 <a routerLink="/account/{{object.AccountId}}">{{ object.accountName }}</a>
@@ -114,7 +114,7 @@ import Swal from 'sweetalert2';
 
 
               <td *ngIf="objectComponent === 'lead'"  scope="row">
-                <a routerLink="/{{objectComponent}}/{{object.SfId}}">{{ object.FirstName }} {{object.LastName}}</a>
+                <a routerLink="/{{objectComponent}}/{{object.SfId}}">{{ object.Name }}</a>
               </td>
               <td *ngIf="objectComponent === 'lead'" class="discard">{{ object.Company }}</td>
               <td *ngIf="objectComponent === 'lead'" class="numeric discard">{{ object.Phone }}</td>
@@ -221,14 +221,14 @@ export class IndexComponent implements OnInit {
       object: 'contact',
       api: 'Contacts',
       search: [
-        'FirstName',
+        'Name',
       ]
     },
     {
       object: 'lead',
       api: 'Leads',
       search: [
-        'FirstName',
+        'Name',
       ]
     },
     {
@@ -276,7 +276,7 @@ export class IndexComponent implements OnInit {
     });
 
     this.activateRoute.params.subscribe(params => {
-      this.resetSearch();
+      this.resetSearch(this.activateRoute.snapshot.queryParams.Search === 'true' ? true : false);
       this.object = this.objects.find(x => x.object === params.object);
       this.objectAPI = this.object.api;
       this.objectComponent = this.object.object;
@@ -291,7 +291,7 @@ export class IndexComponent implements OnInit {
     this.skipFilter = 0;
     this.currentPage = 1;
     this.listings404 = false;
-    this.searchByText = false;
+    // this.searchByText = false;
   }
 
   resetFiltersByFindOne() {
@@ -302,10 +302,16 @@ export class IndexComponent implements OnInit {
     this.listings404 = false;
   }
 
-  resetSearch() {
-    this.listings404 = false;
-    this.searchByText = false;
-    this.searchAttribute = '';
+  resetSearch(valid: boolean) {
+    if (valid) {
+      this.listings404 = false;
+      this.searchByText =  this.searchByText ? true : false;
+      this.searchAttribute = this.searchByText ? this.searchAttribute : '';
+    } else {
+      this.listings404 = false;
+      this.searchByText =  false;
+      this.searchAttribute = '';
+    }
   }
 
   search() {
@@ -355,16 +361,16 @@ export class IndexComponent implements OnInit {
     if (this.searchAttribute) {
       this.searchByText = true;
       this.resetFiltersByFindOne();
-      this.actionUrlReset();
-      // this.setQueryParams(this.searchAttribute);
       this.search();
+      this.setQueryParams(this.searchAttribute);
     }
   }
 
   everythingRecords() {
-    this.resetSearch();
-    this.search();
+    this.resetSearch(false);
+    this.QueryParamsReset();
     this.searchByText = false;
+    this.search();
   }
 
   deleteItem(id: number) {
@@ -405,10 +411,10 @@ export class IndexComponent implements OnInit {
     } else {
       this.currentPage = 1;
     }
-    /*if (queryParams && queryParams.searchText) {
-      this.searchAttribute = queryParams.searchText;
-      this.searchByText = true;
-    }*/
+    if (queryParams && queryParams.SearchText && queryParams.Search) {
+      this.searchAttribute = queryParams.SearchText;
+      this.searchByText = queryParams.Search;
+    }
   }
 
   actionPage(page: number) {
@@ -424,19 +430,18 @@ export class IndexComponent implements OnInit {
     this.skipFilter = null;
   }
 
-  actionUrlReset() {
+  QueryParamsReset() {
     const navigationExtras: NavigationExtras = {
-      queryParams: { Page: null },
-      queryParamsHandling: 'merge'
+      queryParams: { Page: null, SearchText: null, Search: null},
     };
     this.router.navigate([`${this.objectComponent}`], navigationExtras);
   }
 
-    /*setQueryParams(searchTextParam: string) {
+  setQueryParams(searchTextParam: string) {
     const navigationExtras: NavigationExtras = {
-      queryParams: { searchText: searchTextParam },
+      queryParams: { SearchText: searchTextParam, Search: true, Page: null},
       queryParamsHandling: 'merge'
     };
     this.router.navigate([`${this.objectComponent}`], navigationExtras);
-  }*/
+  }
 }
