@@ -119,7 +119,7 @@ export class AccountSFComponent implements OnInit {
   }
 
   getAccountLookUp() {
-    this.loopbackService.getAllRequest('Accounts').subscribe((accounts: Array<{any}>) => {
+    this.loopbackService.getLookUp('Accounts').subscribe((accounts: Array<{any}>) => {
       this.lookUpAccount = accounts;
     });
   }

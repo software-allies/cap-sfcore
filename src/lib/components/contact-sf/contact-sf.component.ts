@@ -80,10 +80,10 @@ export class ContactSFComponent implements OnInit {
   }
 
   getLookUps() {
-    this.loopbackService.getAllRequest('Accounts').subscribe((accounts: Array<{any}>) => {
+    this.loopbackService.getLookUp('Accounts').subscribe((accounts: Array<{any}>) => {
       this.lookUpAccount = accounts;
     });
-    this.loopbackService.getAllRequest('Contacts').subscribe((contacts: Array<{any}>) => {
+    this.loopbackService.getLookUp('Contacts').subscribe((contacts: Array<{any}>) => {
       this.lookUpContact = contacts;
     });
   }
