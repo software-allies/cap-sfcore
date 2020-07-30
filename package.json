@@ -1,6 +1,6 @@
 {
   "name": "cap-sfcore",
-  "version": "1.0.30",
+  "version": "1.0.31",
   "description": "CRUD for SalesForce objects",
   "scripts": {
     "packagr": "ng-packagr -p ng-package.json"
