@@ -32,11 +32,27 @@ import Swal from 'sweetalert2';
             -->
 
               <div class="input-group col-md-12 mb-2">
-                <input type="text" id="search" name="search" [(ngModel)]="searchAttribute" class="form-control" (keyup.enter)="searchAttribute === '' ? '' :searchBy()">
-                
-                <div class="input-group-append">
-                  <button (click)="searchBy()" class="btn btn-outline-dark" type="button" [disabled]="searchAttribute === ''"> Search </button>
+                <input
+                  type="text"
+                  id="search"
+                  name="search"
+                  [(ngModel)]="searchAttribute" class="form-control"
+                  (keyup.enter)="searchAttribute === '' ? '' :searchBy()"
+                >
+
+                <div class="input-group-append" *ngIf="searchByText">
+                  <button (click)="everythingRecords()" class="btn btn-outline-dark" type="button" > Everything </button>
                 </div>
+
+                <div class="input-group-append">
+                  <button
+                    (click)="searchBy()"
+                    class="btn btn-outline-dark"
+                    type="button"
+                    [disabled]="searchAttribute === ''"> Search
+                  </button>
+                </div>
+
               </div>
             </div>
           </div>
@@ -105,7 +121,14 @@ import Swal from 'sweetalert2';
 
               <td class="text-center">
                 <div class="dropdown">
-                  <button class="btn btn-dark btn-sm dropdown-toggle" type="button" id="actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <button
+                    class="btn btn-dark btn-sm dropdown-toggle"
+                    type="button"
+                    id="actions"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
                     <i class="fa fa-ellipsis-h"></i>
                   </button>
                   <div class="dropdown-menu" aria-labelledby="actions">
@@ -227,7 +250,7 @@ export class IndexComponent implements OnInit {
 
   searchAttribute: string;
   selectAttribute: string;
-
+  searchByText: boolean;
 
   constructor(
     private loopBackService: LoopbackService,
@@ -243,6 +266,7 @@ export class IndexComponent implements OnInit {
     this.objectComponentTitle.emit('');
     this.searchAttribute = '';
     this.selectAttribute = '';
+    this.searchByText = false;
   }
 
   ngOnInit() {
@@ -262,19 +286,47 @@ export class IndexComponent implements OnInit {
     });
   }
 
+  resetFilters() {
+    this.listings = [];
+    this.skipFilter = 0;
+    this.currentPage = 1;
+    this.listings404 = false;
+    this.searchByText = false;
+  }
+
+  resetFiltersByFindOne() {
+    this.listings = [];
+    this.skipFilter = 0;
+    this.currentPage = 1;
+    this.totalItems = null;
+    this.listings404 = false;
+  }
+
+  resetSearch() {
+    this.listings404 = false;
+    this.searchByText = false;
+    this.searchAttribute = '';
+  }
+
   search() {
-    const object = this.objectAPI;
-    this.loopBackService.getAllRequest(this.objectAPI, this.skipFilter).subscribe(res => {
+    this.loopBackService.getAllRequest(
+      this.objectAPI,
+      this.searchAttribute,
+      this.selectAttribute,
+      this.searchByText,
+      this.skipFilter
+    ).subscribe((res: any) => {
       this.listings = res;
-      if (object === 'Contacts' || object === 'Opportunitys') {
+      this.listings404 = res.length < 1 ? true : false;
+      if (this.objectAPI === 'Contacts' || this.objectAPI === 'Opportunitys') {
         let sfIds = [];
         for (let index in res) {
           sfIds.push({ SfId: res[index].AccountId });
         }
         sfIds = sfIds.filter(id => id.SfId !== null);
-        const query = `/Accounts?filter={"where":{"or":${JSON.stringify(
+        const query = `Accounts?filter={"where":{"or":${JSON.stringify(
           sfIds
-        )}}}`;
+        )}},"fields":{"SACAP__UUID__c":true,"id":true,"SfId":true,"AccountNumber":true,"Name":true}}`;
         this.loopBackService
           .getWithFilter(query)
           .subscribe((accounts: Array<any>) => {
@@ -289,49 +341,30 @@ export class IndexComponent implements OnInit {
       this.listings404 = true;
       console.log(error.status + ' - ' + error.statusText);
     });
-    this.loopBackService.getTotalItems(object).subscribe(totalitmes => {
+    this.loopBackService.getTotalItems(
+      this.objectAPI,
+      this.searchAttribute,
+      this.selectAttribute,
+      this.searchByText
+    ).subscribe(totalitmes => {
       this.totalItems = totalitmes;
     });
   }
 
   searchBy() {
     if (this.searchAttribute) {
+      this.searchByText = true;
       this.resetFiltersByFindOne();
-      this.loopBackService.getByFindOneSearch(this.objectAPI, this.selectAttribute, this.searchAttribute).subscribe((listings: any) => {
-        this.listings = listings;
-        this.listings404 = listings.length < 1 ? true : false;
-      }, (error: any) => {
-        this.listings404 = true;
-        console.log(error.status + ' - ' + error.statusText);
-      });
-    } else {
-      this.resetFilters();
+      this.actionUrlReset();
+      // this.setQueryParams(this.searchAttribute);
       this.search();
     }
   }
 
-  resetFilters() {
-    this.listings = [];
-    this.skipFilter = 0;
-    this.currentPage = 1;
-    this.listings404 = false;
-    // this.searchAttribute = '';
-    // this.selectAttribute = '';
-    // this.totalItems = null;
-  }
-
-  resetFiltersByFindOne() {
-    this.listings = [];
-    this.skipFilter = 0;
-    this.currentPage = 1;
-    this.totalItems = null;
-    this.listings404 = false;
-  }
-
-  resetSearch() {
-    this.listings404 = false;
-    this.searchAttribute = '';
-    this.selectAttribute = '';
+  everythingRecords() {
+    this.resetSearch();
+    this.search();
+    this.searchByText = false;
   }
 
   deleteItem(id: number) {
@@ -347,7 +380,12 @@ export class IndexComponent implements OnInit {
         this.listings = this.listings.filter(acc => acc.id !== id);
         this.loopBackService.deleteItem(this.objectAPI, id).subscribe(res => {
           Swal.fire('Deleted!', 'Your record has been deleted.', 'success');
-          this.loopBackService.getTotalItems(this.objectAPI).subscribe(totalitmes => {
+          this.loopBackService.getTotalItems(
+            this.objectAPI,
+            this.searchAttribute,
+            this.selectAttribute,
+            this.searchByText
+          ).subscribe(totalitmes => {
             this.totalItems = totalitmes;
             if (totalitmes <= 20) {
               this.actionPage(1);
@@ -367,7 +405,10 @@ export class IndexComponent implements OnInit {
     } else {
       this.currentPage = 1;
     }
-    // this.currentPage = queryParams && queryParams.Page ? Number(queryParams.Page) : 1;
+    /*if (queryParams && queryParams.searchText) {
+      this.searchAttribute = queryParams.searchText;
+      this.searchByText = true;
+    }*/
   }
 
   actionPage(page: number) {
@@ -382,4 +423,20 @@ export class IndexComponent implements OnInit {
     this.router.navigate([`${this.objectComponent}`], navigationExtras);
     this.skipFilter = null;
   }
+
+  actionUrlReset() {
+    const navigationExtras: NavigationExtras = {
+      queryParams: { Page: null },
+      queryParamsHandling: 'merge'
+    };
+    this.router.navigate([`${this.objectComponent}`], navigationExtras);
+  }
+
+    /*setQueryParams(searchTextParam: string) {
+    const navigationExtras: NavigationExtras = {
+      queryParams: { searchText: searchTextParam },
+      queryParamsHandling: 'merge'
+    };
+    this.router.navigate([`${this.objectComponent}`], navigationExtras);
+  }*/
 }
