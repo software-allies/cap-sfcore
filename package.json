@@ -1,6 +1,6 @@
 {
   "name": "cap-sfcore",
-  "version": "1.0.29",
+  "version": "1.0.31",
   "description": "CRUD for SalesForce objects",
   "scripts": {
     "packagr": "ng-packagr -p ng-package.json"
@@ -80,5 +80,9 @@
     "sweetalert2": "^9.5.3",
     "@auth0/angular-jwt": "^3.0.1"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@angular/material": "^8.2.3",
+    "ngx-select-dropdown": "^1.4.3"
+  }
 }

@@ -135,7 +135,7 @@ export class LeadSFComponent implements OnInit {
   }
 
   getContactLookUp() {
-    this.loopbackService.getAllRequest('Contacts').subscribe((contacts: Array<{any}>) => {
+    this.loopbackService.getLookUp('Contacts').subscribe((contacts: Array<{any}>) => {
       this.lookUpContact = contacts;
     });
   }

@@ -40,7 +40,50 @@ export class LoopbackService {
     }
   }
 
-  getAllRequest(tableName: string, offset: number = 0) {
+  getAllRequest(tableName: string, searchText: string, attributeSelected: string, applySearchBy: boolean = false, offset: number = 0) {
+    const order = tableName === 'Accounts' || tableName === 'Opportunitys'
+      ? 'Name'
+      : 'FirstName';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'content-type': 'application/json',
+        Authorization: `Bearer ${this.getToken()}`
+      })
+    };
+    let query: string;
+
+    if (applySearchBy) {
+      const regexp = `/${searchText}/i`;
+      query = `filter={"where":{"and":[{"SACAP__UUID__c":{"nlike":"null"}},{"${attributeSelected}":{"regexp":"${regexp}"}}]},"order":"${order}","limit":${this.limit},"offset":${offset}}`;
+    } else {
+      query = `filter={"where":{"SACAP__UUID__c": {"nlike": "null" }},"order":"${order}","limit":${this.limit},"offset":${offset}}`;
+    }
+    return this.http.get(`${this.url}/${tableName}?${query}`, httpOptions);
+  }
+
+  getTotalItems(tableName: string, searchText: string, attributeSelected: string, applySearchBy: boolean = false) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'content-type': 'application/json',
+        Authorization: `Bearer ${this.getToken()}`
+      })
+    };
+    let query: string;
+    if (applySearchBy) {
+      const regexp = `/${searchText}/i`;
+      query = `where={"and":[{"SACAP__UUID__c":{"nlike":"null"}},{"${attributeSelected}":{"regexp":"${regexp}"}}]}`;
+    } else {
+      query = `where={"SACAP__UUID__c":{"nlike":"null"}}`;
+    }
+    return this.http.get(`${this.url}/${tableName}/count?${query}`, httpOptions)
+      .pipe(map( (data: any) => {
+          return data.count;
+        })
+      );
+  }
+
+  getLookUp(tableName: string) {
     const order = tableName === 'Accounts' || tableName === 'Opportunitys'
       ? 'Name'
       : 'FirstName';
@@ -51,23 +94,8 @@ export class LoopbackService {
       })
     };
     return this.http.get(
-      `${this.url}/${tableName}?filter={"where":{"SACAP__UUID__c": {"nlike": "null" }},"order":"${order}","limit":${this.limit},"offset":${offset}}`,
+      `${this.url}/${tableName}?filter={"where":{"SACAP__UUID__c": {"nlike": "null" }},"fields":{"SACAP__UUID__c":true,"id":true,"SfId":true,"AccountNumber":true,"Name":true},"order":"${order}"}`,
       httpOptions);
-  }
-
-  getByFindOneSearch(tableName: string, attribute: string, findText: string) {
-    const order = tableName === 'Accounts' || tableName === 'Opportunitys'
-    ? 'Name'
-    : 'FirstName';
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'content-type': 'application/json',
-        Authorization: `Bearer ${this.getToken()}`
-      })
-    };
-    const regexp = `${findText}/i`;
-    const query = `filter={"where":{"and":[{"SACAP__UUID__c":{"nlike":"null"}},{"${attribute}":{"regexp":"${regexp}"}}]},"order":"${order}","limit":${this.limit}}`;
-    return this.http.get(`${this.url}/${tableName}?${query}`, httpOptions);
   }
 
   getWithFilter(query: string) {
@@ -78,20 +106,6 @@ export class LoopbackService {
       })
     };
     return this.http.get(`${this.url}/${query}`, httpOptions);
-  }
-
-  getTotalItems(tableName: string) {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'content-type': 'application/json',
-        Authorization: `Bearer ${this.getToken()}`
-      })
-    };
-    return this.http.get(`${this.url}/${tableName}/count?where={"SACAP__UUID__c": {"nlike": "null" }}`, httpOptions)
-      .pipe(map( (data: any) => {
-          return data.count;
-        })
-      );
   }
 
   getRecordWithFindOne(tableName: string, sfid: string) {

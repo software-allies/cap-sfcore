@@ -28,11 +28,14 @@
 
                   <div class="form-group col-md-6">
                     <label for="inputSalutation">Account Name</label>
-                    <select formControlName="accountId" id="inputSalutation" class="form-control">
+                    <ngx-select-dropdown (change)="selectionAccountChanged($event)" formControlName="accountName"
+                      [multiple]="false" [config]="config" [options]="accountsName"></ngx-select-dropdown>
+
+                    <!-- <select formControlName="accountId" id="inputSalutation" class="form-control">
                       <option value="" selected disabled hidden>Choose here</option>
                       <option *ngFor="let account of lookUpAccount" value="{{ account.SfId }}" class="form-control">
                         {{ account.Name }}</option>
-                    </select>
+                    </select> -->
                   </div>
                 </div>
                 <div class="form-row ">
@@ -55,26 +58,34 @@
                   </div>
                 </div>
                 <div class="form-row">
-                  <div class="form-group col-md-4">
+                  <div class="form-group col-md-6">
                     <label for="inputAmount">Amount</label>
                     <input [ngClass]="{
                       'is-invalid': form.controls.amount.errors
                     }" type="text" class="form-control" id="inputAmount" formControlName="amount" />
                   </div>
-                  <div class="form-group col-md-4">
+                  <div class="form-group col-md-6">
+                    <label for="inputAmount">Expected Revenue</label>
+                    <input [ngClass]="{
+                      'is-invalid': form.controls.amount.errors
+                    }" type="text" class="form-control" id="inputAmount" formControlName="revenue" />
+                  </div>
+                  
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
                     <label for="inputCloseDate">Close Date*</label>
                     <input [ngClass]="{
                         'is-invalid': isInvalid && !form.controls.closeDate.value
                       }" type="date" class="form-control" id="inputCloseDate" formControlName="closeDate" />
                   </div>
-                  <div class="form-group col-md-4">
+                  <div class="form-group col-md-6">
                     <label for="inputNextStep">Next Step</label>
                     <input type="text" class="form-control" id="inputNextStep" formControlName="nextStep" />
                   </div>
                 </div>
-
                 <div class="form-row">
-                  <div class="form-group col-md-4">
+                  <div class="form-group col-md-6">
                     <label for="inputStage">Stage*</label>
                     <select [ngClass]="{
                         'is-invalid': isInvalid && !form.controls.stageName.value
@@ -85,19 +96,29 @@
                     </select>
                   </div>
 
-                  <div class="form-group col-md-4">
+                  <div class="form-group col-md-6">
                     <label for="inputProbability">Probability (%)</label>
                     <input [ngClass]="{
                       'is-invalid': form.controls.probability.errors
                     }" type="text" class="form-control" id="inputProbability" formControlName="probability" />
                   </div>
-                  <div class="form-group col-md-4">
-                    <label for="inputCampainId">Primary Campaign Source</label>
-                    <select formControlName="campaignId" id="inputCampainId" class="form-control">
+                    <!-- <select formControlName="campaignId" id="inputCampainId" class="form-control">
                       <option value="" selected disabled hidden>Choose here</option>
                       <option *ngFor="let contact of lookUpContact" value="{{ contact.SfId }}" class="form-control">
-                        {{ contact.Salutation }} {{ contact.FirstName }} {{ contact.LastName }}</option>
-                    </select>
+                        {{ contact.Name }}</option>
+                    </select> -->
+                </div>
+                <div class="form-row">
+                
+                  <div class="form-group col-md-12">
+                    <label for="inputCampainId">Primary Campaign Source</label>
+                    <ngx-select-dropdown (change)="selectionContactChanged($event)" formControlName="contactName"
+                      [multiple]="false" [config]="config" [options]="contactsName"></ngx-select-dropdown>
+                    <!-- <select formControlName="campaignId" id="inputCampainId" class="form-control">
+                      <option value="" selected disabled hidden>Choose here</option>
+                      <option *ngFor="let contact of lookUpContact" value="{{ contact.SfId }}" class="form-control">
+                        {{ contact.Name }}</option>
+                    </select> -->
                   </div>
                 </div>
                 <div class="form-group form-check">
@@ -231,7 +252,7 @@
                     <tbody>
                       <tr>
                         <th scope="row" class="col-width-35" class="col-width-35">Opportunity Name</th>
-                        <td>{{ opportunity.Name }}</td>
+                        <td>{{ opportunity.Name  }}</td>
                       </tr>
                       <tr>
                         <th scope="row" class="col-width-35">Private</th>
@@ -264,6 +285,10 @@
                       <tr></tr>
                     </thead>
                     <tbody>
+                      <tr>
+                        <th scope="row" class="col-width-35">Expected Revenue</th>
+                        <td>{{ opportunity.ExpectedRevenue }}</td>
+                      </tr>
                       <tr>
                         <th scope="row" class="col-width-35">Amount</th>
                         <td>{{ opportunity.Amount }}</td>

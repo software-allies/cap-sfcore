@@ -72,6 +72,27 @@ export class OpportunitySFComponent implements OnInit {
   lookUpAccount: any;
   lookUpContact: any;
 
+  accountsName: string[] = [];
+  contactsName: string[] = [];
+  limit: number = 10;
+  config = {
+    displayKey: "description", //if objects array passed which key to be displayed defaults to description
+    search: true, //true/false for the search functionlity defaults to false,
+    height: 'auto', //height of the list so that if there are more no of items it can show a scroll defaults to auto. With auto height scroll will never appear
+    placeholder: 'Select', // text to be displayed when no item is selected defaults to Select,
+    limitTo: this.limit, // a number thats limits the no of options displayed in the UI similar to angular's limitTo pipe
+    moreText: 'more', // text to be displayed whenmore than one items are selected like Option 1 + 5 more
+    noResultsFound: 'No results found!', // text to be displayed when no items are found while searching
+    searchPlaceholder: 'Search', // label thats displayed in search input,
+    searchOnKey: 'name', // key on which search should be performed this will be selective search. if undefined this will be extensive search on all keys
+    clearOnSelection: false, // clears search criteria when an option is selected if set to true, default is false
+    inputDirection: 'ltr' // the direction of the search input can be rtl or ltr(default)
+  }
+  accountIDSalesforce: string = '';
+  contactIDSalesforce: string = '';
+  currentAccount: string = '';
+  currentContact: string = '';
+
   constructor(
     private activateRoute: ActivatedRoute,
     private router: Router,
@@ -107,6 +128,10 @@ export class OpportunitySFComponent implements OnInit {
   getObject(sfid: string) {
     this.loopbackService.getRecordWithFindOne(this.objectAPI, sfid).subscribe((object: any) => {
       this.opportunity = object;
+      let accountN = this.LookUpAccountName(this.opportunity.AccountId);
+      this.currentAccount = accountN ? accountN : '';
+      let contactN = this.LookUpCampaignId(this.opportunity.CampaignId);
+      this.currentContact = contactN ? contactN : '';
       this.viewOpportunity = object ? true : false;
       if (this.status) {
         this.createForm(object);
@@ -115,13 +140,13 @@ export class OpportunitySFComponent implements OnInit {
   }
 
   getLookUps() {
-    this.loopbackService.getAllRequest('Accounts').subscribe((accounts: Array<{ any }>) => {
+    this.loopbackService.getLookUp('Accounts').subscribe((accounts: Array<{ any }>) => {
       this.lookUpAccount = accounts;
-      console.log('this.lookUpAccount: ', this.lookUpAccount);
+      this.accountsName = this.lookUpAccount.map(account => account.Name)
     });
-    this.loopbackService.getAllRequest('Contacts').subscribe((contacts: Array<{ any }>) => {
+    this.loopbackService.getLookUp('Contacts').subscribe((contacts: Array<{ any }>) => {
       this.lookUpContact = contacts;
-      console.log('this.lookUpContact: ', this.lookUpContact);
+      this.contactsName = this.lookUpContact.map(contact => contact.Name)
     });
   }
 
@@ -143,34 +168,28 @@ export class OpportunitySFComponent implements OnInit {
   }
 
   LookUpAccountName(id: string): string {
-    if (this.lookUpContact && id) {
-      this.lookUpContact.forEach(contact => {
-        console.log(`
-        id: ${id}
-        contact.SfId: ${contact.SfId}
-        contact.accountId ${contact.AccountId}`);
-        if(id === contact.AccountId){
-          console.log('contact: ', contact);
-          
-        }
-        // console.log('id: ', id, 'element: ', element.AccountId);
-      });
-      let gg = this.lookUpContact.find(contact => contact.AccountId === id)
-      console.log('gg: ', gg);
-      if(gg) return  `${gg.FirstName} ${gg.LastName}`
-      // return this.lookUpContact.find(x => {
-      //   console.log('x: ', x);
-      //   x.AccountId === AccountId
-      // }) ? this.lookUpAccount.find(x => x.SfId === AccountId).Name : '';
+    if (this.lookUpContact && id && this.lookUpAccount) {
+      let fromContact = this.lookUpContact.find(contact => contact.AccountId === id);
+      let fromaAccount = this.lookUpAccount.find(account => account.SfId === id);
+      if (fromContact === undefined && fromaAccount === undefined) {
+        return ''
+      }
+      let accountName = fromContact ? fromContact.Name : fromaAccount.Name;
+      this.currentAccount = accountName;
+      return accountName ? accountName : '';
     }
-
-
   }
 
   LookUpCampaignId(CampaignId: string): string {
-    if (this.lookUpContact && CampaignId && this.lookUpContact.find(x => x.SfId === CampaignId)) {
-      const contact = this.lookUpContact.find(x => x.SfId === CampaignId);
-      return contact.FirstName + ' ' + contact.LastName;
+    if (CampaignId === null) CampaignId = '';
+
+    if (this.lookUpContact && CampaignId) {
+      const contact = this.lookUpContact.find(x => x.SfId === CampaignId).Name;
+      if (contact) {
+        this.currentContact = contact;
+        return this.currentContact;
+      }
+      return '';
     }
     return '';
   }
@@ -182,10 +201,13 @@ export class OpportunitySFComponent implements OnInit {
         uuid__c: new FormControl(opportunity.SACAP__UUID__c, [Validators.required]),
         isPrivate: new FormControl(opportunity.IsPrivate),
         name: new FormControl(opportunity.Name, [Validators.required]),
+        accountName: new FormControl(this.currentAccount ? this.currentAccount : ''),
+        contactName: new FormControl(this.currentContact ? this.currentContact : ''),
         accountId: new FormControl(opportunity.AccountId),
         type: new FormControl(opportunity.Type),
         leadSource: new FormControl(opportunity.LeadSource),
         amount: new FormControl(opportunity.Amount, [Validators.pattern('^(\\d*|\\d+\\.\\d{1,2})$')]),
+        revenue: new FormControl(opportunity.ExpectedRevenue, [Validators.pattern('^(\\d*|\\d+\\.\\d{1,2})$')]),
         closeDate: new FormControl(this.changeFormatDate(opportunity.CloseDate), [Validators.required]),
         nextStep: new FormControl(opportunity.NextStep),
         stageName: new FormControl(opportunity.StageName, [Validators.required]),
@@ -210,6 +232,7 @@ export class OpportunitySFComponent implements OnInit {
         type: new FormControl(''),
         leadSource: new FormControl(''),
         amount: new FormControl('', [Validators.pattern('^(\\d*|\\d+\\.\\d{1,2})$')]),
+        revenue: new FormControl('', [Validators.pattern('^(\\d*|\\d+\\.\\d{1,2})$')]),
         closeDate: new FormControl('', [Validators.required]),
         nextStep: new FormControl(''),
         stageName: new FormControl('', [Validators.required]),
@@ -227,20 +250,28 @@ export class OpportunitySFComponent implements OnInit {
   }
 
   onSubmit(updateOrcreate?: boolean) {
-    if (this.form.valid) {
+    if(!this.contactIDSalesforce || this.contactIDSalesforce === null){
+      this.contactIDSalesforce = this.opportunity.CampaignId;
+    }
+    if(!this.accountIDSalesforce || this.accountIDSalesforce === null){
+      this.accountIDSalesforce = this.opportunity.AccountId;
+    }
+
+    if (this.form.valid ) {
       this.objectToSend = {
         SACAP__UUID__c: this.form.get('uuid__c').value,
         IsPrivate: this.form.get('isPrivate').value,
         Name: this.form.get('name').value,
-        AccountId: this.form.get('accountId').value,
+        AccountId: this.accountIDSalesforce,
         Type: this.form.get('type').value,
         LeadSource: this.form.get('leadSource').value,
         Amount: this.form.get('amount').value,
+        ExpectedRevenue: this.form.get('revenue').value,
         CloseDate: this.form.get('closeDate').value,
         NextStep: this.form.get('nextStep').value,
         StageName: this.form.get('stageName').value,
         Probability: this.form.get('probability').value,
-        CampaignId: this.form.get('campaignId').value,
+        CampaignId: this.contactIDSalesforce,
         OrderNumber__c: this.form.get('orderNumber__c').value,
         CurrentGenerators__c: this.form.get('currentGenerators__c').value,
         TrackingNumber__c: this.form.get('trackingNumber__c').value,
@@ -279,4 +310,17 @@ export class OpportunitySFComponent implements OnInit {
       this.isInvalid = true;
     }
   }
+
+  selectionAccountChanged(event: any) {
+    let name = event.value
+    if (name) this.accountIDSalesforce = this.lookUpAccount.find(account => account.Name === name).SfId;
+    return ''
+  }
+
+  selectionContactChanged(event: any) {
+    let name = event.value
+    if (name) this.contactIDSalesforce = this.lookUpContact.find(contact => contact.Name === name).SfId;
+    return ''
+  }
+
 }
