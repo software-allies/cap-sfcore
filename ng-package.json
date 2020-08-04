@@ -8,7 +8,7 @@
       "uuid": "uuid",
       "@auth0/angular-jwt": "angularJwt",
       "sweetalert2": "Swal",
-      "ngx-select-dropdown": "ngx-select-dropdown"
+      "ngx-select-dropdown": "SelectDropDown"
     }
   }
 }

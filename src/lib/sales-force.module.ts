@@ -5,9 +5,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoopbackRoutingModule } from './loopback-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { NgxPaginationModule } from 'ngx-pagination';
-import { SelectDropDownModule } from 'ngx-select-dropdown'
-
 import { ConfigService } from './services/config.service';
 import { LoopbackService } from './services/loopback.service';
 import { PaginationComponent } from './components/pagination/pagination.component';
@@ -19,6 +16,9 @@ import { ContactSFComponent } from './components/contact-sf/contact-sf.component
 import { OpportunitySFComponent } from './components/opportunity-sf/opportunity-sf.component';
 
 import { IConfig } from './interfaces/config.interface';
+
+import { NgxPaginationModule } from 'ngx-pagination';
+import { SelectDropDownModule } from 'ngx-select-dropdown';
 
 @NgModule({
   declarations: [
