@@ -32,6 +32,11 @@ you also need to install `uuid` to generate universal unique identifiers for you
 npm i uuid --save 
 ```
 
+The CAP-SFCORE uses a dropdown list that includes a search option, to be able to use it please install the following dependency
+```
+npm i ngx-select-dropdown --save
+```
+
 Finally, you also have to install `sweetalert2` for some security animations and alerts that will appear when creating a record or also when deleting and confirming the deletion of the record.
 ```
 npm i sweetalert2 --save 
