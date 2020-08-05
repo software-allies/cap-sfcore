@@ -29,7 +29,7 @@
                   <div class="form-group col-md-6">
                     <label for="inputSalutation">Account Name</label>
                     <ngx-select-dropdown (change)="selectionAccountChanged($event)" formControlName="accountName"
-                      [multiple]="false" [config]="config" [options]="accountsName"></ngx-select-dropdown>
+                      [config]="config" [options]="accountsName"></ngx-select-dropdown>
 
                     <!-- <select formControlName="accountId" id="inputSalutation" class="form-control">
                       <option value="" selected disabled hidden>Choose here</option>
@@ -113,7 +113,7 @@
                   <div class="form-group col-md-12">
                     <label for="inputCampainId">Primary Campaign Source</label>
                     <ngx-select-dropdown (change)="selectionContactChanged($event)" formControlName="contactName"
-                      [multiple]="false" [config]="config" [options]="contactsName"></ngx-select-dropdown>
+                      [config]="config" [options]="contactsName"></ngx-select-dropdown>
                     <!-- <select formControlName="campaignId" id="inputCampainId" class="form-control">
                       <option value="" selected disabled hidden>Choose here</option>
                       <option *ngFor="let contact of lookUpContact" value="{{ contact.SfId }}" class="form-control">
