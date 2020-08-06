@@ -28,8 +28,8 @@
 
                   <div class="form-group col-md-6">
                     <label for="inputSalutation">Account Name</label>
-                    <ngx-select-dropdown (change)="selectionAccountChanged($event)" formControlName="accountName"
-                      [config]="config" [options]="accountsName"></ngx-select-dropdown>
+                    <!-- <ngx-select-dropdown (change)="selectionAccountChanged($event)" formControlName="accountName"
+                      [config]="config" [options]="accountsName"></ngx-select-dropdown> -->
 
                     <!-- <select formControlName="accountId" id="inputSalutation" class="form-control">
                       <option value="" selected disabled hidden>Choose here</option>
@@ -70,7 +70,7 @@
                       'is-invalid': form.controls.amount.errors
                     }" type="text" class="form-control" id="inputAmount" formControlName="revenue" />
                   </div>
-                  
+
                 </div>
                 <div class="form-row">
                   <div class="form-group col-md-6">
@@ -102,18 +102,29 @@
                       'is-invalid': form.controls.probability.errors
                     }" type="text" class="form-control" id="inputProbability" formControlName="probability" />
                   </div>
-                    <!-- <select formControlName="campaignId" id="inputCampainId" class="form-control">
+                  <!-- <select formControlName="campaignId" id="inputCampainId" class="form-control">
                       <option value="" selected disabled hidden>Choose here</option>
                       <option *ngFor="let contact of lookUpContact" value="{{ contact.SfId }}" class="form-control">
                         {{ contact.Name }}</option>
                     </select> -->
                 </div>
                 <div class="form-row">
-                
+
                   <div class="form-group col-md-12">
                     <label for="inputCampainId">Primary Campaign Source</label>
-                    <ngx-select-dropdown (change)="selectionContactChanged($event)" formControlName="contactName"
-                      [config]="config" [options]="contactsName"></ngx-select-dropdown>
+                    <ngx-dropdown-list 
+                      (selectionChange)="selectionContactChanged($event)" 
+                      [items]="contactsName"
+                      [multiSelection]="false" 
+                      [placeHolder]="'Primary Campaign Source'"
+                      [(selectedValue)]="contactName"
+                      [suffixText]="'Campaing'" 
+                      [filterBox]="true"
+                      [formatNumber]="true" 
+                      [disabled]="false">
+                    </ngx-dropdown-list>Ï
+                    <!-- <ngx-select-dropdown (change)="selectionContactChanged($event)" formControlName="contactName"
+                      [config]="config" [options]="contactsName"></ngx-select-dropdown> -->
                     <!-- <select formControlName="campaignId" id="inputCampainId" class="form-control">
                       <option value="" selected disabled hidden>Choose here</option>
                       <option *ngFor="let contact of lookUpContact" value="{{ contact.SfId }}" class="form-control">

@@ -18,7 +18,8 @@ import { OpportunitySFComponent } from './components/opportunity-sf/opportunity-
 import { IConfig } from './interfaces/config.interface';
 
 import { NgxPaginationModule } from 'ngx-pagination';
-import { SelectDropDownModule } from 'ngx-select-dropdown';
+import { DropdownListModule } from 'ngx-dropdown-list';
+
 
 @NgModule({
   declarations: [
@@ -32,9 +33,9 @@ import { SelectDropDownModule } from 'ngx-select-dropdown';
   imports: [
     FormsModule,
     CommonModule,
+    DropdownListModule,
     ReactiveFormsModule,
     NgxPaginationModule,
-    SelectDropDownModule,
     LoopbackRoutingModule,
     BrowserAnimationsModule,
   ],

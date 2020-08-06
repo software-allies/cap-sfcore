@@ -83,5 +83,7 @@
     "ngx-select-dropdown": "^1.4.3"
   },
   "license": "MIT",
-  "dependencies": {}
+  "dependencies": {
+    "ngx-dropdown-list": "^1.1.1"
+  }
 }

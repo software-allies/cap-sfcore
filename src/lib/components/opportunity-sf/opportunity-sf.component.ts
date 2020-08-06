@@ -93,6 +93,8 @@ export class OpportunitySFComponent implements OnInit {
   currentAccount: string = '';
   currentContact: string = '';
 
+  contactName: string = '';
+  
   constructor(
     private activateRoute: ActivatedRoute,
     private router: Router,
@@ -116,6 +118,7 @@ export class OpportunitySFComponent implements OnInit {
   ngOnInit() {
     if (this.location.prepareExternalUrl(this.location.path()).split('/')[2] === 'create') {
       this.createForm();
+      console.log('contactName: ', this.contactName);
     } else {
       this.activateRoute.params.subscribe((params: { id: string, status?: string }) => {
         this.getObject(params.id);
@@ -146,7 +149,24 @@ export class OpportunitySFComponent implements OnInit {
     });
     this.loopbackService.getLookUp('Contacts').subscribe((contacts: Array<{ any }>) => {
       this.lookUpContact = contacts;
-      this.contactsName = this.lookUpContact.map(contact => contact.Name)
+      
+      this.contactsName = this.lookUpContact.map(contact => {
+        console.log('this.contactsName: ', this.contactsName);
+        if(contact.SfId === this.opportunity.CampaignId){
+          console.log('contact.SfId: ', contact.SfId);
+          console.log('contactName: ', this.contactName);
+          this.contactName = contact.Name;
+
+        }
+        let data = {
+          id: contact.id, 
+          value: contact.SfId, 
+          text: contact.Name
+        }
+
+        return data;
+      })
+      console.log('this.contactsName: ', this.contactsName);
     });
   }
 
@@ -250,14 +270,15 @@ export class OpportunitySFComponent implements OnInit {
   }
 
   onSubmit(updateOrcreate?: boolean) {
-    if(!this.contactIDSalesforce || this.contactIDSalesforce === null){
+    
+    if (!this.contactIDSalesforce || this.contactIDSalesforce === null) {
       this.contactIDSalesforce = this.opportunity.CampaignId;
     }
-    if(!this.accountIDSalesforce || this.accountIDSalesforce === null){
+    if (!this.accountIDSalesforce || this.accountIDSalesforce === null) {
       this.accountIDSalesforce = this.opportunity.AccountId;
     }
 
-    if (this.form.valid ) {
+    if (this.form.valid) {
       this.objectToSend = {
         SACAP__UUID__c: this.form.get('uuid__c').value,
         IsPrivate: this.form.get('isPrivate').value,
@@ -318,9 +339,9 @@ export class OpportunitySFComponent implements OnInit {
   }
 
   selectionContactChanged(event: any) {
-    let name = event.value
-    if (name) this.contactIDSalesforce = this.lookUpContact.find(contact => contact.Name === name).SfId;
-    return ''
+    console.log('event: ', event);
+    return this.contactIDSalesforce = event ? event : ''
+    
   }
 
 }
