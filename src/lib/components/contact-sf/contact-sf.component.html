@@ -464,12 +464,12 @@
         </div>
         <div class="form-row text-center mt-3">
           <div class="col-md-6">
-            <button *ngIf="updateContact" (click)="onSubmit(true)" class="btn btn-outline-dark mt-1 mb-1">Submit</button>
-            <button *ngIf="createContact" (click)="onSubmit(false)" class="btn btn-outline-dark mt-1 mb-1">Submit</button>
+            <button *ngIf="updateContact" (click)="onSubmit(true)" class="btn btn-outline-dark action-button mt-1 mb-1">Submit</button>
+            <button *ngIf="createContact" (click)="onSubmit(false)" class="btn btn-outline-dark action-button mt-1 mb-1">Submit</button>
           </div>
           <div class="col-md-6">
-            <button *ngIf="createContact" type="button" (click)="cancelAction(true)" class="btn btn-outline-dark mt-1 mb-1">Cancel</button>
-            <button *ngIf="updateContact" type="button" (click)="cancelAction()" class="btn btn-outline-dark mt-1 mb-1">Cancel</button>
+            <button *ngIf="createContact" type="button" (click)="cancelAction(true)" class="btn btn-outline-dark action-button mt-1 mb-1">Cancel</button>
+            <button *ngIf="updateContact" type="button" (click)="cancelAction()" class="btn btn-outline-dark action-button mt-1 mb-1">Cancel</button>
           </div>
         </div>
       </form>
@@ -516,37 +516,34 @@
             data-parent="#accordion"
           >
             <div class="card-body row">
-
-
-
               <div class="col-md-6">
-                <table class="table table-bordered">
+                <table class="rwd_auto">
                   <thead>
                     <tr></tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <th scope="row" class="col-width-35">Name</th>
+                      <th scope="row">Name</th>
                       <td>{{contact.Salutation}} {{ contact.FirstName }} {{ contact.LastName }} </td>
                     </tr>
                     <tr>
-                      <th scope="row" class="col-width-35">Account Name</th>
+                      <th scope="row">Account Name</th>
                       <td>{{ LookUpAccountName(contact.AccountId) }}</td>
                     </tr>
                     <tr>
-                      <th scope="row" class="col-width-35">Title</th>
+                      <th scope="row">Title</th>
                       <td>{{ contact.Title }}</td>
                     </tr>
                     <tr>
-                      <th scope="row" class="col-width-35">Department</th>
+                      <th scope="row">Department</th>
                       <td>{{ contact.Department }}</td>
                     </tr>
                     <tr>
-                      <th scope="row" class="col-width-35">Birthdate</th>
+                      <th scope="row">Birthdate</th>
                       <td>{{ contact.Birthdate | date :'MM/dd/yyyy' : 'UTC/GMT' }}</td>
                     </tr>
                     <tr>
-                      <th scope="row" class="col-width-35">Reports To</th>
+                      <th scope="row">Reports To</th>
                       <td>{{ LookUpReportsTo(contact.ReportsToId) }}</td>
                     </tr>
                     <tr>
@@ -558,42 +555,42 @@
               </div>
 
               <div class="col-md-6">
-                <table class="table table-bordered">
+                <table class="rwd_auto">
                   <thead>
                     <tr></tr>
                   </thead>
                   <tbody>
 
                     <tr>
-                      <th scope="row" class="col-width-35">Phone</th>
+                      <th scope="row">Phone</th>
                       <td>{{ contact.Phone }}</td>
                     </tr>
                     <tr>
-                      <th scope="row" class="col-width-35">Home Phone</th>
+                      <th scope="row">Home Phone</th>
                       <td>{{ contact.HomePhone }}</td>
                     </tr>
                     <tr>
-                      <th scope="row" class="col-width-35">Mobile</th>
+                      <th scope="row">Mobile</th>
                       <td>{{ contact.MobilePhone }}</td>
                     </tr>
                     <tr>
-                      <th scope="row" class="col-width-35">Other Phone</th>
+                      <th scope="row">Other Phone</th>
                       <td>{{ contact.OtherPhone }}</td>
                     </tr>
                     <tr>
-                      <th scope="row" class="col-width-35">Fax</th>
+                      <th scope="row">Fax</th>
                       <td>{{ contact.Fax }}</td>
                     </tr>
                     <tr>
-                      <th scope="row" class="col-width-35">Email</th>
+                      <th scope="row">Email</th>
                       <td>{{ contact.Email }}</td>
                     </tr>
                     <tr>
-                      <th scope="row" class="col-width-35">Assistant</th>
+                      <th scope="row">Assistant</th>
                       <td>{{ contact.AssistantName }}</td>
                     </tr>
                     <tr>
-                      <th scope="row" class="col-width-35">Asst. Phone</th>
+                      <th scope="row">Asst. Phone</th>
                       <td>{{ contact.AssistantPhone }}</td>
                     </tr>
 
@@ -626,54 +623,54 @@
           >
             <div class="card-body row">
               <div class="col-md-6">
-                <table class="table table-bordered">
+                <table class="rwd_auto">
                   <thead>
                     <tr></tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <th scope="row" class="col-width-35">Mailing Street</th>
+                      <th scope="row">Mailing Street</th>
                       <td>{{ contact.MailingStreet }}</td>
                     </tr>
                     <tr>
-                      <th scope="row" class="col-width-35">Mailing City</th>
+                      <th scope="row">Mailing City</th>
                       <td>{{ contact.MailingCity }}</td>
                     </tr>
                     <tr>
-                      <th scope="row" class="col-width-35">Mailing State/Province</th>
+                      <th scope="row">Mailing State/ Province</th>
                       <td>{{ contact.MailingState}}</td>
                     </tr>
                     <tr>
-                      <th scope="row" class="col-width-35">Mailing Zip/Postal Code</th>
+                      <th scope="row">Mailing Zip/Postal Code</th>
                       <td>{{ contact.MailingPostalCode }}</td>
                     </tr>
                     <tr>
-                      <th scope="row" class="col-width-35">Mailing Country</th>
+                      <th scope="row">Mailing Country</th>
                       <td>{{ contact.MailingCountry }}</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
               <div class="col-md-6">
-                <table class="table table-bordered">
+                <table class="rwd_auto">
                   <thead>
                     <tr></tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <th scope="row" class="col-width-35">Other Street</th>
+                      <th scope="row">Other Street</th>
                       <td>{{ contact.OtherStreet }}</td>
                     </tr>
                     <tr>
-                      <th scope="row" class="col-width-35">Other City</th>
+                      <th scope="row">Other City</th>
                       <td>{{ contact.OtherCity }}</td>
                     </tr>
                     <tr>
-                      <th scope="row" class="col-width-35">Other Zip/Postal Code</th>
+                      <th scope="row">Other Zip/Postal Code</th>
                       <td>{{ contact.OtherPostalCode }}</td>
                     </tr>
                     <tr>
-                      <th scope="row" class="col-width-35">Other Country</th>
+                      <th scope="row">Other Country</th>
                       <td>{{ contact.OtherCountry }}</td>
                     </tr>
                   </tbody>
@@ -704,26 +701,26 @@
           >
             <div class="card-body row">
               <div class="col-md-6">
-                <table class="table table-bordered">
+                <table class="rwd_auto">
                   <thead>
                     <tr></tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <th scope="row" class="col-width-35">Languages</th>
+                      <th scope="row">Languages</th>
                       <td>{{ contact.Languages__c }}</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
               <div class="col-md-6">
-                <table class="table table-bordered">
+                <table class="rwd_auto">
                   <thead>
                     <tr></tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <th scope="row" class="col-width-35">Level</th>
+                      <th scope="row">Level</th>
                       <td>{{ contact.Level__c}}</td>
                     </tr>
                   </tbody>
@@ -754,13 +751,13 @@
           >
             <div class="card-body row">
               <div class="col-md-12">
-                <table class="table table-bordered">
+                <table class="rwd_auto">
                   <thead>
                     <tr></tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <th scope="row" class="col-width-15">Description</th>
+                      <th scope="row">Description</th>
                       <td>{{ contact.Description }}</td>
                     </tr>
                   </tbody>

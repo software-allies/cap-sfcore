@@ -112,15 +112,15 @@
 
                   <div class="form-group col-md-12">
                     <label for="inputCampainId">Primary Campaign Source</label>
-                    <ngx-dropdown-list 
-                      (selectionChange)="selectionContactChanged($event)" 
+                    <ngx-dropdown-list
+                      (selectionChange)="selectionContactChanged($event)"
                       [items]="contactsName"
-                      [multiSelection]="false" 
+                      [multiSelection]="false"
                       [placeHolder]="'Primary Campaign Source'"
                       [(selectedValue)]="contactName"
-                      [suffixText]="'Campaing'" 
+                      [suffixText]="'Campaing'"
                       [filterBox]="true"
-                      [formatNumber]="true" 
+                      [formatNumber]="true"
                       [disabled]="false">
                     </ngx-dropdown-list>Ï
                     <!-- <ngx-select-dropdown (change)="selectionContactChanged($event)" formControlName="contactName"
@@ -209,15 +209,15 @@
         <div class="form-row text-center mt-2">
           <div class="col-md-6">
             <button *ngIf="updateOpportunity" (click)="onSubmit(true)"
-              class="btn btn-outline-dark mt-1 mb-1">Submit</button>
+              class="btn btn-outline-dark action-button mt-1 mb-1">Submit</button>
             <button *ngIf="createOpportunity" (click)="onSubmit(false)"
-              class="btn btn-outline-dark mt-1 mb-1">Submit</button>
+              class="btn btn-outline-dark action-button mt-1 mb-1">Submit</button>
           </div>
           <div class="col-md-6">
             <button *ngIf="createOpportunity" type="button" (click)="cancelAction(true)"
-              class="btn btn-outline-dark mt-1 mb-1">Cancel</button>
+              class="btn btn-outline-dark action-button mt-1 mb-1">Cancel</button>
             <button *ngIf="updateOpportunity" type="button" (click)="cancelAction()"
-              class="btn btn-outline-dark mt-1 mb-1">Cancel</button>
+              class="btn btn-outline-dark action-button mt-1 mb-1">Cancel</button>
           </div>
         </div>
       </form>
@@ -256,68 +256,68 @@
               data-parent="#accordion">
               <div class="card-body row">
                 <div class="col-md-6">
-                  <table class="table table-bordered">
+                  <table class="rwd_auto">
                     <thead>
                       <tr></tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <th scope="row" class="col-width-35" class="col-width-35">Opportunity Name</th>
-                        <td>{{ opportunity.Name  }}</td>
+                        <th scope="row">Opportunity Name</th>
+                        <td>{{ opportunity.Name }}</td>
                       </tr>
                       <tr>
-                        <th scope="row" class="col-width-35">Private</th>
+                        <th scope="row">Private</th>
                         <td>{{ opportunity.IsPrivate }}</td>
                       </tr>
                       <tr>
-                        <th scope="row" class="col-width-35">Account Name</th>
-                        <td>{{ LookUpAccountName(opportunity.AccountId) }} </td>
+                        <th scope="row">Account Name</th>
+                        <td>{{LookUpAccountName(opportunity.AccountId)}} </td>
                         <!-- <td>{{ LookUpAccountName(opportunity.SfId) }} </td> -->
                       </tr>
                       <tr>
-                        <th scope="row" class="col-width-35">Type</th>
+                        <th scope="row">Type</th>
                         <td>{{ opportunity.Type }}</td>
                       </tr>
                       <tr>
-                        <th scope="row" class="col-width-35">Lead Source</th>
+                        <th scope="row">Lead Source</th>
                         <td>{{ opportunity.LeadSource }}</td>
                       </tr>
                       <tr>
                       <tr>
-                        <th scope="row" class="col-width-35">Primary Campaign Source</th>
+                        <th scope="row">Primary Campaign Source</th>
                         <td>{{ LookUpCampaignId(opportunity.CampaignId) }}</td>
                       </tr>
                     </tbody>
                   </table>
                 </div>
-                <div class="col-md 6">
-                  <table class="table table-bordered">
+                <div class="col-md-6">
+                  <table class="rwd_auto">
                     <thead>
                       <tr></tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <th scope="row" class="col-width-35">Expected Revenue</th>
+                        <th scope="row">Expected Revenue</th>
                         <td>{{ opportunity.ExpectedRevenue }}</td>
                       </tr>
                       <tr>
-                        <th scope="row" class="col-width-35">Amount</th>
+                        <th scope="row">Amount</th>
                         <td>{{ opportunity.Amount }}</td>
                       </tr>
                       <tr>
-                        <th scope="row" class="col-width-35">Close Date</th>
+                        <th scope="row">Close Date</th>
                         <td>{{ opportunity.CloseDate | date : 'MM/dd/yyyy' : 'UTC/GMT'}}</td>
                       </tr>
                       <tr>
-                        <th scope="row" class="col-width-35">Next Step</th>
+                        <th scope="row">Next Step</th>
                         <td>{{ opportunity.NextStep }}</td>
                       </tr>
                       <tr>
-                        <th scope="row" class="col-width-35">Stage</th>
+                        <th scope="row">Stage</th>
                         <td>{{ opportunity.StageName }}</td>
                       </tr>
                       <tr>
-                        <th scope="row" class="col-width-35">Probability (%)</th>
+                        <th scope="row">Probability (%)</th>
                         <td>{{ opportunity.Probability }}%</td>
                       </tr>
                     </tbody>
@@ -340,38 +340,38 @@
               data-parent="#accordion">
               <div class="card-body row">
                 <div class="col-md-6">
-                  <table class="table table-bordered">
+                  <table class="rwd_auto">
                     <thead>
                       <tr></tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <th scope="row" class="col-width-35">Order Number</th>
+                        <th scope="row">Order Number</th>
                         <td>{{ opportunity.OrderNumber__c }}</td>
                       </tr>
                       <tr>
-                        <th scope="row" class="col-width-35">Current Generator(s)</th>
+                        <th scope="row">Current Generator(s)</th>
                         <td>{{ opportunity.CurrentGenerators__c }}</td>
                       </tr>
                       <tr>
-                        <th scope="row" class="col-width-35">Tracking Number</th>
+                        <th scope="row">Tracking Number</th>
                         <td>{{ opportunity.TrackingNumber__c }}</td>
                       </tr>
                     </tbody>
                   </table>
                 </div>
-                <div class="col-md 6">
-                  <table class="table table-bordered">
+                <div class="col-md-6">
+                  <table class="rwd_auto">
                     <thead>
                       <tr></tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <th scope="row" class="col-width-35">Main Competitor(s)</th>
+                        <th scope="row">Main Competitor(s)</th>
                         <td>{{ opportunity.MainCompetitors__c }}</td>
                       </tr>
                       <tr>
-                        <th scope="row" class="col-width-35">Delivery/Installation Status</th>
+                        <th scope="row">Delivery/ Installation Status</th>
                         <td>{{ opportunity.DeliveryInstallationStatus__c }}</td>
                       </tr>
                     </tbody>
@@ -392,13 +392,13 @@
             <div id="collapseDescription" class="collapse show" aria-labelledby="headingFour" data-parent="#accordion">
               <div class="card-body">
                 <div class="col-md-12">
-                  <table class="table table-bordered">
+                  <table class="rwd_auto">
                     <thead>
                       <tr></tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <th scope="row" class="col-width-15">Description</th>
+                        <th scope="row">Description</th>
                         <td>{{ opportunity.Description }}</td>
                       </tr>
                     </tbody>

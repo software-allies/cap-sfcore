@@ -538,12 +538,12 @@
         </div>
         <div class="form-row text-center mt-3">
           <div class="col-md-6">
-            <button *ngIf="updateAccount" (click)="onSubmit(true)" class="btn btn-outline-dark mt-1 mb-1">Submit</button>
-            <button *ngIf="createAccount" (click)="onSubmit(false)" class="btn btn-outline-dark mt-1 mb-1">Submit</button>
+            <button *ngIf="updateAccount" (click)="onSubmit(true)" class="btn btn-outline-dark action-button mt-1 mb-1">Submit</button>
+            <button *ngIf="createAccount" (click)="onSubmit(false)" class="btn btn-outline-dark action-button mt-1 mb-1">Submit</button>
           </div>
           <div class="col-md-6">
-            <button *ngIf="createAccount" type="button" (click)="cancelAction(true)" class="btn btn-outline-dark mt-1 mb-1">Cancel</button>
-            <button *ngIf="updateAccount" type="button" (click)="cancelAction()" class="btn btn-outline-dark mt-1 mb-1">Cancel</button>
+            <button *ngIf="createAccount" type="button" (click)="cancelAction(true)" class="btn btn-outline-dark action-button mt-1 mb-1">Cancel</button>
+            <button *ngIf="updateAccount" type="button" (click)="cancelAction()" class="btn btn-outline-dark action-button mt-1 mb-1">Cancel</button>
           </div>
         </div>
       </form>
@@ -551,7 +551,7 @@
   </div>
 
   <!-- VIEW -->
-<div class="record-detail" *ngIf="viewAccount">
+<div *ngIf="viewAccount">
   <div class="col-lg-12">
     <div class="row mt-3 mb-3">
       <div class="col-6 text-center">
@@ -592,7 +592,7 @@
           <div class="card-body row">
 
             <div class="col-md-6">
-              <table class="table table-bordered">
+              <table class="rwd_auto">
                 <thead>
                   <tr></tr>
                 </thead>
@@ -630,42 +630,41 @@
             </div>
 
             <div class="col-md-6">
-              <table class="table table-bordered">
+              <table class="rwd_auto">
                 <thead>
                   <tr></tr>
                 </thead>
                 <tbody>
-
                   <tr>
-                    <th scope="row" class="col-width-35">Rating</th>
+                    <th scope="row">Rating</th>
                     <td>{{ account.Rating }}</td>
                   </tr>
                   <tr>
-                    <th scope="row" class="col-width-35">Phone</th>
+                    <th scope="row">Phone</th>
                     <td>{{ account.Phone }}</td>
                   </tr>
                   <tr>
-                    <th scope="row" class="col-width-35">Fax</th>
+                    <th scope="row">Fax</th>
                     <td>{{ account.Fax }}</td>
                   </tr>
                   <tr>
-                    <th scope="row" class="col-width-35">Website</th>
+                    <th scope="row">Website</th>
                     <td>{{ account.Website }}</td>
                   </tr>
                   <tr>
-                    <th scope="row" class="col-width-35">Ownership</th>
+                    <th scope="row">Ownership</th>
                     <td>{{ account.Ownership }}</td>
                   </tr>
                   <tr>
-                    <th scope="row" class="col-width-35">Ticker Symbol</th>
+                    <th scope="row">Ticker Symbol</th>
                     <td>{{ account.TickerSymbol }}</td>
                   </tr>
                   <tr>
-                    <th scope="row" class="col-width-35">Employees</th>
+                    <th scope="row">Employees</th>
                     <td>{{ account.NumberOfEmployees }}</td>
                   </tr>
                   <tr>
-                    <th scope="row" class="col-width-35">SIC Code</th>
+                    <th scope="row">SIC Code</th>
                     <td>{{ account.Sic }}</td>
                   </tr>
                 </tbody>
@@ -697,31 +696,30 @@
         >
           <div class="card-body row">
 
-
               <div class="col-md-6">
-                <table class="table table-bordered">
+                <table class="rwd_auto">
                   <thead>
                     <tr></tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <th scope="row" class="col-width-35">Billing Street</th>
+                      <th scope="row">Billing Street</th>
                       <td>{{ account.BillingStreet }}</td>
                     </tr>
                     <tr>
-                      <th scope="row" class="col-width-35">Billing City</th>
+                      <th scope="row">Billing City</th>
                       <td>{{ account.BillingCity }}</td>
                     </tr>
                     <tr>
-                      <th scope="row" class="col-width-35">Billing State/Province</th>
+                      <th scope="row">Billing State/ Province</th>
                       <td>{{ account.BillingState }}</td>
                     </tr>
                     <tr>
-                      <th scope="row" class="col-width-35">Billing Zip/Postal Code</th>
+                      <th scope="row">Billing Zip/Postal Code</th>
                       <td>{{ account.BillingPostalCode }}</td>
                     </tr>
                     <tr>
-                      <th scope="row" class="col-width-35">Billing Country</th>
+                      <th scope="row">Billing Country</th>
                       <td>{{ account.BillingCountry }}</td>
                     </tr>
                   </tbody>
@@ -729,30 +727,30 @@
               </div>
 
               <div class="col-md-6">
-                <table class="table table-bordered">
+                <table class="rwd_auto">
                   <thead>
                     <tr></tr>
                   </thead>
                   <tbody>
 
                     <tr>
-                      <th scope="row" class="col-width-35">Shipping City</th>
+                      <th scope="row">Shipping City</th>
                       <td>{{ account.ShippingCity }}</td>
                     </tr>
                     <tr>
-                      <th scope="row" class="col-width-35">Shipping State/Province</th>
+                      <th scope="row">Shipping State/ Province</th>
                       <td>{{ account.ShippingState }}</td>
                     </tr>
                     <tr>
-                      <th scope="row" class="col-width-35">Shipping Zip/Postal Code</th>
+                      <th scope="row">Shipping Zip/Postal Code</th>
                       <td>{{ account.ShippingPostalCode }}</td>
                     </tr>
                     <tr>
-                      <th scope="row" class="col-width-35">Shipping Country</th>
+                      <th scope="row">Shipping Country</th>
                       <td>{{ account.ShippingCountry }}</td>
                     </tr>
                     <tr>
-                      <th scope="row" class="col-width-35">Shipping Street</th>
+                      <th scope="row">Shipping Street</th>
                       <td>{{ account.ShippingStreet }}</td>
                     </tr>
 
@@ -786,25 +784,25 @@
           <div class="card-body row">
 
             <div class="col-md-6">
-              <table class="table table-bordered">
+              <table class="rwd_auto">
                 <thead>
                   <tr></tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <th scope="row" class="col-width-35">Customer Priority</th>
+                    <th scope="row">Customer Priority</th>
                     <td>{{ account.CustomerPriority__c }}</td>
                   </tr>
                   <tr>
-                    <th scope="row" class="col-width-35">SLA Expiration Date</th>
+                    <th scope="row">SLA Expiration Date</th>
                     <td>{{ account.SLAExpirationDate__c | date :'MM/dd/yyyy' : 'UTC/GMT' }}</td>
                   </tr>
                   <tr>
-                    <th scope="row" class="col-width-35">Number of Locations</th>
+                    <th scope="row">Number of Locations</th>
                     <td>{{ account.NumberofLocations__c }}</td>
                   </tr>
                   <tr>
-                    <th scope="row" class="col-width-35">Active</th>
+                    <th scope="row">Active</th>
                     <td>{{ account.Active__c }}</td>
                   </tr>
                 </tbody>
@@ -812,21 +810,21 @@
             </div>
 
             <div class="col-md-6">
-              <table class="table table-bordered">
+              <table class="rwd_auto">
                 <thead>
                   <tr></tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <th scope="row" class="col-width-35">SLA</th>
+                    <th scope="row">SLA</th>
                     <td>{{ account.SLA__c }}</td>
                   </tr>
                   <tr>
-                    <th scope="row" class="col-width-35">SLA Serial Number</th>
+                    <th scope="row">SLA Serial Number</th>
                     <td>{{ account.SLASerialNumber__c }}</td>
                   </tr>
                   <tr>
-                    <th scope="row" class="col-width-35">Upsell Opportunity</th>
+                    <th scope="row">Upsell Opportunity</th>
                     <td>{{ account.UpsellOpportunity__c }}</td>
                   </tr>
                 </tbody>
@@ -859,13 +857,13 @@
           <div class="card-body row">
 
             <div class="col-md-12">
-              <table class="table table-bordered">
+              <table class="rwd_auto">
                 <thead>
                   <tr></tr>
                 </thead>
                 <tbody>
                     <tr>
-                      <th scope="row" class="col-width-15">Description</th>
+                      <th scope="row">Description</th>
                       <td>{{ account.Description }}</td>
                     </tr>
                 </tbody>
