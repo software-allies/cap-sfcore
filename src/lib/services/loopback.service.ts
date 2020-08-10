@@ -41,9 +41,9 @@ export class LoopbackService {
   }
 
   getAllRequest(tableName: string, searchText: string, attributeSelected: string, applySearchBy: boolean = false, offset: number = 0) {
-    const order = tableName === 'Accounts' || tableName === 'Opportunitys'
+    /*const order = tableName === 'Accounts' || tableName === 'Opportunitys'
       ? 'Name'
-      : 'FirstName';
+      : 'FirstName';*/
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -55,9 +55,9 @@ export class LoopbackService {
 
     if (applySearchBy) {
       const regexp = `/${searchText}/i`;
-      query = `filter={"where":{"and":[{"SACAP__UUID__c":{"nlike":"null"}},{"${attributeSelected}":{"regexp":"${regexp}"}}]},"order":"${order}","limit":${this.limit},"offset":${offset}}`;
+      query = `filter={"where":{"and":[{"SACAP__UUID__c":{"nlike":"null"}},{"${attributeSelected}":{"regexp":"${regexp}"}}]},"order":"${attributeSelected}","limit":${this.limit},"offset":${offset}}`;
     } else {
-      query = `filter={"where":{"SACAP__UUID__c": {"nlike": "null" }},"order":"${order}","limit":${this.limit},"offset":${offset}}`;
+      query = `filter={"where":{"SACAP__UUID__c": {"nlike": "null" }},"order":"${attributeSelected}","limit":${this.limit},"offset":${offset}}`;
     }
     return this.http.get(`${this.url}/${tableName}?${query}`, httpOptions);
   }
