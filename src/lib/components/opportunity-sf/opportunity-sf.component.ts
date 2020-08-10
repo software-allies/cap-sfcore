@@ -10,17 +10,50 @@ import { v4 as uuidv4 } from 'uuid';
   selector: 'app-opportunity-sf',
   templateUrl: './opportunity-sf.component.html',
   styles: [`
-    .col-width-35 {
-      width: 35%;
+  .record-detail {
+  }
+  table {
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+  table.rwd_auto {
+    width: 100%;
+  }
+  .rwd_auto th {
+    text-align: left;
+    width: 45%;
+    padding-top: .5em;
+    padding-bottom: .5em;
+    border-bottom:1px solid #dee2e6;
+    word-wrap: break-word;
+  }
+  .rwd_auto td {
+    text-align: left;
+    padding-top: .5em;
+    padding-bottom: .5em;
+    padding-left: .5em;
+    border-bottom:1px solid #dee2e6;
+    word-wrap: break-word;
+  }
+  .action-button {
+    min-width: 100px;
+  }
+
+  /* Mobile ----------- */
+	@media (max-width: 374px) {
+    .rwd_auto {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .rwd_auto th {
+      text-align: left;
+      width: 45%;
     }
 
-    .col-width-25 {
-      width: 25%;
+    table.special td{
+      padding-left:1.9em !important;
     }
-
-    .col-width-15{
-      width: 17%; 
-    }
+  }
   `]
 })
 
@@ -94,7 +127,7 @@ export class OpportunitySFComponent implements OnInit {
   currentContact: string = '';
 
   contactName: string = '';
-  
+
   constructor(
     private activateRoute: ActivatedRoute,
     private router: Router,
@@ -149,7 +182,7 @@ export class OpportunitySFComponent implements OnInit {
     });
     this.loopbackService.getLookUp('Contacts').subscribe((contacts: Array<{ any }>) => {
       this.lookUpContact = contacts;
-      
+
       this.contactsName = this.lookUpContact.map(contact => {
         console.log('this.contactsName: ', this.contactsName);
         if(contact.SfId === this.opportunity.CampaignId){
@@ -159,8 +192,8 @@ export class OpportunitySFComponent implements OnInit {
 
         }
         let data = {
-          id: contact.id, 
-          value: contact.SfId, 
+          id: contact.id,
+          value: contact.SfId,
           text: contact.Name
         }
 
@@ -270,7 +303,7 @@ export class OpportunitySFComponent implements OnInit {
   }
 
   onSubmit(updateOrcreate?: boolean) {
-    
+
     if (!this.contactIDSalesforce || this.contactIDSalesforce === null) {
       this.contactIDSalesforce = this.opportunity.CampaignId;
     }
@@ -341,7 +374,7 @@ export class OpportunitySFComponent implements OnInit {
   selectionContactChanged(event: any) {
     console.log('event: ', event);
     return this.contactIDSalesforce = event ? event : ''
-    
+
   }
 
 }
