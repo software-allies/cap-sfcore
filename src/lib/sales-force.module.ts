@@ -19,6 +19,7 @@ import { IConfig } from './interfaces/config.interface';
 
 import { NgxPaginationModule } from 'ngx-pagination';
 import { DropdownListModule } from 'ngx-dropdown-list';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 @NgModule({
@@ -33,7 +34,10 @@ import { DropdownListModule } from 'ngx-dropdown-list';
   imports: [
     FormsModule,
     CommonModule,
+    
     DropdownListModule,
+    NgSelectModule,
+    
     ReactiveFormsModule,
     NgxPaginationModule,
     LoopbackRoutingModule,

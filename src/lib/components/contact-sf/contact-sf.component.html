@@ -50,7 +50,17 @@
                   </div>
                   <div class="form-group col-md-6">
                     <label for="inputSalutation">Account Name</label>
-                    <select
+                    <ng-select
+                      [items]="lookUpAccount"
+                      bindLabel="text"
+                      bindValue="value"
+                      labelForId="state"
+                      [multiple]="false"
+                      placeholder="Select Account"
+                      clearAllText="Clear"
+                      formControlName="accountId">
+                    </ng-select>
+                    <!-- <select
                       formControlName="accountId"
                       id="inputSalutation"
                       class="form-control"
@@ -64,7 +74,7 @@
                         class="form-control"
                         >{{ account.Name }}</option
                       >
-                    </select>
+                    </select> -->
                   </div>
 
                 </div>
@@ -128,7 +138,28 @@
                 <div class="form-row">
                   <div class="form-group col-md-6">
                     <label for="inputReportsTo">Reports To</label>
-                    <select
+                    <ng-select
+                      [items]="lookUpContact"
+                      bindLabel="text"
+                      bindValue="value"
+                      labelForId="state"
+                      [multiple]="false"
+                      placeholder="Select Reports To"
+                      clearAllText="Clear"
+                      formControlName="reportsToId">
+                    </ng-select>
+                    <!-- <ngx-dropdown-list 
+                      (selectionChange)="selectionContactChanged($event)" 
+                      [items]="lookUpContact"
+                      [multiSelection]="false" 
+                      [placeHolder]="contactName"
+                      [(selectedValue)]="contactName"
+                      [suffixText]="'Contact'" 
+                      [filterBox]="true"
+                      [formatNumber]="true" 
+                      [disabled]="false">
+                    </ngx-dropdown-list> -->
+                    <!-- <select
                       formControlName="reportsToId"
                       id="inputReportsTo"
                       class="form-control"
@@ -142,7 +173,7 @@
                         class="form-control"
                         >{{ contact.Salutation }} {{ contact.FirstName }} {{ contact.LastName }}</option
                       >
-                    </select>
+                    </select> -->
                   </div>
                   <div class="form-group col-md-6">
                     <label for="inputLeadSource">Lead Source</label>

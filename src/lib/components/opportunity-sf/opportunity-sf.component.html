@@ -28,14 +28,16 @@
 
                   <div class="form-group col-md-6">
                     <label for="inputSalutation">Account Name</label>
-                    <!-- <ngx-select-dropdown (change)="selectionAccountChanged($event)" formControlName="accountName"
-                      [config]="config" [options]="accountsName"></ngx-select-dropdown> -->
-
-                    <!-- <select formControlName="accountId" id="inputSalutation" class="form-control">
-                      <option value="" selected disabled hidden>Choose here</option>
-                      <option *ngFor="let account of lookUpAccount" value="{{ account.SfId }}" class="form-control">
-                        {{ account.Name }}</option>
-                    </select> -->
+                    <ng-select
+                      [items]="accounts"
+                      bindLabel="name"
+                      bindValue="sfID"
+                      labelForId="state"
+                      [multiple]="false"
+                      placeholder="Select account"
+                      clearAllText="Clear"
+                      formControlName="accountId">
+                    </ng-select>
                   </div>
                 </div>
                 <div class="form-row ">
@@ -102,34 +104,21 @@
                       'is-invalid': form.controls.probability.errors
                     }" type="text" class="form-control" id="inputProbability" formControlName="probability" />
                   </div>
-                  <!-- <select formControlName="campaignId" id="inputCampainId" class="form-control">
-                      <option value="" selected disabled hidden>Choose here</option>
-                      <option *ngFor="let contact of lookUpContact" value="{{ contact.SfId }}" class="form-control">
-                        {{ contact.Name }}</option>
-                    </select> -->
                 </div>
                 <div class="form-row">
 
                   <div class="form-group col-md-12">
                     <label for="inputCampainId">Primary Campaign Source</label>
-                    <ngx-dropdown-list 
-                      (selectionChange)="selectionContactChanged($event)" 
-                      [items]="contactsName"
-                      [multiSelection]="false" 
-                      [placeHolder]="'Primary Campaign Source'"
-                      [(selectedValue)]="contactName"
-                      [suffixText]="'Campaing'" 
-                      [filterBox]="true"
-                      [formatNumber]="true" 
-                      [disabled]="false">
-                    </ngx-dropdown-list>Ï
-                    <!-- <ngx-select-dropdown (change)="selectionContactChanged($event)" formControlName="contactName"
-                      [config]="config" [options]="contactsName"></ngx-select-dropdown> -->
-                    <!-- <select formControlName="campaignId" id="inputCampainId" class="form-control">
-                      <option value="" selected disabled hidden>Choose here</option>
-                      <option *ngFor="let contact of lookUpContact" value="{{ contact.SfId }}" class="form-control">
-                        {{ contact.Name }}</option>
-                    </select> -->
+                    <ng-select
+                      [items]="contacts"
+                      bindLabel="name"
+                      bindValue="sfID"
+                      labelForId="state"
+                      [multiple]="false"
+                      placeholder="Select Campaign"
+                      clearAllText="Clear"
+                      formControlName="campaignId">
+                    </ng-select>
                   </div>
                 </div>
                 <div class="form-group form-check">
@@ -391,7 +380,7 @@
             </div>
             <div id="collapseDescription" class="collapse show" aria-labelledby="headingFour" data-parent="#accordion">
               <div class="card-body">
-                <div class="col-md-12">
+                <div class="col-md-12 p-0">
                   <table class="table table-bordered">
                     <thead>
                       <tr></tr>

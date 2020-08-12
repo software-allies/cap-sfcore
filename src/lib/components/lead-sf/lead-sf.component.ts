@@ -10,17 +10,7 @@ import { v4 as uuidv4 } from 'uuid';
   selector: 'app-lead-sf',
   templateUrl: './lead-sf.component.html',
   styles: [`
-  .col-width-35 {
-    width: 35%;
-  }
-
-  .col-width-25 {
-    width: 25%;
-  }
-
-  .col-width-15{
-    width: 17%; 
-  }
+  
   `]
 })
 export class LeadSFComponent implements OnInit {

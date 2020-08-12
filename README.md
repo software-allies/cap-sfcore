@@ -32,9 +32,17 @@ you also need to install `uuid` to generate universal unique identifiers for you
 npm i uuid --save 
 ```
 
-The CAP-SFCORE uses a dropdown list that includes a search option, to be able to use it please install the following dependency
+The CAP-SFCORE uses a dropdown list that includes a search option, to be able to use it please install the following dependency.
+To learn more about how the dropdown list works follow the [link](https://www.npmjs.com/package/@ng-select/ng-select/v/3.5.0#getting-started). 
 ```
-npm i ngx-select-dropdown --save
+npm install --save @ng-select/ng-select
+```
+
+After to install the **ng-select** package, add the following code into your stylesheet:
+```
+@import "~@ng-select/ng-select/themes/default.theme.css";
+// ... or  
+@import "~@ng-select/ng-select/themes/material.theme.css";
 ```
 
 Finally, you also have to install `sweetalert2` for some security animations and alerts that will appear when creating a record or also when deleting and confirming the deletion of the record.

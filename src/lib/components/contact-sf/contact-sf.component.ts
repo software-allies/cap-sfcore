@@ -11,17 +11,7 @@ import { v4 as uuidv4 } from 'uuid';
   templateUrl: './contact-sf.component.html',
   styles: [`
  
-  .col-width-35 {
-    width: 35%;
-  }
-
-  .col-width-25 {
-    width: 25%;
-  }
-
-  .col-width-15{
-    width: 17%; 
-  }
+  
   `]
 })
 export class ContactSFComponent implements OnInit {
@@ -47,8 +37,8 @@ export class ContactSFComponent implements OnInit {
   viewContact: boolean;
   status: boolean;
 
-  lookUpAccount: any;
-  lookUpContact: any;
+  lookUpAccount: any[] = [];
+  lookUpContact: any[] = [];
 
   constructor(
     private activateRoute: ActivatedRoute,
@@ -74,7 +64,7 @@ export class ContactSFComponent implements OnInit {
     if (this.location.prepareExternalUrl(this.location.path()).split('/')[2] === 'create') {
       this.createForm();
     } else {
-      this.activateRoute.params.subscribe((params: {id: string, status?: string}) => {
+      this.activateRoute.params.subscribe((params: { id: string, status?: string }) => {
         this.getObject(params.id);
         this.status = params.status === 'update' ? true : false;
       });
@@ -85,6 +75,7 @@ export class ContactSFComponent implements OnInit {
   getObject(sfid: string) {
     this.loopbackService.getRecordWithFindOne(this.objectAPI, sfid).subscribe((object: any) => {
       this.contact = object;
+    
       this.viewContact = object ? true : false;
       if (this.status) {
         this.createForm(object);
@@ -93,11 +84,25 @@ export class ContactSFComponent implements OnInit {
   }
 
   getLookUps() {
-    this.loopbackService.getLookUp('Accounts').subscribe((accounts: Array<{any}>) => {
-      this.lookUpAccount = accounts;
+    this.loopbackService.getLookUp('Accounts').subscribe((accounts: Array<{ any }>) => {
+      this.lookUpAccount = accounts.map((account: any) => {
+        let data = {
+          id: account.id,
+          value: account.SfId,
+          text: account.Name
+        }
+        return data;
+      });
     });
-    this.loopbackService.getLookUp('Contacts').subscribe((contacts: Array<{any}>) => {
-      this.lookUpContact = contacts;
+    this.loopbackService.getLookUp('Contacts').subscribe((contacts: Array<{ any }>) => {
+      this.lookUpContact = contacts.map((contact:any) => {
+        let data = {
+          id: contact.id,
+          value: contact.SfId,
+          text: contact.Name
+        }
+        return data;
+      });
     });
   }
 
@@ -119,15 +124,14 @@ export class ContactSFComponent implements OnInit {
   }
 
   LookUpAccountName(AccountId: string): string {
-    return  this.lookUpAccount && AccountId && this.lookUpAccount.find(x => x.SfId === AccountId) ?
-            this.lookUpAccount.find(x => x.SfId === AccountId).Name
-            : '';
+    return this.lookUpAccount && AccountId && this.lookUpAccount.find(x => x.value === AccountId) ? this.lookUpAccount.find(x => x.value === AccountId).text
+      : '';
   }
 
   LookUpReportsTo(ReportsToId: string): string {
-    if (this.lookUpContact && ReportsToId && this.lookUpContact.find(x => x.SfId === ReportsToId)) {
-      const contact = this.lookUpContact.find(x => x.SfId === ReportsToId);
-      return contact.FirstName + ' ' + contact.LastName;
+    if (this.lookUpContact && ReportsToId && this.lookUpContact.find(x => x.value === ReportsToId)) {
+      const contact = this.lookUpContact.find(x => x.value === ReportsToId);
+      return contact.text ;
     }
     return '';
     /*return  this.lookUpContact && ReportsToId && this.lookUpContact.find(x => x.SfId === ReportsToId) ?
@@ -276,6 +280,4 @@ export class ContactSFComponent implements OnInit {
       this.isInvalid = true;
     }
   }
-
-
 }
