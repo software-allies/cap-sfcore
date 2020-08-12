@@ -120,12 +120,7 @@ export class OpportunitySFComponent implements OnInit {
     searchOnKey: 'name', // key on which search should be performed this will be selective search. if undefined this will be extensive search on all keys
     clearOnSelection: false, // clears search criteria when an option is selected if set to true, default is false
     inputDirection: 'ltr' // the direction of the search input can be rtl or ltr(default)
-  }
-
-<<<<<<< HEAD
-  contactName: string = '';
-=======
->>>>>>> feature/dropdown-list
+  };
 
   constructor(
     private activateRoute: ActivatedRoute,
@@ -183,30 +178,14 @@ export class OpportunitySFComponent implements OnInit {
     });
     this.loopbackService.getLookUp('Contacts').subscribe((contacts: Array<{ any }>) => {
       this.lookUpContact = contacts;
-<<<<<<< HEAD
-
-      this.contactsName = this.lookUpContact.map(contact => {
-        console.log('this.contactsName: ', this.contactsName);
-        if(contact.SfId === this.opportunity.CampaignId){
-          console.log('contact.SfId: ', contact.SfId);
-          console.log('contactName: ', this.contactName);
-          this.contactName = contact.Name;
-=======
       this.contacts = this.lookUpContact.map(contact => {
->>>>>>> feature/dropdown-list
-
         let data = {
           id: contact.id,
-<<<<<<< HEAD
-          value: contact.SfId,
-          text: contact.Name
-=======
           sfID: contact.SfId,
           name: contact.Name
->>>>>>> feature/dropdown-list
-        }
+        };
         return data;
-      })
+      });
     });
   }
 
@@ -304,17 +283,6 @@ export class OpportunitySFComponent implements OnInit {
   }
 
   onSubmit(updateOrcreate?: boolean) {
-<<<<<<< HEAD
-
-    if (!this.contactIDSalesforce || this.contactIDSalesforce === null) {
-      this.contactIDSalesforce = this.opportunity.CampaignId;
-    }
-    if (!this.accountIDSalesforce || this.accountIDSalesforce === null) {
-      this.accountIDSalesforce = this.opportunity.AccountId;
-    }
-=======
->>>>>>> feature/dropdown-list
-
     if (this.form.valid) {
       this.objectToSend = {
         SACAP__UUID__c: this.form.get('uuid__c').value,
@@ -368,20 +336,4 @@ export class OpportunitySFComponent implements OnInit {
       this.isInvalid = true;
     }
   }
-<<<<<<< HEAD
-
-  selectionAccountChanged(event: any) {
-    let name = event.value
-    if (name) this.accountIDSalesforce = this.lookUpAccount.find(account => account.Name === name).SfId;
-    return ''
-  }
-
-  selectionContactChanged(event: any) {
-    console.log('event: ', event);
-    return this.contactIDSalesforce = event ? event : ''
-
-  }
-
-=======
->>>>>>> feature/dropdown-list
 }

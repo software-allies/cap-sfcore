@@ -109,26 +109,6 @@
 
                   <div class="form-group col-md-12">
                     <label for="inputCampainId">Primary Campaign Source</label>
-<<<<<<< HEAD
-                    <ngx-dropdown-list
-                      (selectionChange)="selectionContactChanged($event)"
-                      [items]="contactsName"
-                      [multiSelection]="false"
-                      [placeHolder]="'Primary Campaign Source'"
-                      [(selectedValue)]="contactName"
-                      [suffixText]="'Campaing'"
-                      [filterBox]="true"
-                      [formatNumber]="true"
-                      [disabled]="false">
-                    </ngx-dropdown-list>Ï
-                    <!-- <ngx-select-dropdown (change)="selectionContactChanged($event)" formControlName="contactName"
-                      [config]="config" [options]="contactsName"></ngx-select-dropdown> -->
-                    <!-- <select formControlName="campaignId" id="inputCampainId" class="form-control">
-                      <option value="" selected disabled hidden>Choose here</option>
-                      <option *ngFor="let contact of lookUpContact" value="{{ contact.SfId }}" class="form-control">
-                        {{ contact.Name }}</option>
-                    </select> -->
-=======
                     <ng-select
                       [items]="contacts"
                       bindLabel="name"
@@ -139,7 +119,6 @@
                       clearAllText="Clear"
                       formControlName="campaignId">
                     </ng-select>
->>>>>>> feature/dropdown-list
                   </div>
                 </div>
                 <div class="form-group form-check">
@@ -401,13 +380,8 @@
             </div>
             <div id="collapseDescription" class="collapse show" aria-labelledby="headingFour" data-parent="#accordion">
               <div class="card-body">
-<<<<<<< HEAD
                 <div class="col-md-12">
                   <table class="rwd_auto">
-=======
-                <div class="col-md-12 p-0">
-                  <table class="table table-bordered">
->>>>>>> feature/dropdown-list
                     <thead>
                       <tr></tr>
                     </thead>
