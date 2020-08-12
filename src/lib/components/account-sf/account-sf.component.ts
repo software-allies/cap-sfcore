@@ -70,39 +70,40 @@ export class AccountSFComponent implements OnInit {
     'Technology Partner',
     'Other'
   ];
-  industryValues: string[] = [
-    'Agriculture',
-    'Apparel',
-    'Banking',
-    'Biotechnology',
-    'Chemicals',
-    'Communications',
-    'Construction',
-    'Consulting',
-    'Education',
-    'Electronics',
-    'Energy',
-    'Engineering',
-    'Entertainment',
-    'Environmental',
-    'Finance',
-    'Food & Beverage',
-    'Government',
-    'Healthcare',
-    'Hospitality',
-    'Insurance',
-    'Machinery',
-    'Manufacturing',
-    'Media',
-    'Not For Profit',
-    'Recreation',
-    'Retail',
-    'Shipping',
-    'Technology',
-    'Telecommunications',
-    'Transportation',
-    'Utilities',
-    'Other'
+  industryValues: any[] = [
+    { id: 'Agriculture', value: 'Agriculture', text: 'Agriculture' },
+    { id: 'Apparel', value: 'Apparel', text: 'Apparel' },
+    { id: 'Banking', value: 'Banking', text: 'Banking' },
+    { id: 'Biotechnology', value: 'Biotechnology', text: 'Biotechnology' },
+    { id: 'Chemicals', value: 'Chemicals', text: 'Chemicals' },
+    { id: 'Communications', value: 'Communications', text: 'Communications' },
+    { id: 'Construction', value: 'Construction', text: 'Construction' },
+    { id: 'Consulting', value: 'Consulting', text: 'Consulting' },
+    { id: 'Education', value: 'Education', text: 'Education' },
+    { id: 'Electronics', value: 'Electronics', text: 'Electronics' },
+    { id: 'Energy', value: 'Energy', text: 'Energy' },
+    { id: 'Engineering', value: 'Engineering', text: 'Engineering' },
+    { id: 'Entertainment', value: 'Entertainment', text: 'Entertainment' },
+    { id: 'Environmental', value: 'Environmental', text: 'Environmental' },
+    { id: 'Finance', value: 'Finance', text: 'Finance' },
+    { id: 'Food & Beverage', value: 'Food & Beverage', text: 'Food & Beverage' },
+    { id: 'Government', value: 'Government', text: 'Government' },
+    { id: 'Healthcare', value: 'Healthcare', text: 'Healthcare' },
+    { id: 'Hospitality', value: 'Hospitality', text: 'Hospitality' },
+    { id: 'Insurance', value: 'Insurance', text: 'Insurance' },
+    { id: 'Machinery', value: 'Machinery', text: 'Machinery' },
+    { id: 'Manufacturing', value: 'Manufacturing', text: 'Manufacturing' },
+    { id: 'Media', value: 'Media', text: 'Media' },
+    { id: 'Not For Profit', value: 'Not For Profit', text: 'Not For Profit' },
+    { id: 'Recreation', value: 'Recreation', text: 'Recreation' },
+    { id: 'Retail', value: 'Retail', text: 'Retail' },
+    { id: 'Shipping', value: 'Shipping', text: 'Shipping' },
+    { id: 'Technology', value: 'Technology', text: 'Technology' },
+    { id: 'Telecommunications', value: 'Telecommunications', text: 'Telecommunications' },
+    { id: 'Transportation', value: 'Transportation', text: 'Transportation' },
+    { id: 'Utilities', value: 'Utilities', text: 'Utilities' },
+    { id: 'Other', value: 'Other', text: 'Other' },
+
   ];
   ratingValues: string[] = ['Hot', 'Warm', 'Cold'];
   ownershipValues: string[] = ['Public', 'Private', 'Subsidiary', 'Other'];
@@ -120,7 +121,8 @@ export class AccountSFComponent implements OnInit {
   objectToSend: any;
   account: any;
 
-  lookUpAccount: any;
+  lookUpAccounts: any;
+
 
   constructor(
     private activateRoute: ActivatedRoute,
@@ -136,14 +138,14 @@ export class AccountSFComponent implements OnInit {
     this.account = {};
     this.objectToSend = {};
     this.objectAPI = 'Accounts';
-    this.lookUpAccount = null;
+    this.lookUpAccounts = null;
   }
 
   ngOnInit() {
     if (this.location.prepareExternalUrl(this.location.path()).split('/')[2] === 'create') {
       this.createForm();
     } else {
-      this.activateRoute.params.subscribe((params: {id: string, status?: string}) => {
+      this.activateRoute.params.subscribe((params: { id: string, status?: string }) => {
         this.getObject(params.id);
         this.status = params.status === 'update' ? true : false;
       });
@@ -162,8 +164,15 @@ export class AccountSFComponent implements OnInit {
   }
 
   getAccountLookUp() {
-    this.loopbackService.getLookUp('Accounts').subscribe((accounts: Array<{any}>) => {
-      this.lookUpAccount = accounts;
+    this.loopbackService.getLookUp('Accounts').subscribe((accounts: Array<{ any }>) => {
+      this.lookUpAccounts = accounts.map((account: any) => {
+        let data = {
+          id: account.id,
+          sfID: account.SfId,
+          name: account.Name
+        }
+        return data;
+      });
     });
   }
 
@@ -185,8 +194,8 @@ export class AccountSFComponent implements OnInit {
   }
 
   LookUpParentAccount(ParentId: string): string {
-    return  this.lookUpAccount && ParentId && this.lookUpAccount.find(x => x.SfId === ParentId) ?
-            this.lookUpAccount.find(x => x.SfId === ParentId).Name
+    return  this.lookUpAccounts && ParentId && this.lookUpAccounts.find(x => x.value === ParentId) ?
+            this.lookUpAccounts.find(x => x.value === ParentId).text
             : '';
   }
 
@@ -313,17 +322,17 @@ export class AccountSFComponent implements OnInit {
       };
       if (updateOrcreate) {
         this.loopbackService.patchRequest(this.objectAPI, this.form.get('id').value, this.objectToSend)
-            .subscribe((accountUpdated: any) => {
-              if (accountUpdated) {
-                Swal.fire({
-                  position: 'top-end',
-                  icon: 'success',
-                  title: 'Your account has been saved',
-                  showConfirmButton: false,
-                  timer: 1500
-                }).then(result => window.location.assign(`${window.location.origin}/account`));
-              }
-            });
+          .subscribe((accountUpdated: any) => {
+            if (accountUpdated) {
+              Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Your account has been saved',
+                showConfirmButton: false,
+                timer: 1500
+              }).then(result => window.location.assign(`${window.location.origin}/account`));
+            }
+          });
       } else {
         this.loopbackService.postRequest(this.objectAPI, this.objectToSend).subscribe((account: any) => {
           Swal.fire({
@@ -340,5 +349,4 @@ export class AccountSFComponent implements OnInit {
       this.isInvalid = true;
     }
   }
-
 }

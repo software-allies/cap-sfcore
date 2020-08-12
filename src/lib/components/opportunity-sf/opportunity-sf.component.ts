@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { LoopbackService } from '../../services/loopback.service';
@@ -105,8 +105,8 @@ export class OpportunitySFComponent implements OnInit {
   lookUpAccount: any;
   lookUpContact: any;
 
-  accountsName: string[] = [];
-  contactsName: string[] = [];
+  accounts: any[] = [];
+  contacts: any[] = [];
   limit: number = 10;
   config = {
     displayKey: "description", //if objects array passed which key to be displayed defaults to description
@@ -121,12 +121,11 @@ export class OpportunitySFComponent implements OnInit {
     clearOnSelection: false, // clears search criteria when an option is selected if set to true, default is false
     inputDirection: 'ltr' // the direction of the search input can be rtl or ltr(default)
   }
-  accountIDSalesforce: string = '';
-  contactIDSalesforce: string = '';
-  currentAccount: string = '';
-  currentContact: string = '';
 
+<<<<<<< HEAD
   contactName: string = '';
+=======
+>>>>>>> feature/dropdown-list
 
   constructor(
     private activateRoute: ActivatedRoute,
@@ -151,7 +150,6 @@ export class OpportunitySFComponent implements OnInit {
   ngOnInit() {
     if (this.location.prepareExternalUrl(this.location.path()).split('/')[2] === 'create') {
       this.createForm();
-      console.log('contactName: ', this.contactName);
     } else {
       this.activateRoute.params.subscribe((params: { id: string, status?: string }) => {
         this.getObject(params.id);
@@ -164,10 +162,6 @@ export class OpportunitySFComponent implements OnInit {
   getObject(sfid: string) {
     this.loopbackService.getRecordWithFindOne(this.objectAPI, sfid).subscribe((object: any) => {
       this.opportunity = object;
-      let accountN = this.LookUpAccountName(this.opportunity.AccountId);
-      this.currentAccount = accountN ? accountN : '';
-      let contactN = this.LookUpCampaignId(this.opportunity.CampaignId);
-      this.currentContact = contactN ? contactN : '';
       this.viewOpportunity = object ? true : false;
       if (this.status) {
         this.createForm(object);
@@ -178,10 +172,18 @@ export class OpportunitySFComponent implements OnInit {
   getLookUps() {
     this.loopbackService.getLookUp('Accounts').subscribe((accounts: Array<{ any }>) => {
       this.lookUpAccount = accounts;
-      this.accountsName = this.lookUpAccount.map(account => account.Name)
+      this.accounts = this.lookUpAccount.map(account => {
+        let data = {
+          id: account.id,
+          sfID: account.SfId,
+          name: account.Name
+        }
+        return data
+      })
     });
     this.loopbackService.getLookUp('Contacts').subscribe((contacts: Array<{ any }>) => {
       this.lookUpContact = contacts;
+<<<<<<< HEAD
 
       this.contactsName = this.lookUpContact.map(contact => {
         console.log('this.contactsName: ', this.contactsName);
@@ -189,17 +191,22 @@ export class OpportunitySFComponent implements OnInit {
           console.log('contact.SfId: ', contact.SfId);
           console.log('contactName: ', this.contactName);
           this.contactName = contact.Name;
+=======
+      this.contacts = this.lookUpContact.map(contact => {
+>>>>>>> feature/dropdown-list
 
-        }
         let data = {
           id: contact.id,
+<<<<<<< HEAD
           value: contact.SfId,
           text: contact.Name
+=======
+          sfID: contact.SfId,
+          name: contact.Name
+>>>>>>> feature/dropdown-list
         }
-
         return data;
       })
-      console.log('this.contactsName: ', this.contactsName);
     });
   }
 
@@ -228,7 +235,6 @@ export class OpportunitySFComponent implements OnInit {
         return ''
       }
       let accountName = fromContact ? fromContact.Name : fromaAccount.Name;
-      this.currentAccount = accountName;
       return accountName ? accountName : '';
     }
   }
@@ -238,24 +244,19 @@ export class OpportunitySFComponent implements OnInit {
 
     if (this.lookUpContact && CampaignId) {
       const contact = this.lookUpContact.find(x => x.SfId === CampaignId).Name;
-      if (contact) {
-        this.currentContact = contact;
-        return this.currentContact;
-      }
-      return '';
+      return contact
     }
     return '';
   }
 
   createForm(opportunity?: any) {
     if (opportunity) {
+
       this.form = new FormGroup({
         id: new FormControl(opportunity.id, [Validators.required]),
         uuid__c: new FormControl(opportunity.SACAP__UUID__c, [Validators.required]),
         isPrivate: new FormControl(opportunity.IsPrivate),
         name: new FormControl(opportunity.Name, [Validators.required]),
-        accountName: new FormControl(this.currentAccount ? this.currentAccount : ''),
-        contactName: new FormControl(this.currentContact ? this.currentContact : ''),
         accountId: new FormControl(opportunity.AccountId),
         type: new FormControl(opportunity.Type),
         leadSource: new FormControl(opportunity.LeadSource),
@@ -303,6 +304,7 @@ export class OpportunitySFComponent implements OnInit {
   }
 
   onSubmit(updateOrcreate?: boolean) {
+<<<<<<< HEAD
 
     if (!this.contactIDSalesforce || this.contactIDSalesforce === null) {
       this.contactIDSalesforce = this.opportunity.CampaignId;
@@ -310,13 +312,15 @@ export class OpportunitySFComponent implements OnInit {
     if (!this.accountIDSalesforce || this.accountIDSalesforce === null) {
       this.accountIDSalesforce = this.opportunity.AccountId;
     }
+=======
+>>>>>>> feature/dropdown-list
 
     if (this.form.valid) {
       this.objectToSend = {
         SACAP__UUID__c: this.form.get('uuid__c').value,
         IsPrivate: this.form.get('isPrivate').value,
         Name: this.form.get('name').value,
-        AccountId: this.accountIDSalesforce,
+        AccountId: this.form.get('accountId').value,
         Type: this.form.get('type').value,
         LeadSource: this.form.get('leadSource').value,
         Amount: this.form.get('amount').value,
@@ -325,7 +329,7 @@ export class OpportunitySFComponent implements OnInit {
         NextStep: this.form.get('nextStep').value,
         StageName: this.form.get('stageName').value,
         Probability: this.form.get('probability').value,
-        CampaignId: this.contactIDSalesforce,
+        CampaignId: this.form.get('campaignId').value,
         OrderNumber__c: this.form.get('orderNumber__c').value,
         CurrentGenerators__c: this.form.get('currentGenerators__c').value,
         TrackingNumber__c: this.form.get('trackingNumber__c').value,
@@ -364,6 +368,7 @@ export class OpportunitySFComponent implements OnInit {
       this.isInvalid = true;
     }
   }
+<<<<<<< HEAD
 
   selectionAccountChanged(event: any) {
     let name = event.value
@@ -377,4 +382,6 @@ export class OpportunitySFComponent implements OnInit {
 
   }
 
+=======
+>>>>>>> feature/dropdown-list
 }
