@@ -124,6 +124,7 @@ export class LeadSFComponent implements OnInit {
   objectToSend: any;
   isInvalid: boolean;
   lookUpContact: any;
+  paramID: string = '';
 
   constructor(
     private activateRoute: ActivatedRoute,
@@ -148,6 +149,7 @@ export class LeadSFComponent implements OnInit {
       this.createForm();
     } else {
       this.activateRoute.params.subscribe((params: {id: string, status?: string}) => {
+        this.paramID = params.id;
        this.getObject(params.id);
        this.status = params.status === 'update' ? true : false;
       });
@@ -296,7 +298,7 @@ export class LeadSFComponent implements OnInit {
               title: 'Your lead has been saved',
               showConfirmButton: false,
               timer: 1500
-            }).then(result => window.location.assign(`${window.location.origin}/lead`));
+            }).then(result => window.location.assign(`${window.location.origin}/lead/${this.paramID}`));
           }
         });
       } else {

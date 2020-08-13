@@ -7,113 +7,59 @@
           <div class="card">
             <div class="card-header" id="headingOne">
               <h5 class="mb-0">
-                <button
-                  [ngClass]="{
+                <button [ngClass]="{
                     'text-danger': isInvalid
-                  }"
-                  class="btn btn-link"
-                  data-toggle="collapse"
-                  data-target="#collapseLeadInformation"
-                  aria-expanded="true"
-                  aria-controls="collapseLeadInformation"
-                >
+                  }" class="btn btn-link" data-toggle="collapse" data-target="#collapseLeadInformation"
+                  aria-expanded="true" aria-controls="collapseLeadInformation">
                   Lead Information
                 </button>
               </h5>
             </div>
 
-            <div
-              id="collapseLeadInformation"
-              class="collapse show"
-              aria-labelledby="headingOne"
-              data-parent="#accordion"
-            >
+            <div id="collapseLeadInformation" class="collapse show" aria-labelledby="headingOne"
+              data-parent="#accordion">
               <div class="card-body">
                 <div class="form-row">
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-2">
                     <label for="inputSalutation">Salutation</label>
-                    <select
-                      formControlName="salutation"
-                      id="inputSalutation"
-                      class="form-control"
-                    >
-                      <option value="" selected disabled hidden
-                        >Choose here</option
-                      >
-                      <option
-                        *ngFor="let type of salutationValues"
-                        value="{{ type }}"
-                        class="form-control"
-                        >{{ type }}</option
-                      >
+                    <select formControlName="salutation" id="inputSalutation" class="form-control">
+                      <option value="" selected disabled hidden>Choose here</option>
+                      <option *ngFor="let type of salutationValues" value="{{ type }}" class="form-control">{{ type }}
+                      </option>
                     </select>
+                  </div>
+                  <div class="form-group col-md-5">
+                    <label for="inputFirstName">First Name</label>
+                    <input type="text" class="form-control" id="inputFirstName" formControlName="firstName" />
+                  </div>
+                  <div class="form-group col-md-5">
+                    <label for="inputLastName">Last Name*</label>
+                    <input [ngClass]="{
+                        'is-invalid': isInvalid && !form.controls.lastName.value
+                      }" type="text" class="form-control" id="inputLastName" formControlName="lastName" />
                   </div>
                 </div>
                 <div class="form-row ">
                   <div class="form-group col-md-4">
-                    <label for="inputFirstName">First Name</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="inputFirstName"
-                      formControlName="firstName"
-                    />
-                  </div>
-                  <div class="form-group col-md-4">
-                    <label for="inputLastName">Last Name*</label>
-                    <input
-                      [ngClass]="{
-                        'is-invalid': isInvalid && !form.controls.lastName.value
-                      }"
-                      type="text"
-                      class="form-control"
-                      id="inputLastName"
-                      formControlName="lastName"
-                    />
-                  </div>
-                  <div class="form-group col-md-4">
                     <label for="inputCompany">Company*</label>
-                    <input
-                      [ngClass]="{
+                    <input [ngClass]="{
                         'is-invalid': isInvalid && !form.controls.company.value
-                      }"
-                      type="text"
-                      class="form-control"
-                      id="inputCompany"
-                      formControlName="company"
-                    />
+                      }" type="text" class="form-control" id="inputCompany" formControlName="company" />
                   </div>
-                </div>
-                <div class="form-row">
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-4">
                     <label for="inputTitle">Title</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="inputTitle"
-                      formControlName="title"
-                    />
+                    <input type="text" class="form-control" id="inputTitle" formControlName="title" />
                   </div>
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-4">
                     <label for="inputLeadSource">Lead Source</label>
-                    <select
-                      formControlName="leadSource"
-                      id="inputLeadSource"
-                      class="form-control"
-                    >
-                      <option value="" selected disabled hidden
-                        >Choose here</option
-                      >
-                      <option
-                        *ngFor="let type of leadSourceValues"
-                        value="{{ type }}"
-                        class="form-control"
-                        >{{ type }}</option
-                      >
+                    <select formControlName="leadSource" id="inputLeadSource" class="form-control">
+                      <option value="" selected disabled hidden>Choose here</option>
+                      <option *ngFor="let type of leadSourceValues" value="{{ type }}" class="form-control">{{ type }}
+                      </option>
                     </select>
                   </div>
                 </div>
-
+                
                 <div class="form-row">
                   <!-- <div class="form-group col-md-6">
                     <label for="inputCampaign">Campaign</label>
@@ -126,141 +72,73 @@
                   </div> -->
                   <div class="form-group col-md-3">
                     <label for="inputIndustry">Industry</label>
-                    <select
-                      formControlName="industry"
-                      id="inputIndustry"
-                      class="form-control"
-                    >
-                      <option value="" selected disabled hidden
-                        >Choose here</option
-                      >
-                      <option
-                        *ngFor="let type of industryValues"
-                        value="{{ type }}"
-                        class="form-control"
-                        >{{ type }}</option
-                      >
+                    <select formControlName="industry" id="inputIndustry" class="form-control">
+                      <option value="" selected disabled hidden>Choose here</option>
+                      <option *ngFor="let type of industryValues" value="{{ type }}" class="form-control">{{ type }}
+                      </option>
                     </select>
                   </div>
                   <div class="form-group col-md-3">
                     <label for="inputAnnualRevenue">Annual Revenue</label>
-                    <input
-                      [ngClass]="{
+                    <input [ngClass]="{
                         'is-invalid': form.controls.annualRevenue.errors
-                      }"
-                      type="text"
-                      class="form-control"
-                      id="inputAnnualRevenue"
-                      formControlName="annualRevenue"
-                    />
+                      }" type="text" class="form-control" id="inputAnnualRevenue" formControlName="annualRevenue" />
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="inputRating">Rating</label>
+                    <select formControlName="rating" id="inputRating" class="form-control">
+                      <option value="" selected disabled hidden>Choose here</option>
+                      <option *ngFor="let type of ratingValues" value="{{ type }}" class="form-control">{{ type }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="inputNoEmployees">No. of Employees</label>
+                    <input [ngClass]="{
+                        'is-invalid': form.controls.numberOfEmployees.errors
+                      }" type="text" class="form-control" id="inputNoEmployees" formControlName="numberOfEmployees" />
                   </div>
                 </div>
 
                 <div class="form-row">
                   <div class="form-group col-md-4">
                     <label for="inputPhone">Phone</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="inputPhone"
-                      formControlName="phone"
-                    />
+                    <input type="text" class="form-control" id="inputPhone" formControlName="phone" />
                   </div>
                   <div class="form-group col-md-4">
                     <label for="inputMobile">Mobile</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="inputMobile"
-                      formControlName="mobilePhone"
-                    />
+                    <input type="text" class="form-control" id="inputMobile" formControlName="mobilePhone" />
                   </div>
                   <div class="form-group col-md-4">
                     <label for="inputFax">Fax</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="inputFax"
-                      formControlName="fax"
-                    />
+                    <input type="text" class="form-control" id="inputFax" formControlName="fax" />
                   </div>
                 </div>
 
                 <div class="form-row">
                   <div class="form-group col-md-4">
                     <label for="inputEmail">Email</label>
-                    <input
-                      [ngClass]="{
+                    <input [ngClass]="{
                         'is-invalid': form.controls.email.errors
-                      }"
-                      type="text"
-                      class="form-control"
-                      id="inputEmail"
-                      formControlName="email"
-                    />
+                      }" type="text" class="form-control" id="inputEmail" formControlName="email" />
                   </div>
                   <div class="form-group col-md-4">
                     <label for="inputWebsite">Website</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="inputWebsite"
-                      formControlName="website"
-                    />
+                    <input type="text" class="form-control" id="inputWebsite" formControlName="website" />
                   </div>
                   <div class="form-group col-md-4">
                     <label for="inputLeadStatus">Lead Status*</label>
-                    <select
-                      [ngClass]="{
+                    <select [ngClass]="{
                         'is-invalid': isInvalid && !form.controls.status.value
-                      }"
-                      formControlName="status"
-                      id="inputLeadStatus"
-                      class="form-control"
-                    >
-                      <option value="" selected disabled hidden
-                        >Choose here</option
-                      >
-                      <option
-                        *ngFor="let type of statusValues"
-                        value="{{ type }}"
-                        class="form-control"
-                        >{{ type }}</option
-                      >
+                      }" formControlName="status" id="inputLeadStatus" class="form-control">
+                      <option value="" selected disabled hidden>Choose here</option>
+                      <option *ngFor="let type of statusValues" value="{{ type }}" class="form-control">{{ type }}
+                      </option>
                     </select>
                   </div>
                 </div>
                 <div class="form-row">
-                  <div class="form-group col-md-4">
-                    <label for="inputRating">Rating</label>
-                    <select
-                      formControlName="rating"
-                      id="inputRating"
-                      class="form-control"
-                    >
-                      <option value="" selected disabled hidden
-                        >Choose here</option
-                      >
-                      <option
-                        *ngFor="let type of ratingValues"
-                        value="{{ type }}"
-                        class="form-control"
-                        >{{ type }}</option
-                      >
-                    </select>
-                  </div>
-                  <div class="form-group col-md-4">
-                    <label for="inputNoEmployees">No. of Employees</label>
-                    <input
-                      [ngClass]="{
-                        'is-invalid': form.controls.numberOfEmployees.errors
-                      }"
-                      type="text"
-                      class="form-control"
-                      id="inputNoEmployees"
-                      formControlName="numberOfEmployees"
-                    />
-                  </div>
+                 
                 </div>
               </div>
             </div>
@@ -268,71 +146,36 @@
           <div class="card">
             <div class="card-header" id="headingTwo">
               <h5 class="mb-0">
-                <button
-                  class="btn btn-link collapsed"
-                  data-toggle="collapse"
-                  data-target="#collapseAddressInformation"
-                  aria-expanded="false"
-                  aria-controls="collapseAddressInformation"
-                >
+                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseAddressInformation"
+                  aria-expanded="false" aria-controls="collapseAddressInformation">
                   Address Information
                 </button>
               </h5>
             </div>
-            <div
-              id="collapseAddressInformation"
-              class="collapse"
-              aria-labelledby="headingTwo"
-              data-parent="#accordion"
-            >
+            <div id="collapseAddressInformation" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
               <div class="card-body">
                 <div class="form-group">
                   <label for="inputStreet">Street</label>
-                  <input
-                    type="email"
-                    class="form-control"
-                    id="Street"
-                    formControlName="street"
-                  />
+                  <input type="email" class="form-control" id="Street" formControlName="street" />
                 </div>
                 <div class="form-row">
                   <div class="form-group col-md-4">
                     <label for="inputCity">City</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="inputCity"
-                      formControlName="city"
-                    />
+                    <input type="text" class="form-control" id="inputCity" formControlName="city" />
                   </div>
                   <div class="form-group col-md-4">
                     <label for="inputState">State/Province</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="inputState"
-                      formControlName="state"
-                    />
+                    <input type="text" class="form-control" id="inputState" formControlName="state" />
                   </div>
                   <div class="form-group col-md-4">
                     <label for="inputPostalCode">Zip/Postal Code</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="inputPostalCode"
-                      formControlName="postalCode"
-                    />
+                    <input type="text" class="form-control" id="inputPostalCode" formControlName="postalCode" />
                   </div>
                 </div>
                 <div class="form-row">
                   <div class="form-group col-md-4">
                     <label for="inputCountry">Country</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="inputCountry"
-                      formControlName="country"
-                    />
+                    <input type="text" class="form-control" id="inputCountry" formControlName="country" />
                   </div>
                 </div>
               </div>
@@ -341,96 +184,50 @@
           <div class="card">
             <div class="card-header" id="headingThree">
               <h5 class="mb-0">
-                <button
-                  class="btn btn-link collapsed"
-                  data-toggle="collapse"
-                  data-target="#collapseAdditionalInformation"
-                  aria-expanded="false"
-                  aria-controls="collapseAdditionalInformation"
-                >
+                <button class="btn btn-link collapsed" data-toggle="collapse"
+                  data-target="#collapseAdditionalInformation" aria-expanded="false"
+                  aria-controls="collapseAdditionalInformation">
                   Additional Information
                 </button>
               </h5>
             </div>
-            <div
-              id="collapseAdditionalInformation"
-              class="collapse"
-              aria-labelledby="headingThree"
-              data-parent="#accordion"
-            >
+            <div id="collapseAdditionalInformation" class="collapse" aria-labelledby="headingThree"
+              data-parent="#accordion">
               <div class="card-body">
                 <div class="form-row">
                   <div class="form-group col-md-4">
                     <label for="inputProductInterest">Product Interest</label>
-                    <select
-                      formControlName="productInterest__c"
-                      id="inputProductInterest"
-                      class="form-control"
-                    >
-                      <option value="" selected disabled hidden
-                        >Choose here</option
-                      >
-                      <option
-                        *ngFor="let type of productInterestValues"
-                        value="{{ type }}"
-                        class="form-control"
-                        >{{ type }}</option
-                      >
+                    <select formControlName="productInterest__c" id="inputProductInterest" class="form-control">
+                      <option value="" selected disabled hidden>Choose here</option>
+                      <option *ngFor="let type of productInterestValues" value="{{ type }}" class="form-control">
+                        {{ type }}</option>
                     </select>
                   </div>
                   <div class="form-group col-md-4">
                     <label for="inputSicCode">SIC Code</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="inputSicCode"
-                      formControlName="sicCode__c"
-                    />
+                    <input type="text" class="form-control" id="inputSicCode" formControlName="sicCode__c" />
                   </div>
                   <div class="form-group col-md-4">
-                    <label for="inputNumberOfLocations"
-                      >Number of Locations</label
-                    >
-                    <input
-                      [ngClass]="{
+                    <label for="inputNumberOfLocations">Number of Locations</label>
+                    <input [ngClass]="{
                         'is-invalid': form.controls.numberOfLocations__c.errors
-                      }"
-                      type="text"
-                      class="form-control"
-                      id="inputNumberOfLocations"
-                      formControlName="numberOfLocations__c"
-                    />
+                      }" type="text" class="form-control" id="inputNumberOfLocations"
+                      formControlName="numberOfLocations__c" />
                   </div>
                 </div>
 
                 <div class="form-row">
                   <div class="form-group col-md-6">
-                    <label for="inputCurrentGenerators"
-                      >Current Generator(s)</label
-                    >
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="inputCurrentGenerators"
-                      formControlName="currentGenerators__c"
-                    />
+                    <label for="inputCurrentGenerators">Current Generator(s)</label>
+                    <input type="text" class="form-control" id="inputCurrentGenerators"
+                      formControlName="currentGenerators__c" />
                   </div>
                   <div class="form-group col-md-6">
                     <label for="inputPrimary">Primary</label>
-                    <select
-                      formControlName="primary__c"
-                      id="inputPrimary"
-                      class="form-control"
-                    >
-                      <option value="" selected disabled hidden
-                        >Choose here</option
-                      >
-                      <option
-                        *ngFor="let type of primaryValues"
-                        value="{{ type }}"
-                        class="form-control"
-                        >{{ type }}</option
-                      >
+                    <select formControlName="primary__c" id="inputPrimary" class="form-control">
+                      <option value="" selected disabled hidden>Choose here</option>
+                      <option *ngFor="let type of primaryValues" value="{{ type }}" class="form-control">{{ type }}
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -440,32 +237,17 @@
           <div class="card">
             <div class="card-header" id="headingFour">
               <h5 class="mb-0">
-                <button
-                  class="btn btn-link collapsed"
-                  data-toggle="collapse"
-                  data-target="#collapseDescription"
-                  aria-expanded="false"
-                  aria-controls="collapseDescription"
-                >
+                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseDescription"
+                  aria-expanded="false" aria-controls="collapseDescription">
                   Description Information
                 </button>
               </h5>
             </div>
-            <div
-              id="collapseDescription"
-              class="collapse"
-              aria-labelledby="headingFour"
-              data-parent="#accordion"
-            >
+            <div id="collapseDescription" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
               <div class="card-body">
                 <div class="form-group">
                   <label for="description">Description:</label>
-                  <textarea
-                    formControlName="description"
-                    class="form-control"
-                    rows="5"
-                    id="description"
-                  ></textarea>
+                  <textarea formControlName="description" class="form-control" rows="5" id="description"></textarea>
                 </div>
               </div>
             </div>
@@ -473,12 +255,16 @@
         </div>
         <div class="form-row text-center mt-3">
           <div class="col-md-6">
-            <button *ngIf="updateLead" (click)="onSubmit(true)" class="btn btn-outline-dark action-button mt-1 mb-1">Submit</button>
-            <button *ngIf="createLead" (click)="onSubmit(false)" class="btn btn-outline-dark action-button mt-1 mb-1">Submit</button>
+            <button *ngIf="updateLead" (click)="onSubmit(true)"
+              class="btn btn-outline-dark action-button mt-1 mb-1">Submit</button>
+            <button *ngIf="createLead" (click)="onSubmit(false)"
+              class="btn btn-outline-dark action-button mt-1 mb-1">Submit</button>
           </div>
           <div class="col-md-6">
-            <button *ngIf="createLead" type="button" (click)="cancelAction(true)" class="btn btn-outline-dark action-button mt-1 mb-1">Cancel</button>
-            <button *ngIf="updateLead" type="button" (click)="cancelAction()" class="btn btn-outline-dark action-button mt-1 mb-1">Cancel</button>
+            <button *ngIf="createLead" type="button" (click)="cancelAction(true)"
+              class="btn btn-outline-dark action-button mt-1 mb-1">Cancel</button>
+            <button *ngIf="updateLead" type="button" (click)="cancelAction()"
+              class="btn btn-outline-dark action-button mt-1 mb-1">Cancel</button>
           </div>
         </div>
       </form>
@@ -492,8 +278,8 @@
         <button (click)="cancelAction(true)" type="button" class="btn btn-outline-dark">Go back</button>
       </div>
       <div class="col-6 text-center">
-          <button type="button" (click)="createForm(lead)" class="btn btn-outline-dark">
-            Update
+        <button type="button" (click)="createForm(lead)" class="btn btn-outline-dark">
+          Update
         </button>
       </div>
     </div>
@@ -504,27 +290,16 @@
         <div class="card">
           <div class="card-header" id="headingOne">
             <h5 class="mb-0">
-              <button
-                [ngClass]="{
+              <button [ngClass]="{
                   'text-danger': isInvalid
-                }"
-                class="btn btn-link"
-                data-toggle="collapse"
-                data-target="#collapseLeadInformation"
-                aria-expanded="true"
-                aria-controls="collapseLeadInformation"
-              >
+                }" class="btn btn-link" data-toggle="collapse" data-target="#collapseLeadInformation"
+                aria-expanded="true" aria-controls="collapseLeadInformation">
                 Lead Information
               </button>
             </h5>
           </div>
 
-          <div
-            id="collapseLeadInformation"
-            class="collapse show"
-            aria-labelledby="headingOne"
-            data-parent="#accordion"
-          >
+          <div id="collapseLeadInformation" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
             <div class="card-body row">
               <div class="col-md-6">
                 <table class="rwd_auto">
@@ -537,9 +312,9 @@
                       <td>{{ lead.Salutation }} {{ lead.FirstName }} {{ lead.LastName }}</td>
                     </tr>
                     <tr>
-                        <th scope="row">Company</th>
-                        <td>{{ lead.Company }}</td>
-                      </tr>
+                      <th scope="row">Company</th>
+                      <td>{{ lead.Company }}</td>
+                    </tr>
                     <tr>
                       <th scope="row">Title</th>
                       <td>{{ lead.Title }}</td>
@@ -612,23 +387,14 @@
         <div class="card">
           <div class="card-header" id="headingTwo">
             <h5 class="mb-0">
-              <button
-                class="btn btn-link collapsed"
-                data-toggle="collapse"
-                data-target="#collapseAddressInformation"
-                aria-expanded="true"
-                aria-controls="collapseAddressInformation"
-              >
+              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseAddressInformation"
+                aria-expanded="true" aria-controls="collapseAddressInformation">
                 Address Information
               </button>
             </h5>
           </div>
-          <div
-            id="collapseAddressInformation"
-            class="collapse show"
-            aria-labelledby="headingTwo"
-            data-parent="#accordion"
-          >
+          <div id="collapseAddressInformation" class="collapse show" aria-labelledby="headingTwo"
+            data-parent="#accordion">
             <div class="card-body row">
               <div class="col-md-6">
                 <table class="rwd_auto">
@@ -674,23 +440,14 @@
         <div class="card">
           <div class="card-header" id="headingThree">
             <h5 class="mb-0">
-              <button
-                class="btn btn-link collapsed"
-                data-toggle="collapse"
-                data-target="#collapseAdditionalInformation"
-                aria-expanded="true"
-                aria-controls="collapseAdditionalInformation"
-              >
+              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseAdditionalInformation"
+                aria-expanded="true" aria-controls="collapseAdditionalInformation">
                 Additional Information
               </button>
             </h5>
           </div>
-          <div
-            id="collapseAdditionalInformation"
-            class="collapse show"
-            aria-labelledby="headingThree"
-            data-parent="#accordion"
-          >
+          <div id="collapseAdditionalInformation" class="collapse show" aria-labelledby="headingThree"
+            data-parent="#accordion">
             <div class="card-body row">
               <div class="col-md-6">
                 <table class="rwd_auto">
@@ -736,23 +493,13 @@
         <div class="card">
           <div class="card-header" id="headingFour">
             <h5 class="mb-0">
-              <button
-                class="btn btn-link collapsed"
-                data-toggle="collapse"
-                data-target="#collapseDescription"
-                aria-expanded="true"
-                aria-controls="collapseDescription"
-              >
+              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseDescription"
+                aria-expanded="true" aria-controls="collapseDescription">
                 Description Information
               </button>
             </h5>
           </div>
-          <div
-            id="collapseDescription"
-            class="collapse show"
-            aria-labelledby="headingFour"
-            data-parent="#accordion"
-          >
+          <div id="collapseDescription" class="collapse show" aria-labelledby="headingFour" data-parent="#accordion">
             <div class="card-body row">
               <div class="col-md-12">
                 <table class="rwd_auto">
