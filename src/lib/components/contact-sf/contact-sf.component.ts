@@ -80,6 +80,8 @@ export class ContactSFComponent implements OnInit {
   lookUpAccount: any[] = [];
   lookUpContact: any[] = [];
 
+  paramId: string = '';
+
   constructor(
     private activateRoute: ActivatedRoute,
     private router: Router,
@@ -105,6 +107,7 @@ export class ContactSFComponent implements OnInit {
       this.createForm();
     } else {
       this.activateRoute.params.subscribe((params: { id: string, status?: string }) => {
+        this.paramId = params.id
         this.getObject(params.id);
         this.status = params.status === 'update' ? true : false;
       });
@@ -135,7 +138,7 @@ export class ContactSFComponent implements OnInit {
       });
     });
     this.loopbackService.getLookUp('Contacts').subscribe((contacts: Array<{ any }>) => {
-      this.lookUpContact = contacts.map((contact:any) => {
+      this.lookUpContact = contacts.map((contact: any) => {
         let data = {
           id: contact.id,
           value: contact.SfId,
@@ -171,7 +174,7 @@ export class ContactSFComponent implements OnInit {
   LookUpReportsTo(ReportsToId: string): string {
     if (this.lookUpContact && ReportsToId && this.lookUpContact.find(x => x.value === ReportsToId)) {
       const contact = this.lookUpContact.find(x => x.value === ReportsToId);
-      return contact.text ;
+      return contact.text;
     }
     return '';
     /*return  this.lookUpContact && ReportsToId && this.lookUpContact.find(x => x.SfId === ReportsToId) ?
@@ -300,7 +303,7 @@ export class ContactSFComponent implements OnInit {
               title: 'Your contact has been saved',
               showConfirmButton: false,
               timer: 1500
-            }).then(result => window.location.assign(`${window.location.origin}/contact`));
+            }).then(result => window.location.assign(`${window.location.origin}/contact/${this.paramId}`));
           }
         });
       } else {
