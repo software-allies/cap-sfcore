@@ -122,6 +122,7 @@ export class AccountSFComponent implements OnInit {
   account: any;
 
   lookUpAccounts: any;
+  paramID: string = '';
 
 
   constructor(
@@ -146,6 +147,7 @@ export class AccountSFComponent implements OnInit {
       this.createForm();
     } else {
       this.activateRoute.params.subscribe((params: { id: string, status?: string }) => {
+        this.paramID = params.id;
         this.getObject(params.id);
         this.status = params.status === 'update' ? true : false;
       });
@@ -194,9 +196,10 @@ export class AccountSFComponent implements OnInit {
   }
 
   LookUpParentAccount(ParentId: string): string {
-    return  this.lookUpAccounts && ParentId && this.lookUpAccounts.find(x => x.value === ParentId) ?
-            this.lookUpAccounts.find(x => x.value === ParentId).text
-            : '';
+    if (this.lookUpAccounts && ParentId) {
+      return this.lookUpAccounts.find(x => x.sfID === ParentId) ?
+        this.lookUpAccounts.find(x => x.sfID === ParentId).name: '';
+    }
   }
 
   createForm(account?: any) {
@@ -330,7 +333,7 @@ export class AccountSFComponent implements OnInit {
                 title: 'Your account has been saved',
                 showConfirmButton: false,
                 timer: 1500
-              }).then(result => window.location.assign(`${window.location.origin}/account`));
+              }).then(result => window.location.assign(`${window.location.origin}/account/${this.paramID}`));
             }
           });
       } else {
