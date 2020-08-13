@@ -1,4 +1,4 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { NgModule, ModuleWithProviders, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -51,7 +51,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     PaginationComponent,
     OpportunitySFComponent
   ],
-  providers: [LoopbackService]
+  providers: [LoopbackService],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class CapSalesForceCore {
   static forRoot(config: IConfig): ModuleWithProviders {

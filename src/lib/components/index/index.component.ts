@@ -305,11 +305,11 @@ export class IndexComponent implements OnInit {
   resetSearch(valid: boolean) {
     if (valid) {
       this.listings404 = false;
-      this.searchByText =  this.searchByText ? true : false;
+      this.searchByText = this.searchByText ? true : false;
       this.searchAttribute = this.searchByText ? this.searchAttribute : '';
-    } else {
+    } else {
       this.listings404 = false;
-      this.searchByText =  false;
+      this.searchByText = false;
       this.searchAttribute = '';
     }
   }
@@ -321,7 +321,7 @@ export class IndexComponent implements OnInit {
       this.selectAttribute,
       this.searchByText,
       this.skipFilter
-      ).subscribe((res: any) => {
+    ).subscribe((res: any) => {
       this.listings = res;
       this.listings404 = res.length < 1 ? true : false;
       if (this.objectAPI === 'Contacts' || this.objectAPI === 'Opportunitys') {
@@ -338,7 +338,7 @@ export class IndexComponent implements OnInit {
           .subscribe((accounts: Array<any>) => {
             this.listings.forEach((item, index) => {
               let account = accounts.filter(account => account.SfId === item.AccountId)
-              if(account[0] !== undefined){
+              if (account[0] !== undefined) {
                 this.listings[index].accountName = account[0].Name;
                 // this.listings[index].accountName = accounts.filter(account => account.SfId === item.AccountId)[0].Name;
               }
@@ -434,14 +434,14 @@ export class IndexComponent implements OnInit {
 
   QueryParamsReset() {
     const navigationExtras: NavigationExtras = {
-      queryParams: { Page: null, SearchText: null, Search: null},
+      queryParams: { Page: null, SearchText: null, Search: null },
     };
     this.router.navigate([`${this.objectComponent}`], navigationExtras);
   }
 
   setQueryParams(searchTextParam: string) {
     const navigationExtras: NavigationExtras = {
-      queryParams: { SearchText: searchTextParam, Search: true, Page: null},
+      queryParams: { SearchText: searchTextParam, Search: true, Page: null },
       queryParamsHandling: 'merge'
     };
     this.router.navigate([`${this.objectComponent}`], navigationExtras);
