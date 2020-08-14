@@ -166,7 +166,7 @@ export class AccountSFComponent implements OnInit {
   }
 
   getAccountLookUp() {
-    this.loopbackService.getLookUp('Accounts').subscribe((accounts: Array<{ any }>) => {
+    this.loopbackService.getLookUp('Accounts', '').subscribe((accounts: Array<{ any }>) => {
       this.lookUpAccounts = accounts.map((account: any) => {
         let data = {
           id: account.id,

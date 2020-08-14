@@ -127,7 +127,7 @@ export class ContactSFComponent implements OnInit {
   }
 
   getLookUps() {
-    this.loopbackService.getLookUp('Accounts').subscribe((accounts: Array<{ any }>) => {
+    this.loopbackService.getLookUp('Accounts', '').subscribe((accounts: Array<{ any }>) => {
       this.lookUpAccount = accounts.map((account: any) => {
         let data = {
           id: account.id,
@@ -137,7 +137,7 @@ export class ContactSFComponent implements OnInit {
         return data;
       });
     });
-    this.loopbackService.getLookUp('Contacts').subscribe((contacts: Array<{ any }>) => {
+    this.loopbackService.getLookUp('Contacts', '').subscribe((contacts: Array<{ any }>) => {
       this.lookUpContact = contacts.map((contact: any) => {
         let data = {
           id: contact.id,
