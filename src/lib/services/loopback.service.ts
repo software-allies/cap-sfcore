@@ -83,10 +83,12 @@ export class LoopbackService {
       );
   }
 
-  getLookUp(tableName: string) {
-    const order = tableName === 'Accounts' || tableName === 'Opportunitys'
+  getLookUp(tableName: string, id: string) {
+    /*const order = tableName === 'Accounts' || tableName === 'Opportunitys'
       ? 'Name'
-      : 'FirstName';
+      : 'FirstName';*/
+
+      // findOne?filter={"where":{"SfId":"${sfid}"}}
     const httpOptions = {
       headers: new HttpHeaders({
         'content-type': 'application/json',
@@ -94,8 +96,22 @@ export class LoopbackService {
       })
     };
     return this.http.get(
-      `${this.url}/${tableName}?filter={"where":{"SACAP__UUID__c": {"nlike": "null" }},"fields":{"SACAP__UUID__c":true,"id":true,"SfId":true,"AccountNumber":true,"Name":true},"order":"${order}"}`,
+      `${this.url}/${tableName}/findOne?filter={"where":{"SfId":"${id}"}}`,
       httpOptions);
+  }
+
+  getLookUpBySearch(tableName: string, text: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'content-type': 'application/json',
+        Authorization: `Bearer ${this.getToken()}`
+      })
+    };
+    const regexp = `/${text}/i`;
+    return this.http.get(
+      `${this.url}/${tableName}?filter={"where":{"and":[{"SACAP__UUID__c":{"nlike": "null"}},{"Name":{"regexp":"${regexp}"}}]},"order":"Name", "limit":100}`,
+      httpOptions
+    );
   }
 
   getWithFilter(query: string) {

@@ -28,7 +28,20 @@
 
                   <div class="form-group col-md-6">
                     <label for="inputSalutation">Account Name</label>
-                    <ng-select
+
+                    <input
+                      [ngClass]="{'is-invalid': isInvalid && !form.controls.name.value}"
+                      type="email"
+                      class="form-control"
+                      id="inputOpportunityName"
+                      formControlName="accountId" />
+
+                      <button
+                        class="btn btn-primary"
+                        (click)="searchLookUp()">
+                        search
+                      </button>
+                    <!-- <ng-select
                       [items]="accounts"
                       bindLabel="name"
                       bindValue="sfID"
@@ -37,7 +50,7 @@
                       placeholder="Select account"
                       clearAllText="Clear"
                       formControlName="accountId">
-                    </ng-select>
+                    </ng-select> -->
                   </div>
                 </div>
                 <div class="form-row ">
@@ -260,7 +273,8 @@
                       </tr>
                       <tr>
                         <th scope="row">Account Name</th>
-                        <td>{{LookUpAccountName(opportunity.AccountId)}} </td>
+                        <td *ngIf="lookUpAccount"> {{lookUpAccount.Name}} </td>
+                        <td *ngIf="!lookUpAccount"></td>
                         <!-- <td>{{ LookUpAccountName(opportunity.SfId) }} </td> -->
                       </tr>
                       <tr>

@@ -107,7 +107,7 @@ export class OpportunitySFComponent implements OnInit {
 
   accounts: any[] = [];
   contacts: any[] = [];
-  
+
   paramID: string = '';
 
   constructor(
@@ -140,7 +140,6 @@ export class OpportunitySFComponent implements OnInit {
         this.status = params.status === 'update' ? true : false;
       });
     }
-    this.getLookUps();
   }
 
   getObject(sfid: string) {
@@ -150,32 +149,42 @@ export class OpportunitySFComponent implements OnInit {
       if (this.status) {
         this.createForm(object);
       }
+      this.getLookUps();
     });
   }
 
   getLookUps() {
-    this.loopbackService.getLookUp('Accounts').subscribe((accounts: Array<{ any }>) => {
-      this.lookUpAccount = accounts;
-      this.accounts = this.lookUpAccount.map(account => {
-        let data = {
-          id: account.id,
-          sfID: account.SfId,
-          name: account.Name
-        }
-        return data
-      })
-    });
-    this.loopbackService.getLookUp('Contacts').subscribe((contacts: Array<{ any }>) => {
-      this.lookUpContact = contacts;
-      this.contacts = this.lookUpContact.map(contact => {
-        let data = {
-          id: contact.id,
-          sfID: contact.SfId,
-          name: contact.Name
-        };
-        return data;
+    if (this.opportunity.AccountId) {
+      this.loopbackService.getLookUp('Accounts', this.opportunity.AccountId).subscribe((accounts: Array<{ any }>) => {
+        this.lookUpAccount = accounts;
+        /*this.accounts = this.lookUpAccount.map(account => {
+          let data = {
+            id: account.id,
+            sfID: account.SfId,
+            name: account.Name
+          }
+          return data;
+        });*/
+      }, (error) => {
+        this.lookUpAccount =  null;
       });
-    });
+    }
+
+    if (this.opportunity.CampaignId) {
+      console.log('dentro capain');
+      this.loopbackService.getLookUp('Contacts', this.opportunity.CampaignId).subscribe((contacts: Array<{ any }>) => {
+        this.lookUpContact = contacts;
+        /*this.contacts = this.lookUpContact.map(contact => {
+          let data = {
+            id: contact.id,
+            sfID: contact.SfId,
+            name: contact.Name
+          };
+          return data;
+        });*/
+      });
+    }
+
   }
 
   cancelAction(goBack?: boolean) {
@@ -195,7 +204,7 @@ export class OpportunitySFComponent implements OnInit {
     return date.getUTCFullYear() + '-' + month + '-' + day;
   }
 
-  LookUpAccountName(id: string): string {
+  /*LookUpAccountName(id: string): string {
     if (this.lookUpContact && id && this.lookUpAccount) {
       let fromContact = this.lookUpContact.find(contact => contact.AccountId === id);
       let fromaAccount = this.lookUpAccount.find(account => account.SfId === id);
@@ -205,7 +214,7 @@ export class OpportunitySFComponent implements OnInit {
       let accountName = fromContact ? fromContact.Name : fromaAccount.Name;
       return accountName ? accountName : '';
     }
-  }
+  }*/
 
   LookUpCampaignId(CampaignId: string): string {
     if (CampaignId === null) CampaignId = '';
@@ -215,6 +224,14 @@ export class OpportunitySFComponent implements OnInit {
       return contact
     }
     return '';
+  }
+
+  searchLookUp() {
+    if (this.form.get('accountId').value) {
+      this.loopbackService.getLookUpBySearch('Accounts', this.form.get('accountId',).value).subscribe((data: any) => {
+        console.log(data);
+      });
+    }
   }
 
   createForm(opportunity?: any) {
