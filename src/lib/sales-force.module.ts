@@ -14,11 +14,13 @@ import { LeadSFComponent } from './components/lead-sf/lead-sf.component';
 import { AccountSFComponent } from './components/account-sf/account-sf.component';
 import { ContactSFComponent } from './components/contact-sf/contact-sf.component';
 import { OpportunitySFComponent } from './components/opportunity-sf/opportunity-sf.component';
+import { ModalComponent } from './components/modal/modal.component';
+import { ModalService } from './components/modal/modal.service';
 
 import { IConfig } from './interfaces/config.interface';
 
 import { NgxPaginationModule } from 'ngx-pagination';
-import { DropdownListModule } from 'ngx-dropdown-list';
+// import { DropdownListModule } from 'ngx-dropdown-list';
 import { NgSelectModule } from '@ng-select/ng-select';
 
 
@@ -29,15 +31,14 @@ import { NgSelectModule } from '@ng-select/ng-select';
     AccountSFComponent,
     ContactSFComponent,
     PaginationComponent,
-    OpportunitySFComponent
+    OpportunitySFComponent,
+    ModalComponent
   ],
   imports: [
     FormsModule,
     CommonModule,
-    
-    DropdownListModule,
+    // DropdownListModule,
     NgSelectModule,
-    
     ReactiveFormsModule,
     NgxPaginationModule,
     LoopbackRoutingModule,
@@ -49,9 +50,16 @@ import { NgSelectModule } from '@ng-select/ng-select';
     AccountSFComponent,
     ContactSFComponent,
     PaginationComponent,
-    OpportunitySFComponent
+    OpportunitySFComponent,
+    ModalComponent
   ],
-  providers: [LoopbackService],
+  entryComponents: [
+    ModalComponent
+  ],
+  providers: [
+    LoopbackService,
+    ModalService
+  ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class CapSalesForceCore {

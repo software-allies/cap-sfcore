@@ -1,0 +1,174 @@
+app-modal {
+    display: none;
+    .sa-modal {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1000;
+        overflow: auto;
+        .sa-modal-body {
+            position: relative;
+            background-color: #fff;
+            padding: 55px 20px;
+            margin: 145px auto;
+            width: 65%;
+            box-shadow: 1px 1px 15px #121212; 
+            @media (min-width: 992px) and (max-width: 1199px) {
+                margin: 6rem auto;
+                width: 75%;
+            }
+            @media(min-width: 768px) and (max-width: 991px) {
+                margin: 5rem auto;
+                width: 85%;
+            }
+            @media (min-width: 576px) and (max-width: 767px) {
+                margin: 5rem auto;
+                width: 90%;
+            }
+            @media (max-width: 575px) {
+                margin: 4rem auto;
+                width: 95%;
+            }
+            .close {
+                position: absolute;
+                right: 0;
+                top: 0;
+                padding: 10px 0;
+                width: 50px;
+                height: 50px;
+                float: right;
+                text-align: center;
+                font-size: 30px;
+                font-weight: 700;
+                line-height: 1;
+                color: #000;
+                text-shadow: 0 1px 0 #fff;
+                background-color: #fff;
+                border: 1px solid #ddd;
+                opacity: .5;
+                cursor: pointer;
+            }
+            &.modal-lg {
+                .sa-modal {
+                    .sa-modal-body {
+                        width: 1050px !important;
+                    }
+                }
+            }
+            &.modal-md {
+                .sa-modal {
+                    .sa-modal-body {
+                        width: 800px !important;
+                    }
+                }
+            }
+            &.modal-sm {
+                .sa-modal {
+                    .sa-modal-body {
+                        width: 600px !important;
+                    }
+                }
+            }
+        }   
+    }
+    .sa-modal-background {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-color: #000;
+        opacity: 0.75;
+        z-index: 900;
+    }
+}
+
+body.sa-modal-open {
+    overflow: hidden;
+}
+
+.sa-modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    overflow: auto;
+    .sa-modal-body {
+        position: relative;
+        background-color: #fff;
+        padding: 55px 20px;
+        margin: 145px auto;
+        width: 65%;
+        box-shadow: 1px 1px 15px #121212; 
+        @media (min-width: 992px) and (max-width: 1199px) {
+            margin: 6rem auto;
+            width: 75%;
+        }
+        @media(min-width: 768px) and (max-width: 991px) {
+            margin: 5rem auto;
+            width: 85%;
+        }
+        @media (min-width: 576px) and (max-width: 767px) {
+            margin: 5rem auto;
+            width: 90%;
+        }
+        @media (max-width: 575px) {
+            margin: 4rem auto;
+            width: 95%;
+        }
+        .close {
+            position: absolute;
+            right: 0;
+            top: 0;
+            padding: 10px 0;
+            width: 50px;
+            height: 50px;
+            float: right;
+            text-align: center;
+            font-size: 30px;
+            font-weight: 700;
+            line-height: 1;
+            color: #000;
+            text-shadow: 0 1px 0 #fff;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            opacity: .5;
+            cursor: pointer;
+        }
+        &.modal-lg {
+            .sa-modal {
+                .sa-modal-body {
+                    width: 1050px !important;
+                }
+            }
+        }
+        &.modal-md {
+            .sa-modal {
+                .sa-modal-body {
+                    width: 800px !important;
+                }
+            }
+        }
+        &.modal-sm {
+            .sa-modal {
+                .sa-modal-body {
+                    width: 600px !important;
+                }
+            }
+        }
+    }   
+}
+.sa-modal-background {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #000;
+    opacity: 0.75;
+    z-index: 900;
+} 
