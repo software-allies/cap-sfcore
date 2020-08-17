@@ -29,16 +29,18 @@
                   <div class="form-group col-md-6">
                     <label for="inputSalutation">Account Name</label>
 
-                    <input
+                    <!-- <input
                       [ngClass]="{'is-invalid': isInvalid && !form.controls.name.value}"
                       type="email"
                       class="form-control"
                       id="inputOpportunityName"
-                      formControlName="accountId" />
-
+                      formControlName="testing"
+                      (ngModel)="lookUpAccount.Name"
+                      disabled/> -->
+                      <label for="inputSalutation" class="form-control">{{lookUpAccount.Name}}</label>
                       <button
                         class="btn btn-primary"
-                        (click)="searchLookUp()">
+                        (click)="searchLookUp('Accounts'); this.modalService.open('searchModal');">
                         search
                       </button>
                     <!-- <ng-select
@@ -288,7 +290,9 @@
                       <tr>
                       <tr>
                         <th scope="row">Primary Campaign Source</th>
-                        <td>{{ LookUpCampaignId(opportunity.CampaignId) }}</td>
+                        <td *ngIf="lookUpContact"> {{lookUpContact.Name}} </td>
+                        <td *ngIf="!lookUpContact"></td>
+                        <!-- <td>{{ LookUpCampaignId(opportunity.CampaignId) }}</td> -->
                       </tr>
                     </tbody>
                   </table>
@@ -415,3 +419,20 @@
     </div>
   </div>
 </div>
+<app-modal #searchModal id="searchModal">
+  <div>
+    <h2 class="text-center">Search content...</h2>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div *ngIf="accountsLookUp" class="list-group" id="list-tab" role="tablist">
+        <a
+          *ngFor="let account of accountsLookUp"
+          class="list-group-item list-group-item-action"
+          data-toggle="list"
+          (click)="selected(account)">{{account.Name}}</a>
+      </div>
+    </div>
+  </div>
+</app-modal>
+

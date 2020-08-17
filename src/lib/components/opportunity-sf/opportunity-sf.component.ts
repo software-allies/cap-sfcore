@@ -5,6 +5,7 @@ import { LoopbackService } from '../../services/loopback.service';
 import { Location } from '@angular/common';
 import Swal from 'sweetalert2';
 import { v4 as uuidv4 } from 'uuid';
+import { ModalService } from '../modal/modal.service'
 
 @Component({
   selector: 'app-opportunity-sf',
@@ -108,13 +109,19 @@ export class OpportunitySFComponent implements OnInit {
   accounts: any[] = [];
   contacts: any[] = [];
 
+  accountsLookUp: any[] = [];
+  contactsLookUp: any[] = [];
+
+  searchText: string;
+
   paramID: string = '';
 
   constructor(
     private activateRoute: ActivatedRoute,
     private router: Router,
     private location: Location,
-    private loopbackService: LoopbackService
+    private loopbackService: LoopbackService,
+    private modalService: ModalService,
   ) {
     this.isInvalid = false;
     this.objectAPI = 'Opportunitys';
@@ -128,6 +135,7 @@ export class OpportunitySFComponent implements OnInit {
     this.objectToSend = {};
     this.lookUpAccount = null;
     this.lookUpContact = null;
+    this.searchText = '';
   }
 
   ngOnInit() {
@@ -157,31 +165,16 @@ export class OpportunitySFComponent implements OnInit {
     if (this.opportunity.AccountId) {
       this.loopbackService.getLookUp('Accounts', this.opportunity.AccountId).subscribe((accounts: Array<{ any }>) => {
         this.lookUpAccount = accounts;
-        /*this.accounts = this.lookUpAccount.map(account => {
-          let data = {
-            id: account.id,
-            sfID: account.SfId,
-            name: account.Name
-          }
-          return data;
-        });*/
       }, (error) => {
         this.lookUpAccount =  null;
       });
     }
 
     if (this.opportunity.CampaignId) {
-      console.log('dentro capain');
       this.loopbackService.getLookUp('Contacts', this.opportunity.CampaignId).subscribe((contacts: Array<{ any }>) => {
         this.lookUpContact = contacts;
-        /*this.contacts = this.lookUpContact.map(contact => {
-          let data = {
-            id: contact.id,
-            sfID: contact.SfId,
-            name: contact.Name
-          };
-          return data;
-        });*/
+      }, (error) => {
+        this.lookUpContact =  null;
       });
     }
 
@@ -216,7 +209,7 @@ export class OpportunitySFComponent implements OnInit {
     }
   }*/
 
-  LookUpCampaignId(CampaignId: string): string {
+  /*LookUpCampaignId(CampaignId: string): string {
     if (CampaignId === null) CampaignId = '';
 
     if (this.lookUpContact && CampaignId) {
@@ -224,14 +217,19 @@ export class OpportunitySFComponent implements OnInit {
       return contact
     }
     return '';
+  }*/
+
+  searchLookUp(lookUp: string) {
+    this.loopbackService.getLookUpBySearch(lookUp, this.searchText).subscribe((data: any) => {
+      console.log(data);
+      this.accountsLookUp = data;
+    });
   }
 
-  searchLookUp() {
-    if (this.form.get('accountId').value) {
-      this.loopbackService.getLookUpBySearch('Accounts', this.form.get('accountId',).value).subscribe((data: any) => {
-        console.log(data);
-      });
-    }
+  selected(record: any) {
+    this.form.controls['accountId'].setValue(record.SfId);
+    this.lookUpAccount = record;
+    this.modalService.close('searchModal');
   }
 
   createForm(opportunity?: any) {
@@ -242,7 +240,7 @@ export class OpportunitySFComponent implements OnInit {
         uuid__c: new FormControl(opportunity.SACAP__UUID__c, [Validators.required]),
         isPrivate: new FormControl(opportunity.IsPrivate),
         name: new FormControl(opportunity.Name, [Validators.required]),
-        accountId: new FormControl(opportunity.AccountId),
+        accountId: new FormControl(opportunity.Name),
         type: new FormControl(opportunity.Type),
         leadSource: new FormControl(opportunity.LeadSource),
         amount: new FormControl(opportunity.Amount, [Validators.pattern('^(\\d*|\\d+\\.\\d{1,2})$')]),
