@@ -12,9 +12,12 @@ app-modal {
             position: relative;
             background-color: #fff;
             padding: 55px 20px;
-            margin: 145px auto;
+            margin: 80px auto;
             width: 65%;
-            box-shadow: 1px 1px 15px #121212; 
+            height: 80%;
+            overflow: auto;
+            box-shadow: 1px 1px 15px #121212;
+            border-radius: 12px !important;
             @media (min-width: 992px) and (max-width: 1199px) {
                 margin: 6rem auto;
                 width: 75%;
@@ -71,7 +74,7 @@ app-modal {
                     }
                 }
             }
-        }   
+        }
     }
     .sa-modal-background {
         position: fixed;
@@ -103,7 +106,7 @@ body.sa-modal-open {
         padding: 55px 20px;
         margin: 145px auto;
         width: 65%;
-        box-shadow: 1px 1px 15px #121212; 
+        box-shadow: 1px 1px 15px #121212;
         @media (min-width: 992px) and (max-width: 1199px) {
             margin: 6rem auto;
             width: 75%;
@@ -160,7 +163,7 @@ body.sa-modal-open {
                 }
             }
         }
-    }   
+    }
 }
 .sa-modal-background {
     position: fixed;
@@ -171,4 +174,4 @@ body.sa-modal-open {
     background-color: #000;
     opacity: 0.75;
     z-index: 900;
-} 
+}
