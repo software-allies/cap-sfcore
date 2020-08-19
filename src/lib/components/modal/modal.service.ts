@@ -29,12 +29,11 @@ export class ModalService {
     modal.close();
   }
 
-    emitClose(): void {
-        return  this.onEmitClose.next();
-    }
+  emitClose(): void {
+    return  this.onEmitClose.next();
+  }
 
-    emitOpen(): void {
-        return  this.onEmitOpen.next();
-    }
-
+  emitOpen(): void {
+    return  this.onEmitOpen.next();
+  }
 }
