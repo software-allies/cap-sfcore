@@ -109,11 +109,10 @@ export class OpportunitySFComponent implements OnInit {
   accounts: any[] = [];
   contacts: any[] = [];
 
-  accountsLookUp: any[] = [];
-  contactsLookUp: any[] = [];
+  LookUpListings: any[] = [];
+  LookUpListings404: boolean;
 
   searchText: string;
-
   paramID: string = '';
 
   constructor(
@@ -136,6 +135,7 @@ export class OpportunitySFComponent implements OnInit {
     this.lookUpAccount = null;
     this.lookUpContact = null;
     this.searchText = '';
+    this.LookUpListings404 =  false;
   }
 
   ngOnInit() {
@@ -153,11 +153,14 @@ export class OpportunitySFComponent implements OnInit {
   getObject(sfid: string) {
     this.loopbackService.getRecordWithFindOne(this.objectAPI, sfid).subscribe((object: any) => {
       this.opportunity = object;
+      console.log(object);
       this.viewOpportunity = object ? true : false;
       if (this.status) {
         this.createForm(object);
       }
       this.getLookUps();
+    }, (error) => {
+      console.error('Error ' + error.status + ' - ' + error.name + ' - ' + error.statusText);
     });
   }
 
@@ -165,7 +168,9 @@ export class OpportunitySFComponent implements OnInit {
     if (this.opportunity.AccountId) {
       this.loopbackService.getLookUp('Accounts', this.opportunity.AccountId).subscribe((accounts: Array<{ any }>) => {
         this.lookUpAccount = accounts;
+        console.log('accounts', accounts);
       }, (error) => {
+        console.error('Error ' + error.status + ' - ' + error.name + ' - ' + error.statusText);
         this.lookUpAccount =  null;
       });
     }
@@ -174,10 +179,10 @@ export class OpportunitySFComponent implements OnInit {
       this.loopbackService.getLookUp('Contacts', this.opportunity.CampaignId).subscribe((contacts: Array<{ any }>) => {
         this.lookUpContact = contacts;
       }, (error) => {
+        console.error('Error ' + error.status + ' - ' + error.name + ' - ' + error.statusText);
         this.lookUpContact =  null;
       });
     }
-
   }
 
   cancelAction(goBack?: boolean) {
@@ -197,54 +202,63 @@ export class OpportunitySFComponent implements OnInit {
     return date.getUTCFullYear() + '-' + month + '-' + day;
   }
 
-  /*LookUpAccountName(id: string): string {
-    if (this.lookUpContact && id && this.lookUpAccount) {
-      let fromContact = this.lookUpContact.find(contact => contact.AccountId === id);
-      let fromaAccount = this.lookUpAccount.find(account => account.SfId === id);
-      if (fromContact === undefined && fromaAccount === undefined) {
-        return ''
-      }
-      let accountName = fromContact ? fromContact.Name : fromaAccount.Name;
-      return accountName ? accountName : '';
-    }
-  }*/
-
-  /*LookUpCampaignId(CampaignId: string): string {
-    if (CampaignId === null) CampaignId = '';
-
-    if (this.lookUpContact && CampaignId) {
-      const contact = this.lookUpContact.find(x => x.SfId === CampaignId).Name;
-      return contact
-    }
-    return '';
-  }*/
-
   searchLookUp(lookUp: string) {
     this.loopbackService.getLookUpBySearch(lookUp, this.searchText).subscribe((data: any) => {
-      console.log(data);
-      this.accountsLookUp = data;
+      this.LookUpListings = data;
+      this.LookUpListings404 = data.length < 1 ? true : false;
+    }, (error) => {
+      console.error('Error ' + error.status + ' - ' + error.name + ' - ' + error.statusText);
+      this.LookUpListings404 = true;
     });
   }
 
-  selected(record: any) {
-    this.form.controls['accountId'].setValue(record.SfId);
-    this.lookUpAccount = record;
-    this.modalService.close('searchModal');
+  deselectLookUp(modalId: string) {
+    if (modalId === 'searchAccount') {
+      this.form.controls['accountId'].setValue('');
+      this.modalService.close(modalId);
+      this.lookUpAccount = null;
+    } else if (modalId === 'searchContact') {
+      this.form.controls['campaignId'].setValue('');
+      this.modalService.close(modalId);
+      this.lookUpContact = null;
+    }
+  }
+
+  LookUpSelected(record: any, modalId: string) {
+    if (modalId === 'searchAccount') {
+      this.form.controls['accountId'].setValue(record.SfId);
+      this.lookUpAccount = record;
+      this.modalService.close(modalId);
+    } else if (modalId === 'searchContact') {
+      this.form.controls['campaignId'].setValue(record.SfId);
+      this.lookUpContact = record;
+      this.modalService.close(modalId);
+    }
+  }
+
+  onCloseModal() {
+    this.searchText = '';
+    this.LookUpListings404 = false;
+    this.LookUpListings = [];
+  }
+
+  OnOpenModal() {
+    this.searchText = '';
+    this.LookUpListings404 = false;
   }
 
   createForm(opportunity?: any) {
     if (opportunity) {
-
       this.form = new FormGroup({
         id: new FormControl(opportunity.id, [Validators.required]),
         uuid__c: new FormControl(opportunity.SACAP__UUID__c, [Validators.required]),
         isPrivate: new FormControl(opportunity.IsPrivate),
         name: new FormControl(opportunity.Name, [Validators.required]),
-        accountId: new FormControl(opportunity.Name),
+        accountId: new FormControl(opportunity.AccountId),
         type: new FormControl(opportunity.Type),
         leadSource: new FormControl(opportunity.LeadSource),
-        amount: new FormControl(opportunity.Amount, [Validators.pattern('^(\\d*|\\d+\\.\\d{1,2})$')]),
-        revenue: new FormControl(opportunity.ExpectedRevenue, [Validators.pattern('^(\\d*|\\d+\\.\\d{1,2})$')]),
+        amount: new FormControl(opportunity.Amount, [Validators.pattern('^[0-9]+([.][0-9]+)?$')]),
+        revenue: new FormControl(opportunity.ExpectedRevenue, [Validators.pattern('^[0-9]+([.][0-9]+)?$')]),
         closeDate: new FormControl(this.changeFormatDate(opportunity.CloseDate), [Validators.required]),
         nextStep: new FormControl(opportunity.NextStep),
         stageName: new FormControl(opportunity.StageName, [Validators.required]),
@@ -268,8 +282,8 @@ export class OpportunitySFComponent implements OnInit {
         accountId: new FormControl(''),
         type: new FormControl(''),
         leadSource: new FormControl(''),
-        amount: new FormControl('', [Validators.pattern('^(\\d*|\\d+\\.\\d{1,2})$')]),
-        revenue: new FormControl('', [Validators.pattern('^(\\d*|\\d+\\.\\d{1,2})$')]),
+        amount: new FormControl('', [Validators.pattern('^[0-9]+([.][0-9]+)?$')]),
+        revenue: new FormControl('', [Validators.pattern('^[0-9]+([.][0-9]+)?$')]),
         closeDate: new FormControl('', [Validators.required]),
         nextStep: new FormControl(''),
         stageName: new FormControl('', [Validators.required]),
@@ -287,6 +301,9 @@ export class OpportunitySFComponent implements OnInit {
   }
 
   onSubmit(updateOrcreate?: boolean) {
+    console.log(this.form);
+    console.log(this.form.value);
+
     if (this.form.valid) {
       this.objectToSend = {
         SACAP__UUID__c: this.form.get('uuid__c').value,
@@ -310,6 +327,7 @@ export class OpportunitySFComponent implements OnInit {
         Description: this.form.get('description').value,
       };
       if (updateOrcreate) {
+        console.log(this.objectToSend);
         this.loopbackService.patchRequest(this.objectAPI, this.form.get('id').value, this.objectToSend)
           .subscribe((opportunityUpdate: any) => {
             if (opportunityUpdate) {
@@ -321,8 +339,7 @@ export class OpportunitySFComponent implements OnInit {
                 timer: 1500
               }).then(result => window.location.assign(`${window.location.origin}/opportunity/${this.paramID}`));
             }
-          });
-
+          }, (error) => console.error('Error ' + error.status + ' - ' + error.name + ' - ' + error.statusText));
       } else {
         this.loopbackService.postRequest(this.objectAPI, this.objectToSend).subscribe((opportunity: any) => {
           if (opportunity) {
@@ -334,7 +351,7 @@ export class OpportunitySFComponent implements OnInit {
               timer: 1500
             }).then(result => window.location.assign(`${window.location.origin}/opportunity`));
           }
-        });
+        }, (error) => console.error('Error ' + error.status + ' - ' + error.name + ' - ' + error.statusText));
       }
     } else {
       this.isInvalid = true;
