@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { LoopbackService } from '../../services/loopback.service';
+import { Component, OnInit } from '@angular/core';
+import { ModalService } from '../modal/modal.service';
 import { Location } from '@angular/common';
-import Swal from 'sweetalert2';
 import { v4 as uuidv4 } from 'uuid';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-account-sf',
@@ -103,7 +104,6 @@ export class AccountSFComponent implements OnInit {
     { id: 'Transportation', value: 'Transportation', text: 'Transportation' },
     { id: 'Utilities', value: 'Utilities', text: 'Utilities' },
     { id: 'Other', value: 'Other', text: 'Other' },
-
   ];
   ratingValues: string[] = ['Hot', 'Warm', 'Cold'];
   ownershipValues: string[] = ['Public', 'Private', 'Subsidiary', 'Other'];
@@ -119,27 +119,34 @@ export class AccountSFComponent implements OnInit {
 
   objectAPI: string;
   objectToSend: any;
+
   account: any;
+  lookUpAccount: any;
 
-  lookUpAccounts: any;
-  paramID: string = '';
+  LookUpListings: any[] = [];
+  LookUpListings404: boolean;
 
+  searchText: string;
+  paramID: string;
 
   constructor(
+    private loopbackService: LoopbackService,
     private activateRoute: ActivatedRoute,
-    private router: Router,
+    private modalService: ModalService,
     private location: Location,
-    private loopbackService: LoopbackService
+    private router: Router
   ) {
     this.createAccount = false;
     this.updateAccount = false;
     this.viewAccount = false;
     this.status = false;
-
     this.account = {};
     this.objectToSend = {};
     this.objectAPI = 'Accounts';
-    this.lookUpAccounts = null;
+    this.lookUpAccount = null;
+    this.LookUpListings404 =  false;
+    this.searchText = '';
+    this.paramID = '';
   }
 
   ngOnInit() {
@@ -152,7 +159,6 @@ export class AccountSFComponent implements OnInit {
         this.status = params.status === 'update' ? true : false;
       });
     }
-    this.getAccountLookUp();
   }
 
   getObject(sfid: string) {
@@ -162,21 +168,58 @@ export class AccountSFComponent implements OnInit {
       if (this.status) {
         this.createForm(object);
       }
+      this.getLookUps();
     });
   }
 
-  getAccountLookUp() {
-    this.loopbackService.getLookUp('Accounts', '').subscribe((accounts: Array<{ any }>) => {
-      this.lookUpAccounts = accounts.map((account: any) => {
-        let data = {
-          id: account.id,
-          sfID: account.SfId,
-          name: account.Name
-        }
-        return data;
-      });
+  searchLookUp(lookUp: string) {
+    this.loopbackService.getLookUpBySearch(lookUp, this.searchText).subscribe((data: any) => {
+      this.LookUpListings = data;
+      this.LookUpListings404 = data.length < 1 ? true : false;
+    }, (error) => {
+      console.error('Error ' + error.status + ' - ' + error.name + ' - ' + error.statusText);
+      this.LookUpListings404 = true;
     });
   }
+
+  getLookUps() {
+    if (this.account.ParentId) {
+      this.loopbackService.getLookUp('Accounts', this.account.ParentId).subscribe((accounts: Array<{ any }>) => {
+        this.lookUpAccount = accounts;
+      }, (error) => {
+        console.error('Error ' + error.status + ' - ' + error.name + ' - ' + error.statusText);
+        this.lookUpAccount =  null;
+      });
+    }
+  }
+
+  deselectLookUp(modalId: string) {
+    if (modalId === 'searchAccount') {
+      this.form.controls['parentId'].setValue('');
+      this.modalService.close(modalId);
+      this.lookUpAccount = null;
+    }
+  }
+
+  LookUpSelected(record: any, modalId: string) {
+    if (modalId === 'searchAccount') {
+      this.form.controls['parentId'].setValue(record.SfId);
+      this.lookUpAccount = record;
+      this.modalService.close(modalId);
+    }
+  }
+
+  onCloseModal() {
+    this.searchText = '';
+    this.LookUpListings404 = false;
+    this.LookUpListings = [];
+  }
+
+  OnOpenModal() {
+    this.searchText = '';
+    this.LookUpListings404 = false;
+  }
+
 
   cancelAction(goBack?: boolean) {
     if (goBack) {
@@ -193,13 +236,6 @@ export class AccountSFComponent implements OnInit {
     const day = ('0' + date.getUTCDate()).slice(-2);
     const month = ('0' + (date.getUTCMonth() + 1)).slice(-2);
     return date.getUTCFullYear() + '-' + month + '-' + day;
-  }
-
-  LookUpParentAccount(ParentId: string): string {
-    if (this.lookUpAccounts && ParentId) {
-      return this.lookUpAccounts.find(x => x.sfID === ParentId) ?
-        this.lookUpAccounts.find(x => x.sfID === ParentId).name: '';
-    }
   }
 
   createForm(account?: any) {
