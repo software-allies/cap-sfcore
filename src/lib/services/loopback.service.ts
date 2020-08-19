@@ -10,6 +10,7 @@ export class LoopbackService {
 
   url: string;
   limit: number;
+  limitLookUps: number;
 
   constructor(
     private http: HttpClient,
@@ -18,6 +19,7 @@ export class LoopbackService {
   ) {
     this.url = this.configService.endPoint;
     this.limit = 20;
+    this.limitLookUps = 100;
   }
 
   getToken(): string {
@@ -41,10 +43,6 @@ export class LoopbackService {
   }
 
   getAllRequest(tableName: string, searchText: string, attributeSelected: string, applySearchBy: boolean = false, offset: number = 0) {
-    /*const order = tableName === 'Accounts' || tableName === 'Opportunitys'
-      ? 'Name'
-      : 'FirstName';*/
-
     const httpOptions = {
       headers: new HttpHeaders({
         'content-type': 'application/json',
@@ -84,20 +82,13 @@ export class LoopbackService {
   }
 
   getLookUp(tableName: string, id: string) {
-    /*const order = tableName === 'Accounts' || tableName === 'Opportunitys'
-      ? 'Name'
-      : 'FirstName';*/
-
-      // findOne?filter={"where":{"SfId":"${sfid}"}}
     const httpOptions = {
       headers: new HttpHeaders({
         'content-type': 'application/json',
         Authorization: `Bearer ${this.getToken()}`
       })
     };
-    return this.http.get(
-      `${this.url}/${tableName}/findOne?filter={"where":{"SfId":"${id}"}}`,
-      httpOptions);
+    return this.http.get(`${this.url}/${tableName}/findOne?filter={"where":{"SfId":"${id}"}}`, httpOptions);
   }
 
   getLookUpBySearch(tableName: string, text: string) {
@@ -108,9 +99,8 @@ export class LoopbackService {
       })
     };
     const regexp = `/${text}/i`;
-    return this.http.get(
-      `${this.url}/${tableName}?filter={"where":{"and":[{"SACAP__UUID__c":{"nlike": "null"}},{"Name":{"regexp":"${regexp}"}}]},"order":"Name", "limit":100}`,
-      httpOptions
+    const query = `filter={"where":{"and":[{"SACAP__UUID__c":{"nlike": "null"}},{"Name":{"regexp":"${regexp}"}}]},"order":"Name", "limit":${this.limitLookUps}}`
+    return this.http.get(`${this.url}/${tableName}?${query}`, httpOptions
     );
   }
 
