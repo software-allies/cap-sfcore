@@ -41,7 +41,7 @@ import Swal from 'sweetalert2';
                 >
 
                 <div class="input-group-append" *ngIf="searchByText">
-                  <button (click)="everythingRecords()" class="btn btn-outline-dark" type="button" > Everything </button>
+                  <button (click)="everythingRecords()" class="btn btn-outline-dark" type="button" >Clean value</button>
                 </div>
 
                 <div class="input-group-append">
@@ -94,7 +94,6 @@ import Swal from 'sweetalert2';
               <td *ngIf="objectComponent === 'account'" class="discard">{{ object.BillingCity }}</td>
               <td *ngIf="objectComponent === 'account'" class="numeric discard">{{ object.Phone }}</td>
 
-
               <td *ngIf="objectComponent === 'contact'" scope="row">
                 <a routerLink="/{{objectComponent}}/{{object.SfId}}">{{ object.Name }}</a>
               </td>
@@ -103,7 +102,6 @@ import Swal from 'sweetalert2';
               </td>
               <td *ngIf="objectComponent === 'contact'" class="numeric discard">{{ object.MobilePhone }}</td>
 
-
               <td *ngIf="objectComponent === 'opportunity'" scope="row">
                 <a routerLink="/{{objectComponent}}/{{object.SfId}}">{{ object.Name }}</a>
               </td>
@@ -111,7 +109,6 @@ import Swal from 'sweetalert2';
                 <a routerLink="/account/{{object.AccountId}}">{{ object.accountName }}</a>
               </td>
               <td *ngIf="objectComponent === 'opportunity'" class="date discard">{{ object.CloseDate | date: 'MM/dd/yyyy' : 'UTC/GMT'}}</td>
-
 
               <td *ngIf="objectComponent === 'lead'"  scope="row">
                 <a routerLink="/{{objectComponent}}/{{object.SfId}}">{{ object.Name }}</a>
@@ -163,13 +160,14 @@ import Swal from 'sweetalert2';
   styles: [`
   table {
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border-collapse: collapse;
   }
 
   table.rwd_auto {width: 100%; margin: 0 0 50px 0; }
-  .rwd_auto th {padding:5px; text-align: left; }
+  .rwd_auto th {word-wrap: break-word; padding:5px; text-align: left; }
   .rwd_auto th:last-child {text-align: center; }
 
-  .rwd_auto td { border-bottom: .5px solid #ccc; padding: 5px; text-align: left; }
+  .rwd_auto td {word-wrap: break-word; border-bottom: .5px solid #ccc; padding: 5px; text-align: left; }
   .rwd_auto td.numeric { text-align: left; }
   .rwd_auto td.date { text-align: left; }
   .rwd_auto tr:last-child td { border:0; }
