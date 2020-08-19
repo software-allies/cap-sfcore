@@ -1,6 +1,6 @@
 {
   "name": "cap-sfcore",
-  "version": "1.0.39",
+  "version": "1.0.40",
   "description": "CRUD for SalesForce objects",
   "scripts": {
     "packagr": "ng-packagr -p ng-package.json"
@@ -42,8 +42,7 @@
     "uuid": "^3.3.3",
     "sweetalert2": "^9.5.3",
     "@auth0/angular-jwt": "^3.0.1",
-    "bootstrap": "^4.4.1",
-    "@ng-select/ng-select": "^3.5.0"
+    "bootstrap": "^4.4.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.803.23",
@@ -71,7 +70,6 @@
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.4.0",
     "ng-packagr": "^9.0.0",
-    "ngx-dropdown-list": "^1.1.1",
     "ngx-pagination": "^5.0.0",
     "protractor": "~5.4.0",
     "rxjs": "~6.4.0",
