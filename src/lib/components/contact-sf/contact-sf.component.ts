@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { LoopbackService } from '../../services/loopback.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ModalService } from '../modal/modal.service';
+import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import Swal from 'sweetalert2';
 import { v4 as uuidv4 } from 'uuid';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-contact-sf',
@@ -77,29 +78,34 @@ export class ContactSFComponent implements OnInit {
   viewContact: boolean;
   status: boolean;
 
-  lookUpAccount: any[] = [];
-  lookUpContact: any[] = [];
+  lookUpAccount: any;
+  lookUpContact: any;
 
+  LookUpListings: any[] = [];
+  LookUpListings404: boolean;
+
+  searchText: string;
   paramId: string = '';
 
   constructor(
+    private loopbackService: LoopbackService,
     private activateRoute: ActivatedRoute,
-    private router: Router,
+    private modalService: ModalService,
     private location: Location,
-    private loopbackService: LoopbackService
+    private router: Router
   ) {
     this.createContact = false;
     this.updateContact = false;
     this.viewContact = false;
     this.status = false;
-
     this.isInvalid = false;
     this.objectToSend = {};
-
     this.objectAPI = 'Contacts';
     this.contact = {};
     this.lookUpAccount = null;
     this.lookUpContact = null;
+    this.searchText = '';
+    this.LookUpListings404 =  false;
   }
 
   ngOnInit() {
@@ -112,41 +118,38 @@ export class ContactSFComponent implements OnInit {
         this.status = params.status === 'update' ? true : false;
       });
     }
-    this.getLookUps();
   }
 
   getObject(sfid: string) {
     this.loopbackService.getRecordWithFindOne(this.objectAPI, sfid).subscribe((object: any) => {
       this.contact = object;
-
       this.viewContact = object ? true : false;
       if (this.status) {
         this.createForm(object);
       }
+      this.getLookUps();
+    }, (error) => {
+      console.error('Error ' + error.status + ' - ' + error.name + ' - ' + error.statusText);
     });
   }
 
   getLookUps() {
-    this.loopbackService.getLookUp('Accounts', '').subscribe((accounts: Array<{ any }>) => {
-      this.lookUpAccount = accounts.map((account: any) => {
-        let data = {
-          id: account.id,
-          value: account.SfId,
-          text: account.Name
-        }
-        return data;
+    if (this.contact.AccountId) {
+      this.loopbackService.getLookUp('Accounts', this.contact.AccountId).subscribe((accounts: Array<{ any }>) => {
+        this.lookUpAccount = accounts;
+      }, (error) => {
+        console.error('Error ' + error.status + ' - ' + error.name + ' - ' + error.statusText);
+        this.lookUpAccount =  null;
       });
-    });
-    this.loopbackService.getLookUp('Contacts', '').subscribe((contacts: Array<{ any }>) => {
-      this.lookUpContact = contacts.map((contact: any) => {
-        let data = {
-          id: contact.id,
-          value: contact.SfId,
-          text: contact.Name
-        }
-        return data;
+    }
+    if (this.contact.ReportsToId) {
+      this.loopbackService.getLookUp('Contacts', this.contact.ReportsToId).subscribe((contacts: Array<{ any }>) => {
+        this.lookUpContact = contacts;
+      }, (error) => {
+        console.error('Error ' + error.status + ' - ' + error.name + ' - ' + error.statusText);
+        this.lookUpContact =  null;
       });
-    });
+    }
   }
 
   cancelAction(goBack?: boolean) {
@@ -159,27 +162,56 @@ export class ContactSFComponent implements OnInit {
     }
   }
 
+  searchLookUp(lookUp: string) {
+    this.loopbackService.getLookUpBySearch(lookUp, this.searchText).subscribe((data: any) => {
+      this.LookUpListings = data;
+      this.LookUpListings404 = data.length < 1 ? true : false;
+    }, (error) => {
+      console.error('Error ' + error.status + ' - ' + error.name + ' - ' + error.statusText);
+      this.LookUpListings404 = true;
+    });
+  }
+
+  deselectLookUp(modalId: string) {
+    if (modalId === 'searchAccount') {
+      this.form.controls['accountId'].setValue('');
+      this.modalService.close(modalId);
+      this.lookUpAccount = null;
+    } else if (modalId === 'searchContact') {
+      this.form.controls['campaignId'].setValue('');
+      this.modalService.close(modalId);
+      this.lookUpContact = null;
+    }
+  }
+
+  LookUpSelected(record: any, modalId: string) {
+    if (modalId === 'searchAccount') {
+      this.form.controls['accountId'].setValue(record.SfId);
+      this.lookUpAccount = record;
+      this.modalService.close(modalId);
+    } else if (modalId === 'searchContact') {
+      this.form.controls['reportsToId'].setValue(record.SfId);
+      this.lookUpContact = record;
+      this.modalService.close(modalId);
+    }
+  }
+
+  onCloseModal() {
+    this.searchText = '';
+    this.LookUpListings404 = false;
+    this.LookUpListings = [];
+  }
+
+  OnOpenModal() {
+    this.searchText = '';
+    this.LookUpListings404 = false;
+  }
+
   changeFormatDate(formatDate: any): string {
     const date = new Date(formatDate);
     const day = ('0' + date.getUTCDate()).slice(-2);
     const month = ('0' + (date.getUTCMonth() + 1)).slice(-2);
     return date.getUTCFullYear() + '-' + month + '-' + day;
-  }
-
-  LookUpAccountName(AccountId: string): string {
-    return this.lookUpAccount && AccountId && this.lookUpAccount.find(x => x.value === AccountId) ? this.lookUpAccount.find(x => x.value === AccountId).text
-      : '';
-  }
-
-  LookUpReportsTo(ReportsToId: string): string {
-    if (this.lookUpContact && ReportsToId && this.lookUpContact.find(x => x.value === ReportsToId)) {
-      const contact = this.lookUpContact.find(x => x.value === ReportsToId);
-      return contact.text;
-    }
-    return '';
-    /*return  this.lookUpContact && ReportsToId && this.lookUpContact.find(x => x.SfId === ReportsToId) ?
-            this.lookUpContact.find(x => x.SfId === ReportsToId).FirstName
-            : '';*/
   }
 
   createForm(contact?: any) {
