@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { LoopbackService } from '../../services/loopback.service';
+import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import Swal from 'sweetalert2';
 import { v4 as uuidv4 } from 'uuid';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-lead-sf',
@@ -123,25 +123,22 @@ export class LeadSFComponent implements OnInit {
 
   objectToSend: any;
   isInvalid: boolean;
-  lookUpContact: any;
   paramID: string = '';
 
   constructor(
+    private loopbackService: LoopbackService,
     private activateRoute: ActivatedRoute,
-    private router: Router,
     private location: Location,
-    private loopbackService: LoopbackService
+    private router: Router
   ) {
     this.createLead = false;
     this.updateLead = false;
     this.viewLead = false;
     this.status = false;
-
     this.objectToSend = {};
     this.lead = {};
     this.isInvalid = false;
     this.objectAPI = 'Leads';
-    this.lookUpContact = [];
   }
 
   ngOnInit() {
@@ -154,7 +151,6 @@ export class LeadSFComponent implements OnInit {
        this.status = params.status === 'update' ? true : false;
       });
     }
-    this.getContactLookUp();
   }
 
   getObject(sfid: string) {
@@ -164,12 +160,6 @@ export class LeadSFComponent implements OnInit {
       if (this.status) {
         this.createForm(object);
       }
-    });
-  }
-
-  getContactLookUp() {
-    this.loopbackService.getLookUp('Contacts', '').subscribe((contacts: Array<{any}>) => {
-      this.lookUpContact = contacts;
     });
   }
 

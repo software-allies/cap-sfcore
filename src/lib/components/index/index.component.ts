@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, Inject, Output, EventEmitter } from '@angular/core';
-import { LoopbackService } from '../../services/loopback.service';
-import { PaginationComponent } from '../pagination/pagination.component';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
+import { PaginationComponent } from '../pagination/pagination.component';
+import { LoopbackService } from '../../services/loopback.service';
 import Swal from 'sweetalert2';
 
 @Component({

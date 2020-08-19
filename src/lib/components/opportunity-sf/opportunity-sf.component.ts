@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { LoopbackService } from '../../services/loopback.service';
+import { ModalService } from '../modal/modal.service';
 import { Location } from '@angular/common';
-import Swal from 'sweetalert2';
 import { v4 as uuidv4 } from 'uuid';
-import { ModalService } from '../modal/modal.service'
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-opportunity-sf',
@@ -106,9 +106,6 @@ export class OpportunitySFComponent implements OnInit {
   lookUpAccount: any;
   lookUpContact: any;
 
-  accounts: any[] = [];
-  contacts: any[] = [];
-
   LookUpListings: any[] = [];
   LookUpListings404: boolean;
 
@@ -116,11 +113,11 @@ export class OpportunitySFComponent implements OnInit {
   paramID: string = '';
 
   constructor(
-    private activateRoute: ActivatedRoute,
-    private router: Router,
-    private location: Location,
     private loopbackService: LoopbackService,
+    private activateRoute: ActivatedRoute,
     private modalService: ModalService,
+    private location: Location,
+    private router: Router,
   ) {
     this.isInvalid = false;
     this.objectAPI = 'Opportunitys';
@@ -153,7 +150,6 @@ export class OpportunitySFComponent implements OnInit {
   getObject(sfid: string) {
     this.loopbackService.getRecordWithFindOne(this.objectAPI, sfid).subscribe((object: any) => {
       this.opportunity = object;
-      console.log(object);
       this.viewOpportunity = object ? true : false;
       if (this.status) {
         this.createForm(object);
@@ -168,7 +164,6 @@ export class OpportunitySFComponent implements OnInit {
     if (this.opportunity.AccountId) {
       this.loopbackService.getLookUp('Accounts', this.opportunity.AccountId).subscribe((accounts: Array<{ any }>) => {
         this.lookUpAccount = accounts;
-        console.log('accounts', accounts);
       }, (error) => {
         console.error('Error ' + error.status + ' - ' + error.name + ' - ' + error.statusText);
         this.lookUpAccount =  null;
@@ -301,9 +296,6 @@ export class OpportunitySFComponent implements OnInit {
   }
 
   onSubmit(updateOrcreate?: boolean) {
-    console.log(this.form);
-    console.log(this.form.value);
-
     if (this.form.valid) {
       this.objectToSend = {
         SACAP__UUID__c: this.form.get('uuid__c').value,
@@ -327,7 +319,6 @@ export class OpportunitySFComponent implements OnInit {
         Description: this.form.get('description').value,
       };
       if (updateOrcreate) {
-        console.log(this.objectToSend);
         this.loopbackService.patchRequest(this.objectAPI, this.form.get('id').value, this.objectToSend)
           .subscribe((opportunityUpdate: any) => {
             if (opportunityUpdate) {
