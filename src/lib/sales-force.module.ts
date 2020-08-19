@@ -20,9 +20,6 @@ import { ModalService } from './components/modal/modal.service';
 import { IConfig } from './interfaces/config.interface';
 
 import { NgxPaginationModule } from 'ngx-pagination';
-// import { DropdownListModule } from 'ngx-dropdown-list';
-import { NgSelectModule } from '@ng-select/ng-select';
-
 
 @NgModule({
   declarations: [
@@ -37,8 +34,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
   imports: [
     FormsModule,
     CommonModule,
-    // DropdownListModule,
-    NgSelectModule,
     ReactiveFormsModule,
     NgxPaginationModule,
     LoopbackRoutingModule,

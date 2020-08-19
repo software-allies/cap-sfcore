@@ -7,8 +7,7 @@
       "ngx-pagination" : "ngxPagination",
       "uuid": "uuid",
       "@auth0/angular-jwt": "angularJwt",
-      "sweetalert2": "Swal",
-      "@ng-select/ng-select": "@ngSelectNgSelect"
+      "sweetalert2": "Swal"
     }
   }
 }
