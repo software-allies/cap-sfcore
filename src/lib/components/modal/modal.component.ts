@@ -1,19 +1,7 @@
-import {
-  Component,
-  ElementRef,
-  Input,
-  Output,
-  OnInit,
-  OnDestroy,
-  EventEmitter,
-  Renderer2,
-  Inject,
-  ViewEncapsulation,
-  PLATFORM_ID
+import {Component, ElementRef, Input, Output, OnInit, OnDestroy, EventEmitter, Renderer2, Inject, ViewEncapsulation, PLATFORM_ID
 } from '@angular/core';
 import { ModalService } from './modal.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-
 
 @Component({
   selector: 'app-modal',
@@ -32,29 +20,20 @@ import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 
 export class ModalComponent implements OnInit, OnDestroy {
 
-  @Input()
-  id: string;
+  @Input() id: string;
+  @Input() backgroundClickClose: boolean = false;
+  @Input() class: string;
+  @Output() Open: EventEmitter<boolean> = new EventEmitter();
+  @Output() Close: EventEmitter<boolean> = new EventEmitter();
 
-  @Input()
-  backgroundClickClose: boolean = false;
-
-  @Input()
-  class: string;
-
-  @Output()
-  onOpen: EventEmitter<boolean> = new EventEmitter();
-
-  @Output()
-  onClose: EventEmitter<boolean> = new EventEmitter();
-
-  private element: any;
+  public element: any;
 
   constructor(
-    private modalService: ModalService,
-    private el: ElementRef,
-    private renderer: Renderer2,
-    @Inject(DOCUMENT) private document: Document,
-    @Inject(PLATFORM_ID) private platformId: string
+    public modalService: ModalService,
+    public el: ElementRef,
+    public renderer: Renderer2,
+    @Inject(DOCUMENT) public document: any,
+    @Inject(PLATFORM_ID) public platformId: string
   ) {
     this.element = el.nativeElement;
   }
@@ -94,7 +73,7 @@ export class ModalComponent implements OnInit, OnDestroy {
     }
     this.element.style.display = 'block';
     this.renderer.addClass(this.document.body, 'sa-modal-open');
-    this.onOpen.emit(true);
+    this.Open.emit(true);
     this.modalService.emitOpen();
   }
 
@@ -104,7 +83,7 @@ export class ModalComponent implements OnInit, OnDestroy {
     }
     this.element.style.display = 'none';
     this.renderer.removeClass(this.document.body, 'sa-modal-open');
-    this.onClose.emit(true);
+    this.Close.emit(true);
     this.modalService.emitClose();
   }
 }

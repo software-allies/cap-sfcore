@@ -90,7 +90,7 @@ export class ContactSFComponent implements OnInit {
   constructor(
     private loopbackService: LoopbackService,
     private activateRoute: ActivatedRoute,
-    private modalService: ModalService,
+    public modalService: ModalService,
     private location: Location,
     private router: Router
   ) {
@@ -196,15 +196,19 @@ export class ContactSFComponent implements OnInit {
     }
   }
 
-  onCloseModal() {
-    this.searchText = '';
-    this.LookUpListings404 = false;
-    this.LookUpListings = [];
+  onCloseModal(event: boolean) {
+    if (event) {
+      this.searchText = '';
+      this.LookUpListings404 = false;
+      this.LookUpListings = [];
+    }
   }
 
-  OnOpenModal() {
-    this.searchText = '';
-    this.LookUpListings404 = false;
+  OnOpenModal(event: boolean) {
+    if (event) {
+      this.searchText = '';
+      this.LookUpListings404 = false;
+    }
   }
 
   changeFormatDate(formatDate: any): string {

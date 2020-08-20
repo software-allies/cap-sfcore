@@ -7,3 +7,6 @@ export * from './lib/components/pagination/pagination.component';
 export * from './lib/components/account-sf/account-sf.component';
 export * from './lib/components/contact-sf/contact-sf.component';
 export * from './lib/components/opportunity-sf/opportunity-sf.component';
+export * from './lib/components/modal/modal.component';
+export * from './lib/components/modal/modal.service';
+

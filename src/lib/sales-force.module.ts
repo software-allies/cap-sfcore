@@ -48,9 +48,6 @@ import { NgxPaginationModule } from 'ngx-pagination';
     OpportunitySFComponent,
     ModalComponent
   ],
-  entryComponents: [
-    ModalComponent
-  ],
   providers: [
     LoopbackService,
     ModalService

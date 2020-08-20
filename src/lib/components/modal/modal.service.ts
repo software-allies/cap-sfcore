@@ -6,10 +6,10 @@ import { Subject } from 'rxjs';
 })
 export class ModalService {
 
-  private modals: any[] = [];
-  private onEmitClose = new Subject<void>();
+  public modals: any[] = [];
+  public onEmitClose = new Subject<void>();
   public onEmitClose$ = this.onEmitClose.asObservable();
-  private onEmitOpen = new Subject<void>();
+  public onEmitOpen = new Subject<void>();
   public onEmitOpen$ = this.onEmitOpen.asObservable();
 
   add(modal: any) {

@@ -389,7 +389,7 @@
   </div>
 </div>
 
-<app-modal id="searchAccount" (onClose)="onCloseModal($event)" (onOpen)="OnOpenModal($event)">
+<app-modal id="searchAccount" (Close)="onCloseModal($event)" (Open)="OnOpenModal($event)">
   <div>
     <h2 class="text-center">Search Account Name</h2>
   </div>
@@ -429,7 +429,7 @@
   </div>
 </app-modal>
 
-<app-modal id="searchContact" (onClose)="onCloseModal($event)" (onOpen) ="OnOpenModal($event)">
+<app-modal #searchModal id="searchContact" (Close)="onCloseModal($event)" (Open) ="OnOpenModal($event)">
   <div>
     <h2 class="text-center">Search Contact Name</h2>
   </div>
