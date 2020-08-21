@@ -127,6 +127,7 @@ export class AccountSFComponent implements OnInit {
   LookUpListings404: boolean;
 
   searchText: string;
+  specificSearch: boolean;
   paramID: string;
 
   constructor(
@@ -146,6 +147,7 @@ export class AccountSFComponent implements OnInit {
     this.lookUpAccount = null;
     this.LookUpListings404 =  false;
     this.searchText = '';
+    this.specificSearch = false;
     this.paramID = '';
   }
 
@@ -175,6 +177,7 @@ export class AccountSFComponent implements OnInit {
   searchLookUp(lookUp: string) {
     this.loopbackService.getLookUpBySearch(lookUp, this.searchText).subscribe((data: any) => {
       this.LookUpListings = data;
+      this.specificSearch = data.length > 90 && this.searchText ? true : false;
       this.LookUpListings404 = data.length < 1 ? true : false;
     }, (error) => {
       console.error('Error ' + error.status + ' - ' + error.name + ' - ' + error.statusText);
@@ -214,6 +217,7 @@ export class AccountSFComponent implements OnInit {
       this.searchText = '';
       this.LookUpListings404 = false;
       this.LookUpListings = [];
+      this.specificSearch = false;
     }
   }
 
@@ -221,6 +225,7 @@ export class AccountSFComponent implements OnInit {
     if (event) {
       this.searchText = '';
       this.LookUpListings404 = false;
+      this.specificSearch = false;
     }
   }
 

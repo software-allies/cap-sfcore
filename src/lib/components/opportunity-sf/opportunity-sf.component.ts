@@ -110,7 +110,8 @@ export class OpportunitySFComponent implements OnInit {
   LookUpListings404: boolean;
 
   searchText: string;
-  paramID: string = '';
+  specificSearch: boolean;
+  paramID: string;
 
   constructor(
     private loopbackService: LoopbackService,
@@ -121,17 +122,17 @@ export class OpportunitySFComponent implements OnInit {
   ) {
     this.isInvalid = false;
     this.objectAPI = 'Opportunitys';
-
     this.createOpportunity = false;
     this.updateOpportunity = false;
     this.viewOpportunity = false;
     this.status = false;
-
     this.opportunity = {};
     this.objectToSend = {};
     this.lookUpAccount = null;
     this.lookUpContact = null;
     this.searchText = '';
+    this.specificSearch = false;
+    this.paramID = '';
     this.LookUpListings404 =  false;
   }
 
@@ -200,6 +201,7 @@ export class OpportunitySFComponent implements OnInit {
   searchLookUp(lookUp: string) {
     this.loopbackService.getLookUpBySearch(lookUp, this.searchText).subscribe((data: any) => {
       this.LookUpListings = data;
+      this.specificSearch = data.length > 90 && this.searchText ? true : false;
       this.LookUpListings404 = data.length < 1 ? true : false;
     }, (error) => {
       console.error('Error ' + error.status + ' - ' + error.name + ' - ' + error.statusText);
@@ -236,6 +238,7 @@ export class OpportunitySFComponent implements OnInit {
       this.searchText = '';
       this.LookUpListings404 = false;
       this.LookUpListings = [];
+      this.specificSearch = false;
     }
   }
 
@@ -243,6 +246,7 @@ export class OpportunitySFComponent implements OnInit {
     if (event) {
       this.searchText = '';
       this.LookUpListings404 = false;
+      this.specificSearch = false;
     }
   }
 
