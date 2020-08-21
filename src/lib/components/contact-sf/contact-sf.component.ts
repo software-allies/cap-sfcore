@@ -38,6 +38,20 @@ import Swal from 'sweetalert2';
     min-width: 100px;
   }
 
+  div.input-border input {
+    border-color: #343a40;
+  }
+
+  div.input-border input:focus {
+    outline:none !important;
+    outline-width: 0 !important;
+    box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    border-color: #343a40;
+    // border-width: 1.5px;
+  }
+
   /* Mobile ----------- */
 	@media (max-width: 374px) {
     .rwd_auto {
@@ -163,6 +177,9 @@ export class ContactSFComponent implements OnInit {
       this.viewContact = true;
       this.createContact = false;
       this.updateContact = false;
+      this.lookUpAccount = null;
+      this.lookUpContact = null;
+      this.getLookUps();
     }
   }
 

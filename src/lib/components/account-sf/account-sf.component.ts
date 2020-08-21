@@ -40,6 +40,20 @@ import Swal from 'sweetalert2';
     min-width: 100px;
   }
 
+  div.input-border input {
+    border-color: #343a40;
+  }
+
+  div.input-border input:focus {
+    outline:none !important;
+    outline-width: 0 !important;
+    box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    border-color: #343a40;
+    // border-width: 1.5px;
+  }
+
   /* Mobile ----------- */
 	@media (max-width: 374px) {
     .rwd_auto {
@@ -55,7 +69,6 @@ import Swal from 'sweetalert2';
       padding-left:1.9em !important;
     }
   }
-
   `]
 })
 export class AccountSFComponent implements OnInit {
@@ -229,7 +242,6 @@ export class AccountSFComponent implements OnInit {
     }
   }
 
-
   cancelAction(goBack?: boolean) {
     if (goBack) {
       this.router.navigate([`/account`]);
@@ -237,6 +249,8 @@ export class AccountSFComponent implements OnInit {
       this.viewAccount = true;
       this.createAccount = false;
       this.updateAccount = false;
+      this.lookUpAccount = null;
+      this.getLookUps();
     }
   }
 
