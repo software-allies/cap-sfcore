@@ -274,11 +274,11 @@
                     <tbody>
                       <tr>
                         <th scope="row">Expected Revenue</th>
-                        <td>{{ opportunity.ExpectedRevenue }}</td>
+                        <td>{{ opportunity.ExpectedRevenue | currency : 'USD' }}</td>
                       </tr>
                       <tr>
                         <th scope="row">Amount</th>
-                        <td>{{ opportunity.Amount }}</td>
+                        <td>{{ opportunity.Amount | currency : 'USD' }}</td>
                       </tr>
                       <tr>
                         <th scope="row">Close Date</th>

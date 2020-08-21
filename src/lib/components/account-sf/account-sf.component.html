@@ -604,7 +604,7 @@
                   </tr>
                   <tr>
                     <th scope="row" class="col-width-35">Annual Revenue</th>
-                    <td>{{ account.AnnualRevenue }}</td>
+                    <td>{{ account.AnnualRevenue | currency : 'USD' }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -642,7 +642,7 @@
                   </tr>
                   <tr>
                     <th scope="row">Employees</th>
-                    <td>{{ account.NumberOfEmployees }}</td>
+                    <td>{{ account.NumberOfEmployees | number }}</td>
                   </tr>
                   <tr>
                     <th scope="row">SIC Code</th>
