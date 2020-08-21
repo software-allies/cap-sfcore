@@ -751,26 +751,33 @@
   </div>
 </div>
 
-
 <app-modal id="searchAccount" (Close)="onCloseModal($event)" (Open)="OnOpenModal($event)">
     <div>
       <h2 class="text-center">Search Account Name</h2>
     </div>
     <div class="row">
       <div class="col-12">
-
         <div class="input-group mb-3">
           <input [(ngModel)]="searchText" type="text" class="form-control">
           <div *ngIf="lookUpAccount" class="input-group-append">
-            <button (click)="deselectLookUp('searchAccount')" class="btn btn-outline-dark" type="button">Clean value</button>
+            <button (click)="deselectLookUp('searchAccount')" class="btn btn-outline-dark" type="button">
+              <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
+              </svg>
+            </button>
           </div>
           <div class="input-group-append">
             <button (click)="searchLookUp('Accounts');" class="btn btn-outline-dark"type="button">
-              Search
+              <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+                <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+              </svg>
             </button>
           </div>
         </div>
-
+        <div *ngIf="specificSearch" class="mb-3">
+          <p class="text-center">Many matches were found with your search, please be more specific.</p>
+        </div>
         <div *ngIf="LookUpListings" class="list-group" id="list-tab" role="tablist">
           <a
             *ngFor="let lookUp of LookUpListings"
@@ -778,7 +785,6 @@
             data-toggle="list"
             (click)="LookUpSelected(lookUp, 'searchAccount')">{{lookUp.Name}}</a>
         </div>
-
         <div *ngIf="LookUpListings404" class="card text-center mt-3">
           <div class="card-body">
             <h5 class="card-title">No Results found!</h5>
@@ -787,7 +793,6 @@
             </p>
           </div>
         </div>
-
       </div>
     </div>
   </app-modal>
@@ -798,19 +803,27 @@
     </div>
     <div class="row">
       <div class="col-12">
-
         <div class="input-group mb-3">
           <input [(ngModel)]="searchText" type="text" class="form-control">
           <div *ngIf="lookUpContact" class="input-group-append">
-            <button (click)="deselectLookUp('searchContact')" class="btn btn-outline-dark" type="button">Clean value</button>
+            <button (click)="deselectLookUp('searchContact')" class="btn btn-outline-dark" type="button">
+              <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
+              </svg>
+            </button>
           </div>
           <div class="input-group-append">
             <button (click)="searchLookUp('Contacts');" class="btn btn-outline-dark"type="button">
-              Search
+              <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+                <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+              </svg>
             </button>
           </div>
         </div>
-
+        <div *ngIf="specificSearch" class="mb-3">
+          <p class="text-center">Many matches were found with your search, please be more specific.</p>
+        </div>
         <div *ngIf="LookUpListings" class="list-group" id="list-tab" role="tablist">
           <a
             *ngFor="let lookUp of LookUpListings"
@@ -818,7 +831,6 @@
             data-toggle="list"
             (click)="LookUpSelected(lookUp, 'searchContact')">{{lookUp.Name}}</a>
         </div>
-
         <div *ngIf="LookUpListings404" class="card text-center mt-3">
           <div class="card-body">
             <h5 class="card-title">No Results found!</h5>
@@ -827,7 +839,6 @@
             </p>
           </div>
         </div>
-
       </div>
     </div>
   </app-modal>
