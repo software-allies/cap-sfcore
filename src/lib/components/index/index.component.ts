@@ -7,8 +7,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-index-sf',
   template: `
-
-  <div class="container-sm">
+  <div class="container">
     <div class="row">
       <div class="col-lg-12 mx-auto">
       <div class="page-header">
@@ -31,7 +30,7 @@ import Swal from 'sweetalert2';
               </div>
             -->
 
-              <div class="input-group col-md-12 mb-2">
+              <div class="input-group input-border col-md-12 mb-2">
                 <input
                   type="text"
                   id="search"
@@ -41,9 +40,11 @@ import Swal from 'sweetalert2';
                 >
 
                 <div class="input-group-append" *ngIf="searchByText">
-                  <button (click)="everythingRecords()" class="btn btn-outline-dark" type="button" >
-                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                      <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
+                  <button title="Clear Filter" (click)="everythingRecords()" class="btn btn-outline-dark" type="button" >
+                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                      <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/>
+                      <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/>
                     </svg>
                   </button>
                 </div>
@@ -166,6 +167,21 @@ import Swal from 'sweetalert2';
 
   `,
   styles: [`
+
+  div.input-border input {
+    border-color: #343a40;
+  }
+
+  div.input-border input:focus {
+    outline:none !important;
+    outline-width: 0 !important;
+    box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    border-color: #343a40;
+    // border-width: 1.5px;
+  }
+
   table {
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     border-collapse: collapse;
