@@ -209,10 +209,14 @@ export class AccountSFComponent implements OnInit {
     }
   }
 
-  deselectLookUp(modalId: string) {
-    if (modalId === 'searchAccount') {
+  clearSearch(lookUp) {
+    this.searchText = '';
+    this.searchLookUp(lookUp);
+  }
+
+  deleteLookUp(field: string) {
+    if (field === 'parentId') {
       this.form.controls['parentId'].setValue('');
-      this.modalService.close(modalId);
       this.lookUpAccount = null;
     }
   }

@@ -226,14 +226,17 @@ export class OpportunitySFComponent implements OnInit {
     });
   }
 
-  deselectLookUp(modalId: string) {
-    if (modalId === 'searchAccount') {
+  clearSearch(lookUp) {
+    this.searchText = '';
+    this.searchLookUp(lookUp);
+  }
+
+  deleteLookUp(field: string) {
+    if (field === 'accountId') {
       this.form.controls['accountId'].setValue('');
-      this.modalService.close(modalId);
       this.lookUpAccount = null;
-    } else if (modalId === 'searchContact') {
+    } else if (field === 'campaignId') {
       this.form.controls['campaignId'].setValue('');
-      this.modalService.close(modalId);
       this.lookUpContact = null;
     }
   }
@@ -321,7 +324,9 @@ export class OpportunitySFComponent implements OnInit {
   }
 
   onSubmit(updateOrcreate?: boolean) {
-    if (this.form.valid) {
+    console.log(this.form.value);
+    if (false) {
+    // if (this.form.valid) {
       this.objectToSend = {
         SACAP__UUID__c: this.form.get('uuid__c').value,
         IsPrivate: this.form.get('isPrivate').value,
