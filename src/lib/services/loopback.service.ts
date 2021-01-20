@@ -53,11 +53,11 @@ export class LoopbackService {
 
     if (applySearchBy) {
       const regexp = `/${searchText}/i`;
-      query = `filter={"where":{"and":[{"SACAP__UUID__c":{"nlike":"null"}},{"${attributeSelected}":{"regexp":"${regexp}"}}]},"order":"${attributeSelected}","limit":${this.limit},"offset":${offset}}`;
+      query = `{"where":{"and":[{"SACAP__UUID__c":{"nlike":"null"}},{"${attributeSelected}":{"regexp":"${regexp}"}}]},"order":"${attributeSelected}","limit":${this.limit},"offset":${offset}}`;
     } else {
-      query = `filter={"where":{"SACAP__UUID__c": {"nlike": "null" }},"order":"${attributeSelected}","limit":${this.limit},"offset":${offset}}`;
+      query = `{"where":{"SACAP__UUID__c": {"nlike": "null" }},"order":"${attributeSelected}","limit":${this.limit},"offset":${offset}}`;
     }
-    return this.http.get(`${this.url}/${tableName}?${query}`, httpOptions);
+    return this.http.get(`${this.url}/${tableName}?filter=${query}`, httpOptions);
   }
 
   getTotalItems(tableName: string, searchText: string, attributeSelected: string, applySearchBy: boolean = false) {
@@ -81,14 +81,14 @@ export class LoopbackService {
       );
   }
 
-  getLookUp(tableName: string, id: string) {
+  getLookUp(tableName: string, query: {}) {
     const httpOptions = {
       headers: new HttpHeaders({
         'content-type': 'application/json',
         Authorization: `Bearer ${this.getToken()}`
       })
     };
-    return this.http.get(`${this.url}/${tableName}/findOne?filter={"where":{"SfId":"${id}"}}`, httpOptions);
+    return this.http.get(`${this.url}/${tableName}/?filter=${JSON.stringify(query)}`, httpOptions);
   }
 
   getLookUpBySearch(tableName: string, text: string) {
@@ -99,9 +99,8 @@ export class LoopbackService {
       })
     };
     const regexp = `/${text}/i`;
-    const query = `filter={"where":{"and":[{"SACAP__UUID__c":{"nlike": "null"}},{"Name":{"regexp":"${regexp}"}}]},"order":"Name", "limit":${this.limitLookUps}}`
-    return this.http.get(`${this.url}/${tableName}?${query}`, httpOptions
-    );
+    const query = {where:{and:[{SACAP__UUID__c:{nlike:"null"}},{Name:{regexp:`${regexp}`}}]},order:"Name", limit:this.limitLookUps}
+    return this.http.get(`${this.url}/${tableName}?filter=${JSON.stringify(query)}`, httpOptions);
   }
 
   getWithFilter(query: string) {
@@ -114,14 +113,14 @@ export class LoopbackService {
     return this.http.get(`${this.url}/${query}`, httpOptions);
   }
 
-  getRecordWithFindOne(tableName: string, sfid: string) {
+  getRecordWithFindOne(tableName: string, query: object) {
     const httpOptions = {
       headers: new HttpHeaders({
         'content-type': 'application/json',
         Authorization: `Bearer ${this.getToken()}`
       })
     };
-    return this.http.get(`${this.url}/${tableName}/findOne?filter={"where":{"SfId":"${sfid}"}}`, httpOptions);
+    return this.http.get(`${this.url}/${tableName}/?filter=${JSON.stringify(query)}`, httpOptions);
   }
 
   getRecordRequest(tableName: string, id: number) {
