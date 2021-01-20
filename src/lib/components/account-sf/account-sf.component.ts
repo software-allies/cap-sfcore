@@ -1,9 +1,10 @@
-import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
+import { ActivatedRoute, Router, NavigationExtras, NavigationEnd, Event} from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { LoopbackService } from '../../services/loopback.service';
 import { Component, OnInit } from '@angular/core';
 import { ModalService } from '../modal/modal.service';
 import { Location } from '@angular/common';
+import { isDate, isString } from 'util';
 import { v4 as uuidv4 } from 'uuid';
 import Swal from 'sweetalert2';
 
@@ -162,6 +163,7 @@ export class AccountSFComponent implements OnInit {
     this.searchText = '';
     this.specificSearch = false;
     this.paramID = '';
+
   }
 
   ngOnInit() {
@@ -176,12 +178,12 @@ export class AccountSFComponent implements OnInit {
     }
   }
 
-  getObject(sfid: string) {
-    this.loopbackService.getRecordWithFindOne(this.objectAPI, sfid).subscribe((object: any) => {
-      this.account = object;
-      this.viewAccount = object ? true : false;
+  getObject(uuid: string) {
+    this.loopbackService.getRecordWithFindOne(this.objectAPI, {where:{"SACAP__UUID__c":uuid}}).subscribe((object: any) => {
+      this.account = object[0];
+      this.viewAccount = object[0] ? true : false;
       if (this.status) {
-        this.createForm(object);
+        this.createForm(object[0]);
       }
       this.getLookUps();
     });
@@ -200,8 +202,8 @@ export class AccountSFComponent implements OnInit {
 
   getLookUps() {
     if (this.account.ParentId) {
-      this.loopbackService.getLookUp('Accounts', this.account.ParentId).subscribe((accounts: Array<{ any }>) => {
-        this.lookUpAccount = accounts;
+      this.loopbackService.getLookUp('Accounts', {where:{"SfId":this.account.ParentId}}).subscribe((accounts: Array<{ any }>) => {
+        this.lookUpAccount = accounts[0];
       }, (error) => {
         console.error('Error ' + error.status + ' - ' + error.name + ' - ' + error.statusText);
         this.lookUpAccount =  null;
@@ -358,14 +360,14 @@ export class AccountSFComponent implements OnInit {
         Site: this.form.get('site').value,
         Type: this.form.get('type').value,
         Industry: this.form.get('industry').value,
-        AnnualRevenue: this.form.get('annualRevenue').value,
+        AnnualRevenue: parseInt(this.form.get('annualRevenue').value),
         Rating: this.form.get('rating').value,
         Phone: this.form.get('phone').value,
         Fax: this.form.get('fax').value,
         Website: this.form.get('website').value,
         TickerSymbol: this.form.get('tickerSymbol').value,
         Ownership: this.form.get('ownership').value,
-        NumberOfEmployees: this.form.get('numberOfEmployees').value,
+        NumberOfEmployees: parseInt(this.form.get('numberOfEmployees').value),
         Sic: this.form.get('sic').value,
         BillingStreet: this.form.get('billingStreet').value,
         BillingCity: this.form.get('billingCity').value,
@@ -378,28 +380,55 @@ export class AccountSFComponent implements OnInit {
         ShippingPostalCode: this.form.get('shippingPostalCode').value,
         ShippingCountry: this.form.get('shippingCountry').value,
         CustomerPriority__c: this.form.get('customerPriority__c').value,
-        SLAExpirationDate__c: this.form.get('slaExpirationDate__c').value,
-        NumberofLocations__c: this.form.get('numberOfLocations__c').value,
+        SLAExpirationDate__c: this.form.get('slaExpirationDate__c').value ? new Date(this.form.get('slaExpirationDate__c').value) : null,
+        NumberofLocations__c: parseInt(this.form.get('numberOfLocations__c').value),
         Active__c: this.form.get('active__c').value,
         SLA__c: this.form.get('sla__c').value,
         SLASerialNumber__c: this.form.get('slaSerialNumber__c').value,
         UpsellOpportunity__c: this.form.get('upsellOpportunity__c').value,
         Description: this.form.get('description').value
       };
+      for (var index in this.objectToSend) {
+        if (!isString(this.objectToSend[index]) && !isDate(this.objectToSend[index]) && isNaN(this.objectToSend[index])) {
+          delete this.objectToSend[index];
+        }
+        if (this.objectToSend[index] === null || this.objectToSend[index] === undefined || this.objectToSend[index] === '') {
+          delete this.objectToSend[index];
+        }
+      }
       if (updateOrcreate) {
+        /*for (var index in this.objectToSend) {
+          if (!isString(this.objectToSend[index]) && !isDate(this.objectToSend[index]) && isNaN(this.objectToSend[index])) {
+            delete this.objectToSend[index];
+          }
+          if (this.objectToSend[index] === null || this.objectToSend[index] === undefined) {
+            delete this.objectToSend[index];
+          }
+        }*/
         this.loopbackService.patchRequest(this.objectAPI, this.form.get('id').value, this.objectToSend)
           .subscribe((accountUpdated: any) => {
-            if (accountUpdated) {
-              Swal.fire({
-                position: 'top-end',
-                icon: 'success',
-                title: 'Your account has been saved',
-                showConfirmButton: false,
-                timer: 1500
-              }).then(result => window.location.assign(`${window.location.origin}/account/${this.paramID}`));
-            }
-          });
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: 'Your account has been saved',
+              showConfirmButton: false,
+              timer: 1500
+            }).then(() => {
+              this.getObject(this.paramID);
+              this.createAccount = false;
+              this.updateAccount = false;
+              this.status = null;
+            });
+          }, (error) => console.error('Error ' + error.status + ' - ' + error.name + ' - ' + error.statusText));
       } else {
+        /*for (var index in this.objectToSend) {
+          if (!isString(this.objectToSend[index]) && !isDate(this.objectToSend[index]) && isNaN(this.objectToSend[index])) {
+            delete this.objectToSend[index];
+          }
+          if (this.objectToSend[index] === null || this.objectToSend[index] === undefined || this.objectToSend[index] === '') {
+            delete this.objectToSend[index];
+          }
+        }*/
         this.loopbackService.postRequest(this.objectAPI, this.objectToSend).subscribe((account: any) => {
           Swal.fire({
             position: 'top-end',
@@ -407,8 +436,8 @@ export class AccountSFComponent implements OnInit {
             title: 'Your account has been saved',
             showConfirmButton: false,
             timer: 1500
-          }).then(result => window.location.assign(`${window.location.origin}/account`));
-        });
+          }).then(() => this.router.navigate([`/account`]));
+        }, (error) => console.error('Error ' + error.status + ' - ' + error.name + ' - ' + error.statusText));
       }
 
     } else {
