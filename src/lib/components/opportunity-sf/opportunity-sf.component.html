@@ -103,8 +103,7 @@
                     }" type="text" class="form-control" id="inputProbability" formControlName="probability" />
                   </div>
                 </div>
-                <div class="form-row">
-
+                <!-- <div class="form-row">
                   <div class="form-group col-md-12">
                     <label for="inputCampainId">Primary Campaign Source</label>
                     <div class="input-group input-border mb-3">
@@ -120,7 +119,7 @@
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> -->
                 <div class="form-group form-check">
                   <input formControlName="isPrivate" type="checkbox" class="form-check-input" id="inputPrivate" />
                   <label class="form-check-label" for="inputPrivate">Private</label>
@@ -273,12 +272,11 @@
                         <td>{{ opportunity.LeadSource }}</td>
                       </tr>
                       <tr>
-                      <tr>
+                      <!-- <tr>
                         <th scope="row">Primary Campaign Source</th>
                         <td *ngIf="lookUpContact"> {{lookUpContact.Name}} </td>
                         <td *ngIf="!lookUpContact"></td>
-                        <!-- <td>{{ LookUpCampaignId(opportunity.CampaignId) }}</td> -->
-                      </tr>
+                      </tr> -->
                     </tbody>
                   </table>
                 </div>
