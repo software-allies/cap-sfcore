@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { v4 as uuidv4 } from 'uuid';
 import Swal from 'sweetalert2';
+import { isDate, isString } from 'util';
 
 @Component({
   selector: 'app-lead-sf',
@@ -146,19 +147,19 @@ export class LeadSFComponent implements OnInit {
       this.createForm();
     } else {
       this.activateRoute.params.subscribe((params: {id: string, status?: string}) => {
-        this.paramID = params.id;
-       this.getObject(params.id);
-       this.status = params.status === 'update' ? true : false;
+      this.paramID = params.id;
+      this.getObject(params.id);
+      this.status = params.status === 'update' ? true : false;
       });
     }
   }
 
-  getObject(sfid: string) {
-    this.loopbackService.getRecordWithFindOne(this.objectAPI, sfid).subscribe((object: any) => {
-      this.lead = object;
-      this.viewLead = object ? true : false;
+  getObject(uuid: string) {
+    this.loopbackService.getRecordWithFindOne(this.objectAPI,{where:{"SACAP__UUID__c":uuid}}).subscribe((object: any) => {
+      this.lead = object[0];
+      this.viewLead = object[0] ? true : false;
       if (this.status) {
-        this.createForm(object);
+        this.createForm(object[0]);
       }
     });
   }
@@ -258,7 +259,7 @@ export class LeadSFComponent implements OnInit {
         LeadSource: this.form.get('leadSource').value,
         // CampaignId: this.form.get('campaignId').value,
         Industry: this.form.get('industry').value,
-        AnnualRevenue: this.form.get('annualRevenue').value,
+        AnnualRevenue: parseInt(this.form.get('annualRevenue').value),
         Phone: this.form.get('phone').value,
         MobilePhone: this.form.get('mobilePhone').value,
         Fax: this.form.get('fax').value,
@@ -266,7 +267,7 @@ export class LeadSFComponent implements OnInit {
         Website: this.form.get('website').value,
         Status: this.form.get('status').value,
         Rating: this.form.get('rating').value,
-        NumberOfEmployees: this.form.get('numberOfEmployees').value,
+        NumberOfEmployees: parseInt(this.form.get('numberOfEmployees').value),
         Street: this.form.get('street').value,
         City: this.form.get('city').value,
         State: this.form.get('state').value,
@@ -274,24 +275,51 @@ export class LeadSFComponent implements OnInit {
         Country: this.form.get('country').value,
         ProductInterest__c: this.form.get('productInterest__c').value,
         SICCode__c: this.form.get('sicCode__c').value,
-        NumberofLocations__c: this.form.get('numberOfLocations__c').value,
+        NumberofLocations__c: parseInt(this.form.get('numberOfLocations__c').value),
         CurrentGenerators__c: this.form.get('currentGenerators__c').value,
         Primary__c: this.form.get('primary__c').value,
         Description: this.form.get('description').value
       };
+      for (var index in this.objectToSend) {
+        if (!isString(this.objectToSend[index]) && !isDate(this.objectToSend[index]) && isNaN(this.objectToSend[index])) {
+          delete this.objectToSend[index];
+        }
+        if (this.objectToSend[index] === null || this.objectToSend[index] === undefined || this.objectToSend[index] === '') {
+          delete this.objectToSend[index];
+        }
+      }
       if (updateOrcreate) {
-        this.loopbackService.patchRequest(this.objectAPI, this.form.get('id').value, this.objectToSend).subscribe((leadUpdated: any) => {
-          if (leadUpdated) {
-            Swal.fire({
-              position: 'top-end',
-              icon: 'success',
-              title: 'Your lead has been saved',
-              showConfirmButton: false,
-              timer: 1500
-            }).then(result => window.location.assign(`${window.location.origin}/lead/${this.paramID}`));
+        /*for (var index in this.objectToSend) {
+          if (!isString(this.objectToSend[index]) && !isDate(this.objectToSend[index]) && isNaN(this.objectToSend[index])) {
+            delete this.objectToSend[index];
           }
-        });
+          if (this.objectToSend[index] === null || this.objectToSend[index] === undefined) {
+            delete this.objectToSend[index];
+          }
+        }*/
+        this.loopbackService.patchRequest(this.objectAPI, this.form.get('id').value, this.objectToSend).subscribe((leadUpdated: any) => {
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Your lead has been saved',
+            showConfirmButton: false,
+            timer: 1500
+          }).then(() => {
+            this.getObject(this.paramID);
+            this.createLead = false;
+            this.updateLead = false;
+            this.status = null;
+          });
+        }, (error) => console.error('Error ' + error.status + ' - ' + error.name + ' - ' + error.statusText));
       } else {
+        /*for (var index in this.objectToSend) {
+          if (!isString(this.objectToSend[index]) && !isDate(this.objectToSend[index]) && isNaN(this.objectToSend[index])) {
+            delete this.objectToSend[index];
+          }
+          if (this.objectToSend[index] === null || this.objectToSend[index] === undefined || this.objectToSend[index] === '') {
+            delete this.objectToSend[index];
+          }
+        }*/
         this.loopbackService.postRequest(this.objectAPI, this.objectToSend).subscribe((lead: any) => {
           if (lead) {
             Swal.fire({
@@ -300,9 +328,9 @@ export class LeadSFComponent implements OnInit {
               title: 'Your contact has been saved',
               showConfirmButton: false,
               timer: 1500
-            }).then(result => window.location.assign(`${window.location.origin}/lead`));
+            }).then(() => this.router.navigate([`/lead`]));
           }
-        });
+        }, (error) => console.error('Error ' + error.status + ' - ' + error.name + ' - ' + error.statusText));
       }
     } else {
       this.isInvalid = true;
