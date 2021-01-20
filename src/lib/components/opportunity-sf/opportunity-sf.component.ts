@@ -4,6 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { LoopbackService } from '../../services/loopback.service';
 import { ModalService } from '../modal/modal.service';
 import { Location } from '@angular/common';
+import { isDate, isString } from 'util';
 import { v4 as uuidv4 } from 'uuid';
 import Swal from 'sweetalert2';
 
@@ -135,7 +136,7 @@ export class OpportunitySFComponent implements OnInit {
     private router: Router,
   ) {
     this.isInvalid = false;
-    this.objectAPI = 'Opportunitys';
+    this.objectAPI = 'Opportunities';
     this.createOpportunity = false;
     this.updateOpportunity = false;
     this.viewOpportunity = false;
@@ -162,12 +163,12 @@ export class OpportunitySFComponent implements OnInit {
     }
   }
 
-  getObject(sfid: string) {
-    this.loopbackService.getRecordWithFindOne(this.objectAPI, sfid).subscribe((object: any) => {
-      this.opportunity = object;
-      this.viewOpportunity = object ? true : false;
+  getObject(uuid: string) {
+    this.loopbackService.getRecordWithFindOne(this.objectAPI, {where:{"SACAP__UUID__c":uuid}}).subscribe((object: any) => {
+      this.opportunity = object[0];
+      this.viewOpportunity = object[0] ? true : false;
       if (this.status) {
-        this.createForm(object);
+        this.createForm(object[0]);
       }
       this.getLookUps();
     }, (error) => {
@@ -177,8 +178,8 @@ export class OpportunitySFComponent implements OnInit {
 
   getLookUps() {
     if (this.opportunity.AccountId) {
-      this.loopbackService.getLookUp('Accounts', this.opportunity.AccountId).subscribe((accounts: Array<{ any }>) => {
-        this.lookUpAccount = accounts;
+      this.loopbackService.getLookUp('Accounts', {where:{"SfId":this.opportunity.AccountId}}).subscribe((accounts: Array<{ any }>) => {
+        this.lookUpAccount = accounts[0];
       }, (error) => {
         console.error('Error ' + error.status + ' - ' + error.name + ' - ' + error.statusText);
         this.lookUpAccount =  null;
@@ -186,8 +187,8 @@ export class OpportunitySFComponent implements OnInit {
     }
 
     if (this.opportunity.CampaignId) {
-      this.loopbackService.getLookUp('Contacts', this.opportunity.CampaignId).subscribe((contacts: Array<{ any }>) => {
-        this.lookUpContact = contacts;
+      this.loopbackService.getLookUp('Contacts',{where:{"SfId":this.opportunity.CampaignId}} ).subscribe((contacts: Array<{ any }>) => {
+        this.lookUpContact = contacts[0];
       }, (error) => {
         console.error('Error ' + error.status + ' - ' + error.name + ' - ' + error.statusText);
         this.lookUpContact =  null;
@@ -286,7 +287,7 @@ export class OpportunitySFComponent implements OnInit {
         nextStep: new FormControl(opportunity.NextStep),
         stageName: new FormControl(opportunity.StageName, [Validators.required]),
         probability: new FormControl(opportunity.Probability, [Validators.pattern('^(\\d{0,3})$')]),
-        campaignId: new FormControl(opportunity.CampaignId),
+        // campaignId: new FormControl(opportunity.CampaignId),
         orderNumber__c: new FormControl(opportunity.OrderNumber__c),
         currentGenerators__c: new FormControl(opportunity.CurrentGenerators__c),
         trackingNumber__c: new FormControl(opportunity.TrackingNumber__c),
@@ -300,7 +301,7 @@ export class OpportunitySFComponent implements OnInit {
     } else {
       this.form = new FormGroup({
         uuid__c: new FormControl(uuidv4(), [Validators.required]),
-        isPrivate: new FormControl(''),
+        isPrivate: new FormControl(false),
         name: new FormControl('', [Validators.required]),
         accountId: new FormControl(''),
         type: new FormControl(''),
@@ -311,7 +312,7 @@ export class OpportunitySFComponent implements OnInit {
         nextStep: new FormControl(''),
         stageName: new FormControl('', [Validators.required]),
         probability: new FormControl('', [Validators.pattern('^(\\d{0,3})$')]),
-        campaignId: new FormControl(''),
+        // campaignId: new FormControl(''),
         orderNumber__c: new FormControl(''),
         currentGenerators__c: new FormControl(''),
         trackingNumber__c: new FormControl(''),
@@ -324,9 +325,7 @@ export class OpportunitySFComponent implements OnInit {
   }
 
   onSubmit(updateOrcreate?: boolean) {
-    console.log(this.form.value);
-    if (false) {
-    // if (this.form.valid) {
+    if (this.form.valid) {
       this.objectToSend = {
         SACAP__UUID__c: this.form.get('uuid__c').value,
         IsPrivate: this.form.get('isPrivate').value,
@@ -334,13 +333,13 @@ export class OpportunitySFComponent implements OnInit {
         AccountId: this.form.get('accountId').value,
         Type: this.form.get('type').value,
         LeadSource: this.form.get('leadSource').value,
-        Amount: this.form.get('amount').value,
-        ExpectedRevenue: this.form.get('revenue').value,
-        CloseDate: this.form.get('closeDate').value,
+        Amount: parseInt(this.form.get('amount').value),
+        ExpectedRevenue: parseInt(this.form.get('revenue').value),
+        CloseDate: this.form.get('closeDate').value ? new Date(this.form.get('closeDate').value) : null,
         NextStep: this.form.get('nextStep').value,
         StageName: this.form.get('stageName').value,
-        Probability: this.form.get('probability').value,
-        CampaignId: this.form.get('campaignId').value,
+        Probability: parseInt(this.form.get('probability').value),
+        // CampaignId: this.form.get('campaignId').value,
         OrderNumber__c: this.form.get('orderNumber__c').value,
         CurrentGenerators__c: this.form.get('currentGenerators__c').value,
         TrackingNumber__c: this.form.get('trackingNumber__c').value,
@@ -348,20 +347,46 @@ export class OpportunitySFComponent implements OnInit {
         DeliveryInstallationStatus__c: this.form.get('deliveryInstallationStatus__c').value,
         Description: this.form.get('description').value,
       };
+      for (var index in this.objectToSend) {
+        if (!isString(this.objectToSend[index]) && !isDate(this.objectToSend[index]) && isNaN(this.objectToSend[index])) {
+          delete this.objectToSend[index];
+        }
+        if (this.objectToSend[index] === null || this.objectToSend[index] === undefined || this.objectToSend[index] === '') {
+          delete this.objectToSend[index];
+        }
+      }
       if (updateOrcreate) {
-        this.loopbackService.patchRequest(this.objectAPI, this.form.get('id').value, this.objectToSend)
-          .subscribe((opportunityUpdate: any) => {
-            if (opportunityUpdate) {
-              Swal.fire({
-                position: 'top-end',
-                icon: 'success',
-                title: 'Your opportunity has been saved',
-                showConfirmButton: false,
-                timer: 1500
-              }).then(result => window.location.assign(`${window.location.origin}/opportunity/${this.paramID}`));
-            }
+        /*for (var index in this.objectToSend) {
+          if (!isString(this.objectToSend[index]) && !isDate(this.objectToSend[index]) && isNaN(this.objectToSend[index])) {
+            delete this.objectToSend[index];
+          }
+          if (this.objectToSend[index] === null || this.objectToSend[index] === undefined) {
+            delete this.objectToSend[index];
+          }
+        }*/
+        this.loopbackService.patchRequest(this.objectAPI, this.form.get('id').value, this.objectToSend).subscribe((opportunityUpdate: any) => {
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: 'Your opportunity has been saved',
+              showConfirmButton: false,
+              timer: 1500
+            }).then(() => {
+              this.getObject(this.paramID);
+              this.createOpportunity = false;
+              this.updateOpportunity = false;
+              this.status = null;
+            });
           }, (error) => console.error('Error ' + error.status + ' - ' + error.name + ' - ' + error.statusText));
       } else {
+        /*for (var index in this.objectToSend) {
+          if (this.objectToSend[index] === '') {
+            delete this.objectToSend[index];
+          }
+          if (this.objectToSend[index] === null || this.objectToSend[index] === undefined) {
+            delete this.objectToSend[index];
+          }
+        }*/
         this.loopbackService.postRequest(this.objectAPI, this.objectToSend).subscribe((opportunity: any) => {
           if (opportunity) {
             Swal.fire({
@@ -370,7 +395,7 @@ export class OpportunitySFComponent implements OnInit {
               title: 'Your opportunity has been saved',
               showConfirmButton: false,
               timer: 1500
-            }).then(result => window.location.assign(`${window.location.origin}/opportunity`));
+            }).then(() => this.router.navigate([`/opportunity`]));
           }
         }, (error) => console.error('Error ' + error.status + ' - ' + error.name + ' - ' + error.statusText));
       }
