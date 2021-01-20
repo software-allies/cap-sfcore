@@ -1,9 +1,10 @@
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { LoopbackService } from '../../services/loopback.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationExtras, NavigationEnd, Event} from '@angular/router';
 import { ModalService } from '../modal/modal.service';
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
+import { isDate, isString } from 'util';
 import { v4 as uuidv4 } from 'uuid';
 import Swal from 'sweetalert2';
 
@@ -101,6 +102,7 @@ export class ContactSFComponent implements OnInit {
   searchText: string;
   specificSearch: boolean;
 
+  activeRoute: string;
   paramId: string;
 
   constructor(
@@ -138,12 +140,13 @@ export class ContactSFComponent implements OnInit {
     }
   }
 
-  getObject(sfid: string) {
-    this.loopbackService.getRecordWithFindOne(this.objectAPI, sfid).subscribe((object: any) => {
-      this.contact = object;
-      this.viewContact = object ? true : false;
+  getObject(uuid: string) {
+    this.loopbackService.getRecordWithFindOne(this.objectAPI, {where:{"SACAP__UUID__c":uuid}}).subscribe((object: any) => {
+      console.log('object',object);
+      this.contact = object[0];
+      this.viewContact = object[0] ? true : false;
       if (this.status) {
-        this.createForm(object);
+        this.createForm(object[0]);
       }
       this.getLookUps();
     }, (error) => {
@@ -153,16 +156,16 @@ export class ContactSFComponent implements OnInit {
 
   getLookUps() {
     if (this.contact.AccountId) {
-      this.loopbackService.getLookUp('Accounts', this.contact.AccountId).subscribe((accounts: Array<{ any }>) => {
-        this.lookUpAccount = accounts;
+      this.loopbackService.getLookUp('Accounts', {where:{"SfId":this.contact.AccountId}}).subscribe((accounts: Array<{ any }>) => {
+        this.lookUpAccount = accounts[0];
       }, (error) => {
         console.error('Error ' + error.status + ' - ' + error.name + ' - ' + error.statusText);
         this.lookUpAccount =  null;
       });
     }
     if (this.contact.ReportsToId) {
-      this.loopbackService.getLookUp('Contacts', this.contact.ReportsToId).subscribe((contacts: Array<{ any }>) => {
-        this.lookUpContact = contacts;
+      this.loopbackService.getLookUp('Contacts',{where:{"SfId":this.contact.ReportsToId}}).subscribe((contacts: Array<{ any }>) => {
+        this.lookUpContact = contacts[0];
       }, (error) => {
         console.error('Error ' + error.status + ' - ' + error.name + ' - ' + error.statusText);
         this.lookUpContact =  null;
@@ -332,7 +335,7 @@ export class ContactSFComponent implements OnInit {
         AccountId: this.form.get('accountId').value,
         Title: this.form.get('title').value,
         Department: this.form.get('department').value,
-        Birthdate: this.form.get('birthdate').value,
+        Birthdate: this.form.get('birthdate').value ? new Date(this.form.get('birthdate').value) : null,
         ReportsToId: this.form.get('reportsToId').value,
         LeadSource: this.form.get('leadSource').value,
         Phone: this.form.get('phone').value,
@@ -357,19 +360,46 @@ export class ContactSFComponent implements OnInit {
         Level__c: this.form.get('level__c').value,
         Description: this.form.get('description').value,
       };
+      for (var index in this.objectToSend) {
+        if (!isString(this.objectToSend[index]) && !isDate(this.objectToSend[index]) && isNaN(this.objectToSend[index])) {
+          delete this.objectToSend[index];
+        }
+        if (this.objectToSend[index] === null || this.objectToSend[index] === undefined || this.objectToSend[index] === '') {
+          delete this.objectToSend[index];
+        }
+      }
       if (updateOrcreate) {
-        this.loopbackService.patchRequest(this.objectAPI, this.form.get('id').value, this.objectToSend).subscribe((contactUpdated: any) => {
-          if (contactUpdated) {
-            Swal.fire({
-              position: 'top-end',
-              icon: 'success',
-              title: 'Your contact has been saved',
-              showConfirmButton: false,
-              timer: 1500
-            }).then(result => window.location.assign(`${window.location.origin}/contact/${this.paramId}`));
+        /*for (var index in this.objectToSend) {
+          if (!isString(this.objectToSend[index]) && !isDate(this.objectToSend[index]) && isNaN(this.objectToSend[index])) {
+            delete this.objectToSend[index];
           }
-        });
+          if (this.objectToSend[index] === null || this.objectToSend[index] === undefined) {
+            delete this.objectToSend[index];
+          }
+        }*/
+        this.loopbackService.patchRequest(this.objectAPI, this.form.get('id').value, this.objectToSend).subscribe((contactUpdated: any) => {
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Your contact has been saved',
+            showConfirmButton: false,
+            timer: 1500
+          }).then(() => {
+            this.getObject(this.paramId);
+            this.createContact = false;
+            this.updateContact = false;
+            this.status = null;
+          });
+        }, (error) => console.error('Error ' + error.status + ' - ' + error.name + ' - ' + error.statusText));
       } else {
+        /*for (var index in this.objectToSend) {
+          if (this.objectToSend[index] === '') {
+            delete this.objectToSend[index];
+          }
+          if (this.objectToSend[index] === null || this.objectToSend[index] === undefined) {
+            delete this.objectToSend[index];
+          }
+        }*/
         this.loopbackService.postRequest(this.objectAPI, this.objectToSend).subscribe((contact: any) => {
           if (contact) {
             Swal.fire({
@@ -378,9 +408,9 @@ export class ContactSFComponent implements OnInit {
               title: 'Your contact has been saved',
               showConfirmButton: false,
               timer: 1500
-            }).then(result => window.location.assign(`${window.location.origin}/contact`));
+            }).then(result => this.router.navigate([`/contact`]));
           }
-        });
+        }, (error) => console.error('Error ' + error.status + ' - ' + error.name + ' - ' + error.statusText));
       }
     } else {
       this.isInvalid = true;
