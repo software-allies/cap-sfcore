@@ -98,29 +98,29 @@ import Swal from 'sweetalert2';
             <tr *ngFor="let object of listings | paginate: { id: 'pagination', itemsPerPage: totalListings, currentPage: currentPage, totalItems: totalItems}">
 
               <td *ngIf="objectComponent === 'account'" scope="row">
-                <a routerLink="/{{objectComponent}}/{{object.SfId}}">{{ object.Name }}</a>
+                <a routerLink="/{{objectComponent}}/{{object.SACAP__UUID__c}}">{{ object.Name }}</a>
               </td>
               <td *ngIf="objectComponent === 'account'" class="discard">{{ object.BillingCity }}</td>
               <td *ngIf="objectComponent === 'account'" class="numeric discard">{{ object.Phone }}</td>
 
               <td *ngIf="objectComponent === 'contact'" scope="row">
-                <a routerLink="/{{objectComponent}}/{{object.SfId}}">{{ object.Name }}</a>
+                <a routerLink="/{{objectComponent}}/{{object.SACAP__UUID__c}}">{{ object.FirstName }} {{ object.LastName }}</a>
               </td>
               <td *ngIf="objectComponent === 'contact'" class="discard">
-                <a routerLink="/account/{{object.AccountId}}">{{ object.accountName }}</a>
+                <a routerLink="/account/{{object.accountSACAP__UUID__c}}">{{ object.accountName }}</a>
               </td>
               <td *ngIf="objectComponent === 'contact'" class="numeric discard">{{ object.MobilePhone }}</td>
 
               <td *ngIf="objectComponent === 'opportunity'" scope="row">
-                <a routerLink="/{{objectComponent}}/{{object.SfId}}">{{ object.Name }}</a>
+                <a routerLink="/{{objectComponent}}/{{object.SACAP__UUID__c}}">{{ object.Name }}</a>
               </td>
               <td *ngIf="objectComponent === 'opportunity'" class="discard">
-                <a routerLink="/account/{{object.AccountId}}">{{ object.accountName }}</a>
+                <a routerLink="/account/{{object.accountSACAP__UUID__c}}">{{ object.accountName }}</a>
               </td>
               <td *ngIf="objectComponent === 'opportunity'" class="date discard">{{ object.CloseDate | date: 'MM/dd/yyyy' : 'UTC/GMT'}}</td>
 
               <td *ngIf="objectComponent === 'lead'"  scope="row">
-                <a routerLink="/{{objectComponent}}/{{object.SfId}}">{{ object.Name }}</a>
+                <a routerLink="/{{objectComponent}}/{{object.SACAP__UUID__c}}">{{ object.FirstName }} {{ object.LastName }}</a>
               </td>
               <td *ngIf="objectComponent === 'lead'" class="discard">{{ object.Company }}</td>
               <td *ngIf="objectComponent === 'lead'" class="numeric discard">{{ object.Phone }}</td>
@@ -138,8 +138,8 @@ import Swal from 'sweetalert2';
                     <i class="fa fa-ellipsis-h"></i>
                   </button>
                   <div class="dropdown-menu" aria-labelledby="actions">
-                    <button class="dropdown-item" type="button" routerLink="/{{objectComponent}}/{{ object.SfId }}">View</button>
-                    <button class="dropdown-item" type="button" routerLink="/{{objectComponent}}/{{ object.SfId }}/update">Update</button>
+                    <button class="dropdown-item" type="button" routerLink="/{{objectComponent}}/{{ object.SACAP__UUID__c }}">View</button>
+                    <button class="dropdown-item" type="button" routerLink="/{{objectComponent}}/{{ object.SACAP__UUID__c }}/update">Update</button>
                     <button class="dropdown-item" type="button" (click)="deleteItem(object.id)">Delete</button>
                   </div>
                 </div>
@@ -255,7 +255,7 @@ export class IndexComponent implements OnInit {
     },
     {
       object: 'opportunity',
-      api: 'Opportunitys',
+      api: 'Opportunities',
       search: [
         'Name',
       ]
@@ -345,8 +345,9 @@ export class IndexComponent implements OnInit {
       this.skipFilter
     ).subscribe((res: any) => {
       this.listings = res;
+      console.log(res,'res');
       this.listings404 = res.length < 1 ? true : false;
-      if (this.objectAPI === 'Contacts' || this.objectAPI === 'Opportunitys') {
+      if (this.objectAPI === 'Contacts' || this.objectAPI === 'Opportunities') {
         let sfIds = [];
         for (let index in res) {
           sfIds.push({ SfId: res[index].AccountId });
@@ -355,17 +356,20 @@ export class IndexComponent implements OnInit {
         const query = `Accounts?filter={"where":{"or":${JSON.stringify(
           sfIds
         )}},"fields":{"SACAP__UUID__c":true,"id":true,"SfId":true,"AccountNumber":true,"Name":true}}`;
-        this.loopBackService
+        if (sfIds.length) {
+          this.loopBackService
           .getWithFilter(query)
           .subscribe((accounts: Array<any>) => {
             this.listings.forEach((item, index) => {
               let account = accounts.filter(account => account.SfId === item.AccountId)
               if (account[0] !== undefined) {
                 this.listings[index].accountName = account[0].Name;
+                this.listings[index].accountSACAP__UUID__c = account[0].SACAP__UUID__c;
                 // this.listings[index].accountName = accounts.filter(account => account.SfId === item.AccountId)[0].Name;
               }
             });
           });
+        }
       }
     }, (error: any) => {
       this.listings404 = true;
