@@ -102,11 +102,11 @@ export class OpportunitySFComponent implements OnInit {
     'Closed Lost'
   ];
   // tslint:disable-next-line: variable-name
-  deliveryInstallationStatus__cValues: string[] = [
+  /*deliveryInstallationStatus__cValues: string[] = [
     'In progress',
     'Yet to begin',
     'Completed'
-  ];
+  ];*/
   isInvalid: boolean;
   objectAPI: string;
 
@@ -164,11 +164,11 @@ export class OpportunitySFComponent implements OnInit {
   }
 
   getObject(uuid: string) {
-    this.loopbackService.getRecordWithFindOne(this.objectAPI, {where:{"SACAP__UUID__c":uuid}}).subscribe((object: any) => {
-      this.opportunity = object[0];
-      this.viewOpportunity = object[0] ? true : false;
+    this.loopbackService.getRecordWithFindOne(this.objectAPI,uuid).subscribe((object: any) => {
+      this.opportunity = object;
+      this.viewOpportunity = object ? true : false;
       if (this.status) {
-        this.createForm(object[0]);
+        this.createForm(object);
       }
       this.getLookUps();
     }, (error) => {
@@ -274,7 +274,7 @@ export class OpportunitySFComponent implements OnInit {
   createForm(opportunity?: any) {
     if (opportunity) {
       this.form = new FormGroup({
-        id: new FormControl(opportunity.id, [Validators.required]),
+        // id: new FormControl(opportunity.id, [Validators.required]),
         uuid__c: new FormControl(opportunity.SACAP__UUID__c, [Validators.required]),
         isPrivate: new FormControl(opportunity.IsPrivate),
         name: new FormControl(opportunity.Name, [Validators.required]),
@@ -287,13 +287,13 @@ export class OpportunitySFComponent implements OnInit {
         nextStep: new FormControl(opportunity.NextStep),
         stageName: new FormControl(opportunity.StageName, [Validators.required]),
         probability: new FormControl(opportunity.Probability, [Validators.pattern('^(\\d{0,3})$')]),
-        // campaignId: new FormControl(opportunity.CampaignId),
+        description: new FormControl(opportunity.Description)
+        /*campaignId: new FormControl(opportunity.CampaignId),
         orderNumber__c: new FormControl(opportunity.OrderNumber__c),
         currentGenerators__c: new FormControl(opportunity.CurrentGenerators__c),
         trackingNumber__c: new FormControl(opportunity.TrackingNumber__c),
         mainCompetitors__c: new FormControl(opportunity.MainCompetitors__c),
-        deliveryInstallationStatus__c: new FormControl(opportunity.DeliveryInstallationStatus__c),
-        description: new FormControl(opportunity.Description)
+        deliveryInstallationStatus__c: new FormControl(opportunity.DeliveryInstallationStatus__c),*/
       });
       this.createOpportunity = false;
       this.viewOpportunity = false;
@@ -312,13 +312,13 @@ export class OpportunitySFComponent implements OnInit {
         nextStep: new FormControl(''),
         stageName: new FormControl('', [Validators.required]),
         probability: new FormControl('', [Validators.pattern('^(\\d{0,3})$')]),
-        // campaignId: new FormControl(''),
+        description: new FormControl('')
+        /*campaignId: new FormControl(''),
         orderNumber__c: new FormControl(''),
         currentGenerators__c: new FormControl(''),
         trackingNumber__c: new FormControl(''),
         mainCompetitors__c: new FormControl(''),
-        deliveryInstallationStatus__c: new FormControl(''),
-        description: new FormControl('')
+        deliveryInstallationStatus__c: new FormControl(''),*/
       });
       this.createOpportunity = true;
     }
@@ -339,32 +339,20 @@ export class OpportunitySFComponent implements OnInit {
         NextStep: this.form.get('nextStep').value,
         StageName: this.form.get('stageName').value,
         Probability: parseInt(this.form.get('probability').value),
-        // CampaignId: this.form.get('campaignId').value,
+        Description: this.form.get('description').value
+        /*CampaignId: this.form.get('campaignId').value,
         OrderNumber__c: this.form.get('orderNumber__c').value,
         CurrentGenerators__c: this.form.get('currentGenerators__c').value,
         TrackingNumber__c: this.form.get('trackingNumber__c').value,
         MainCompetitors__c: this.form.get('mainCompetitors__c').value,
-        DeliveryInstallationStatus__c: this.form.get('deliveryInstallationStatus__c').value,
-        Description: this.form.get('description').value,
+        DeliveryInstallationStatus__c: this.form.get('deliveryInstallationStatus__c').value,*/
       };
       for (var index in this.objectToSend) {
-        if (!isString(this.objectToSend[index]) && !isDate(this.objectToSend[index]) && isNaN(this.objectToSend[index])) {
-          delete this.objectToSend[index];
-        }
-        if (this.objectToSend[index] === null || this.objectToSend[index] === undefined || this.objectToSend[index] === '') {
-          delete this.objectToSend[index];
-        }
-      }
+        if (!isString(this.objectToSend[index]) && !isDate(this.objectToSend[index]) && isNaN(this.objectToSend[index])) delete this.objectToSend[index];
+        if (this.objectToSend[index] === null || this.objectToSend[index] === undefined || this.objectToSend[index] === '') delete this.objectToSend[index];
+      };
       if (updateOrcreate) {
-        /*for (var index in this.objectToSend) {
-          if (!isString(this.objectToSend[index]) && !isDate(this.objectToSend[index]) && isNaN(this.objectToSend[index])) {
-            delete this.objectToSend[index];
-          }
-          if (this.objectToSend[index] === null || this.objectToSend[index] === undefined) {
-            delete this.objectToSend[index];
-          }
-        }*/
-        this.loopbackService.patchRequest(this.objectAPI, this.form.get('id').value, this.objectToSend).subscribe((opportunityUpdate: any) => {
+        this.loopbackService.patchRequest(this.objectAPI, this.form.get('uuid__c').value, this.objectToSend).subscribe((opportunityUpdate: any) => {
             Swal.fire({
               position: 'top-end',
               icon: 'success',
@@ -379,14 +367,6 @@ export class OpportunitySFComponent implements OnInit {
             });
           }, (error) => console.error('Error ' + error.status + ' - ' + error.name + ' - ' + error.statusText));
       } else {
-        /*for (var index in this.objectToSend) {
-          if (this.objectToSend[index] === '') {
-            delete this.objectToSend[index];
-          }
-          if (this.objectToSend[index] === null || this.objectToSend[index] === undefined) {
-            delete this.objectToSend[index];
-          }
-        }*/
         this.loopbackService.postRequest(this.objectAPI, this.objectToSend).subscribe((opportunity: any) => {
           if (opportunity) {
             Swal.fire({
