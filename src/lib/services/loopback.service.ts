@@ -99,7 +99,40 @@ export class LoopbackService {
       })
     };
     const regexp = `/${text}/i`;
-    const query = {where:{and:[{SACAP__UUID__c:{nlike:"null"}},{Name:{regexp:`${regexp}`}}]},order:"Name", limit:this.limitLookUps}
+    const query = {where:
+      {
+        and:[
+          {SACAP__UUID__c:{nlike:"null"}},
+          {Name:{regexp:`${regexp}`}}
+        ]
+      },
+      order:"Name",
+      limit:this.limitLookUps
+    }
+    return this.http.get(`${this.url}/${tableName}?filter=${JSON.stringify(query)}`, httpOptions);
+  }
+
+  getLookUpBySearchWithoutName(tableName: string, text: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'content-type': 'application/json',
+        Authorization: `Bearer ${this.getToken()}`
+      })
+    };
+    const regexp = `/${text}/i`;
+    const query = {where:
+      {
+        and:[
+          {SACAP__UUID__c:{nlike:"null"}},
+        ],
+        or:[
+          {FirstName:{regexp:`${regexp}`}},
+          {LastName:{regexp:`${regexp}`}}
+        ]
+      },
+      order:"FirstName",
+      limit:this.limitLookUps
+    }
     return this.http.get(`${this.url}/${tableName}?filter=${JSON.stringify(query)}`, httpOptions);
   }
 
@@ -113,14 +146,14 @@ export class LoopbackService {
     return this.http.get(`${this.url}/${query}`, httpOptions);
   }
 
-  getRecordWithFindOne(tableName: string, query: object) {
+  getRecordWithFindOne(tableName: string, uuid: string) {
     const httpOptions = {
       headers: new HttpHeaders({
         'content-type': 'application/json',
         Authorization: `Bearer ${this.getToken()}`
       })
     };
-    return this.http.get(`${this.url}/${tableName}/?filter=${JSON.stringify(query)}`, httpOptions);
+    return this.http.get(`${this.url}/${tableName}/${uuid}`, httpOptions);
   }
 
   getRecordRequest(tableName: string, id: number) {
