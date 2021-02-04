@@ -365,7 +365,7 @@
               </div>
             </div>
           </div>
-          <div class="card">
+          <!-- <div class="card">
             <div class="card-header" id="headingThree">
               <h5 class="mb-0">
                 <button
@@ -418,7 +418,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
           <div class="card">
             <div class="card-header" id="headingFour">
               <h5 class="mb-0">
@@ -515,7 +515,7 @@
                   <tbody>
                     <tr>
                       <th scope="row">Name</th>
-                      <td>{{contact.Salutation}} {{ contact.Name }}</td>
+                      <td>{{contact.Salutation}} {{contact.FirstName}} {{contact.LastName}}</td>
                     </tr>
                     <tr>
                       <th scope="row">Account Name</th>
@@ -536,7 +536,7 @@
                     </tr>
                     <tr>
                       <th scope="row">Reports To</th>
-                      <td *ngIf="lookUpContact"> {{lookUpContact.Name}} </td>
+                      <td *ngIf="lookUpContact">{{lookUpContact.FirstName}} {{lookUpContact.LastName}}</td>
                       <td *ngIf="!lookUpContact"></td>
                     </tr>
                     <tr>
@@ -676,7 +676,7 @@
             </div>
           </div>
         </div>
-        <div class="card">
+        <!-- <div class="card">
           <div class="card-header" id="headingThree">
             <h5 class="mb-0">
               <button
@@ -725,7 +725,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
         <div class="card">
           <div class="card-header" id="headingFour">
             <h5 class="mb-0">
@@ -850,7 +850,7 @@
             *ngFor="let lookUp of LookUpListings"
             class="list-group-item list-group-item-action"
             data-toggle="list"
-            (click)="LookUpSelected(lookUp, 'searchContact')">{{lookUp.Name}}</a>
+            (click)="LookUpSelected(lookUp, 'searchContact')">{{lookUp.FirstName}} {{lookUp.LasName}}</a>
         </div>
         <div *ngIf="LookUpListings404" class="card text-center mt-3">
           <div class="card-body">
