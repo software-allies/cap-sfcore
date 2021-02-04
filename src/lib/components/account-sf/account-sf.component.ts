@@ -179,11 +179,11 @@ export class AccountSFComponent implements OnInit {
   }
 
   getObject(uuid: string) {
-    this.loopbackService.getRecordWithFindOne(this.objectAPI, {where:{"SACAP__UUID__c":uuid}}).subscribe((object: any) => {
-      this.account = object[0];
-      this.viewAccount = object[0] ? true : false;
+    this.loopbackService.getRecordWithFindOne(this.objectAPI,uuid).subscribe((object: any) => {
+      this.account = object;
+      this.viewAccount = object ? true : false;
       if (this.status) {
-        this.createForm(object[0]);
+        this.createForm(object);
       }
       this.getLookUps();
     });
@@ -270,7 +270,7 @@ export class AccountSFComponent implements OnInit {
   createForm(account?: any) {
     if (account) {
       this.form = new FormGroup({
-        id: new FormControl(account.id, [Validators.required]),
+        // id: new FormControl(account.id, [Validators.required]),
         uuid__c: new FormControl(account.SACAP__UUID__c, [Validators.required]),
         name: new FormControl(account.Name, [Validators.required]),
         accountNumber: new FormControl(account.AccountNumber),
@@ -297,14 +297,14 @@ export class AccountSFComponent implements OnInit {
         shippingState: new FormControl(account.ShippingState),
         shippingPostalCode: new FormControl(account.ShippingPostalCode),
         shippingCountry: new FormControl(account.ShippingCountry),
-        customerPriority__c: new FormControl(account.CustomerPriority__c),
+        description: new FormControl(account.Description)
+        /*customerPriority__c: new FormControl(account.CustomerPriority__c),
         slaExpirationDate__c: new FormControl(this.changeFormatDate(account.SLAExpirationDate__c)),
         numberOfLocations__c: new FormControl(account.NumberofLocations__c, [Validators.pattern('^(\\d{0,3})$')]),
         active__c: new FormControl(account.Active__c),
         sla__c: new FormControl(account.SLA__c),
         slaSerialNumber__c: new FormControl(account.SLASerialNumber__c),
-        upsellOpportunity__c: new FormControl(account.UpsellOpportunity__c),
-        description: new FormControl(account.Description)
+        upsellOpportunity__c: new FormControl(account.UpsellOpportunity__c),*/
       });
       this.viewAccount = false;
       this.createAccount = false;
@@ -337,14 +337,14 @@ export class AccountSFComponent implements OnInit {
         shippingState: new FormControl(''),
         shippingPostalCode: new FormControl(''),
         shippingCountry: new FormControl(''),
-        customerPriority__c: new FormControl(''),
+        description: new FormControl('')
+        /*customerPriority__c: new FormControl(''),
         slaExpirationDate__c: new FormControl(null),
         numberOfLocations__c: new FormControl('', [Validators.pattern('^(\\d{0,3})$')]),
         active__c: new FormControl(''),
         sla__c: new FormControl(''),
         slaSerialNumber__c: new FormControl(''),
-        upsellOpportunity__c: new FormControl(''),
-        description: new FormControl('')
+        upsellOpportunity__c: new FormControl(''),*/
       });
       this.createAccount = true;
     }
@@ -379,33 +379,21 @@ export class AccountSFComponent implements OnInit {
         ShippingState: this.form.get('shippingState').value,
         ShippingPostalCode: this.form.get('shippingPostalCode').value,
         ShippingCountry: this.form.get('shippingCountry').value,
-        CustomerPriority__c: this.form.get('customerPriority__c').value,
+        Description: this.form.get('description').value
+        /*CustomerPriority__c: this.form.get('customerPriority__c').value,
         SLAExpirationDate__c: this.form.get('slaExpirationDate__c').value ? new Date(this.form.get('slaExpirationDate__c').value) : null,
         NumberofLocations__c: parseInt(this.form.get('numberOfLocations__c').value),
         Active__c: this.form.get('active__c').value,
         SLA__c: this.form.get('sla__c').value,
         SLASerialNumber__c: this.form.get('slaSerialNumber__c').value,
-        UpsellOpportunity__c: this.form.get('upsellOpportunity__c').value,
-        Description: this.form.get('description').value
+        UpsellOpportunity__c: this.form.get('upsellOpportunity__c').value,*/
       };
       for (var index in this.objectToSend) {
-        if (!isString(this.objectToSend[index]) && !isDate(this.objectToSend[index]) && isNaN(this.objectToSend[index])) {
-          delete this.objectToSend[index];
-        }
-        if (this.objectToSend[index] === null || this.objectToSend[index] === undefined || this.objectToSend[index] === '') {
-          delete this.objectToSend[index];
-        }
-      }
+        if (!isString(this.objectToSend[index]) && !isDate(this.objectToSend[index]) && isNaN(this.objectToSend[index])) delete this.objectToSend[index];
+        if (this.objectToSend[index] === null || this.objectToSend[index] === undefined || this.objectToSend[index] === '') delete this.objectToSend[index];
+      };
       if (updateOrcreate) {
-        /*for (var index in this.objectToSend) {
-          if (!isString(this.objectToSend[index]) && !isDate(this.objectToSend[index]) && isNaN(this.objectToSend[index])) {
-            delete this.objectToSend[index];
-          }
-          if (this.objectToSend[index] === null || this.objectToSend[index] === undefined) {
-            delete this.objectToSend[index];
-          }
-        }*/
-        this.loopbackService.patchRequest(this.objectAPI, this.form.get('id').value, this.objectToSend)
+        this.loopbackService.patchRequest(this.objectAPI, this.form.get('uuid__c').value, this.objectToSend)
           .subscribe((accountUpdated: any) => {
             Swal.fire({
               position: 'top-end',
@@ -421,14 +409,6 @@ export class AccountSFComponent implements OnInit {
             });
           }, (error) => console.error('Error ' + error.status + ' - ' + error.name + ' - ' + error.statusText));
       } else {
-        /*for (var index in this.objectToSend) {
-          if (!isString(this.objectToSend[index]) && !isDate(this.objectToSend[index]) && isNaN(this.objectToSend[index])) {
-            delete this.objectToSend[index];
-          }
-          if (this.objectToSend[index] === null || this.objectToSend[index] === undefined || this.objectToSend[index] === '') {
-            delete this.objectToSend[index];
-          }
-        }*/
         this.loopbackService.postRequest(this.objectAPI, this.objectToSend).subscribe((account: any) => {
           Swal.fire({
             position: 'top-end',
