@@ -127,7 +127,7 @@
               </div>
             </div>
           </div>
-          <div class="card">
+          <!-- <div class="card">
             <div class="card-header" id="headingThree">
               <h5 class="mb-0">
                 <button class="btn btn-link collapsed" data-toggle="collapse"
@@ -174,7 +174,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
           <div class="card">
             <div class="card-header" id="headingFour">
               <h5 class="mb-0">
@@ -261,7 +261,6 @@
                         <th scope="row">Account Name</th>
                         <td *ngIf="lookUpAccount"> {{lookUpAccount.Name}} </td>
                         <td *ngIf="!lookUpAccount"></td>
-                        <!-- <td>{{ LookUpAccountName(opportunity.SfId) }} </td> -->
                       </tr>
                       <tr>
                         <th scope="row">Type</th>
@@ -316,7 +315,7 @@
               </div>
             </div>
           </div>
-          <div class="card">
+          <!-- <div class="card">
             <div class="card-header" id="headingThree">
               <h5 class="mb-0">
                 <button class="btn btn-link collapsed" data-toggle="collapse"
@@ -369,7 +368,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
           <div class="card">
             <div class="card-header" id="headingFour">
               <h5 class="mb-0">
@@ -488,7 +487,7 @@
           *ngFor="let lookUp of LookUpListings"
           class="list-group-item list-group-item-action"
           data-toggle="list"
-          (click)="LookUpSelected(lookUp, 'searchContact')">{{lookUp.Name}}</a>
+          (click)="LookUpSelected(lookUp, 'searchContact')">{{lookUp.FirstName}} {{lookUp.LasName}}</a>
       </div>
 
       <div *ngIf="LookUpListings404" class="card text-center mt-3">
