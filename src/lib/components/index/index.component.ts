@@ -140,7 +140,7 @@ import Swal from 'sweetalert2';
                   <div class="dropdown-menu" aria-labelledby="actions">
                     <button class="dropdown-item" type="button" routerLink="/{{objectComponent}}/{{ object.SACAP__UUID__c }}">View</button>
                     <button class="dropdown-item" type="button" routerLink="/{{objectComponent}}/{{ object.SACAP__UUID__c }}/update">Update</button>
-                    <button class="dropdown-item" type="button" (click)="deleteItem(object.id)">Delete</button>
+                    <button class="dropdown-item" type="button" (click)="deleteItem(object.SACAP__UUID__c)">Delete</button>
                   </div>
                 </div>
               </td>
@@ -243,14 +243,14 @@ export class IndexComponent implements OnInit {
       object: 'contact',
       api: 'Contacts',
       search: [
-        'Name',
+        'FirstName',
       ]
     },
     {
       object: 'lead',
       api: 'Leads',
       search: [
-        'Name',
+        'FirstName',
       ]
     },
     {
@@ -345,18 +345,17 @@ export class IndexComponent implements OnInit {
       this.skipFilter
     ).subscribe((res: any) => {
       this.listings = res;
-      console.log(res,'res');
       this.listings404 = res.length < 1 ? true : false;
       if (this.objectAPI === 'Contacts' || this.objectAPI === 'Opportunities') {
-        let sfIds = [];
+        let lookUps = [];
         for (let index in res) {
-          sfIds.push({ SfId: res[index].AccountId });
+          lookUps.push({ SfId: res[index].AccountId });
         }
-        sfIds = sfIds.filter(id => id.SfId !== null);
+        lookUps = lookUps.filter(id => id.SfId !== null);
         const query = `Accounts?filter={"where":{"or":${JSON.stringify(
-          sfIds
+          lookUps
         )}},"fields":{"SACAP__UUID__c":true,"id":true,"SfId":true,"AccountNumber":true,"Name":true}}`;
-        if (sfIds.length) {
+        if (lookUps.length) {
           this.loopBackService
           .getWithFilter(query)
           .subscribe((accounts: Array<any>) => {
@@ -365,7 +364,6 @@ export class IndexComponent implements OnInit {
               if (account[0] !== undefined) {
                 this.listings[index].accountName = account[0].Name;
                 this.listings[index].accountSACAP__UUID__c = account[0].SACAP__UUID__c;
-                // this.listings[index].accountName = accounts.filter(account => account.SfId === item.AccountId)[0].Name;
               }
             });
           });
@@ -411,7 +409,7 @@ export class IndexComponent implements OnInit {
       cancelButtonText: 'No, keep it'
     }).then(result => {
       if (result.value) {
-        this.listings = this.listings.filter(acc => acc.id !== id);
+        this.listings = this.listings.filter(acc => acc.SACAP__UUID__c !== id);
         this.loopBackService.deleteItem(this.objectAPI, id).subscribe(res => {
           Swal.fire('Deleted!', 'Your record has been deleted.', 'success');
           this.loopBackService.getTotalItems(
