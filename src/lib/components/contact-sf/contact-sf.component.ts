@@ -141,12 +141,11 @@ export class ContactSFComponent implements OnInit {
   }
 
   getObject(uuid: string) {
-    this.loopbackService.getRecordWithFindOne(this.objectAPI, {where:{"SACAP__UUID__c":uuid}}).subscribe((object: any) => {
-      console.log('object',object);
-      this.contact = object[0];
-      this.viewContact = object[0] ? true : false;
+    this.loopbackService.getRecordWithFindOne(this.objectAPI, uuid).subscribe((object: any) => {
+      this.contact = object;
+      this.viewContact = object ? true : false;
       if (this.status) {
-        this.createForm(object[0]);
+        this.createForm(object);
       }
       this.getLookUps();
     }, (error) => {
@@ -187,14 +186,25 @@ export class ContactSFComponent implements OnInit {
   }
 
   searchLookUp(lookUp: string) {
-    this.loopbackService.getLookUpBySearch(lookUp, this.searchText).subscribe((data: any) => {
-      this.LookUpListings = data;
-      this.specificSearch = data.length > 90 && this.searchText ? true : false;
-      this.LookUpListings404 = data.length < 1 ? true : false;
-    }, (error) => {
-      console.error('Error ' + error.status + ' - ' + error.name + ' - ' + error.statusText);
-      this.LookUpListings404 = true;
-    });
+    if (lookUp === 'Accounts') {
+      this.loopbackService.getLookUpBySearch(lookUp, this.searchText).subscribe((data: any) => {
+        this.LookUpListings = data;
+        this.specificSearch = data.length > 90 && this.searchText ? true : false;
+        this.LookUpListings404 = data.length < 1 ? true : false;
+      }, (error) => {
+        console.error('Error ' + error.status + ' - ' + error.name + ' - ' + error.statusText);
+        this.LookUpListings404 = true;
+      });
+    } else if (lookUp === 'Contacts') {
+      this.loopbackService.getLookUpBySearchWithoutName(lookUp, this.searchText).subscribe((data: any) => {
+        this.LookUpListings = data;
+        this.specificSearch = data.length > 90 && this.searchText ? true : false;
+        this.LookUpListings404 = data.length < 1 ? true : false;
+      }, (error) => {
+        console.error('Error ' + error.status + ' - ' + error.name + ' - ' + error.statusText);
+        this.LookUpListings404 = true;
+      });
+    }
   }
 
   clearSearch(lookUp) {
@@ -251,7 +261,7 @@ export class ContactSFComponent implements OnInit {
   createForm(contact?: any) {
     if (contact) {
       this.form = new FormGroup({
-        id: new FormControl(contact.id, [Validators.required]),
+        // id: new FormControl(contact.id, [Validators.required]),
         uuid__c: new FormControl(contact.SACAP__UUID__c, [Validators.required]),
         salutation: new FormControl(contact.Salutation),
         firstName: new FormControl(contact.FirstName, [Validators.pattern('^[A-Za-z ]{0,}$')]),
@@ -280,9 +290,9 @@ export class ContactSFComponent implements OnInit {
         otherState: new FormControl(contact.OtherState),
         otherPostalCode: new FormControl(contact.OtherPostalCode),
         otherCountry: new FormControl(contact.OtherCountry),
-        languages__c: new FormControl(contact.Languages__c),
-        level__c: new FormControl(contact.Level__c),
         description: new FormControl(contact.Description)
+        /*languages__c: new FormControl(contact.Languages__c),
+        level__c: new FormControl(contact.Level__c),*/
       });
       this.viewContact = false;
       this.createContact = false;
@@ -317,9 +327,9 @@ export class ContactSFComponent implements OnInit {
         otherState: new FormControl(''),
         otherPostalCode: new FormControl(''),
         otherCountry: new FormControl(''),
-        languages__c: new FormControl(''),
-        level__c: new FormControl(''),
         description: new FormControl('')
+        /*languages__c: new FormControl(''),
+        level__c: new FormControl(''),*/
       });
       this.createContact = true;
     }
@@ -356,28 +366,16 @@ export class ContactSFComponent implements OnInit {
         OtherState: this.form.get('otherState').value,
         OtherPostalCode: this.form.get('otherPostalCode').value,
         OtherCountry: this.form.get('otherCountry').value,
-        Languages__c: this.form.get('languages__c').value,
-        Level__c: this.form.get('level__c').value,
         Description: this.form.get('description').value,
+        /*Languages__c: this.form.get('languages__c').value,
+        Level__c: this.form.get('level__c').value,*/
       };
       for (var index in this.objectToSend) {
-        if (!isString(this.objectToSend[index]) && !isDate(this.objectToSend[index]) && isNaN(this.objectToSend[index])) {
-          delete this.objectToSend[index];
-        }
-        if (this.objectToSend[index] === null || this.objectToSend[index] === undefined || this.objectToSend[index] === '') {
-          delete this.objectToSend[index];
-        }
-      }
+        if (!isString(this.objectToSend[index]) && !isDate(this.objectToSend[index]) && isNaN(this.objectToSend[index])) delete this.objectToSend[index];
+        if (this.objectToSend[index] === null || this.objectToSend[index] === undefined || this.objectToSend[index] === '') delete this.objectToSend[index];
+      };
       if (updateOrcreate) {
-        /*for (var index in this.objectToSend) {
-          if (!isString(this.objectToSend[index]) && !isDate(this.objectToSend[index]) && isNaN(this.objectToSend[index])) {
-            delete this.objectToSend[index];
-          }
-          if (this.objectToSend[index] === null || this.objectToSend[index] === undefined) {
-            delete this.objectToSend[index];
-          }
-        }*/
-        this.loopbackService.patchRequest(this.objectAPI, this.form.get('id').value, this.objectToSend).subscribe((contactUpdated: any) => {
+        this.loopbackService.patchRequest(this.objectAPI, this.form.get('uuid__c').value, this.objectToSend).subscribe((contactUpdated: any) => {
           Swal.fire({
             position: 'top-end',
             icon: 'success',
@@ -392,14 +390,6 @@ export class ContactSFComponent implements OnInit {
           });
         }, (error) => console.error('Error ' + error.status + ' - ' + error.name + ' - ' + error.statusText));
       } else {
-        /*for (var index in this.objectToSend) {
-          if (this.objectToSend[index] === '') {
-            delete this.objectToSend[index];
-          }
-          if (this.objectToSend[index] === null || this.objectToSend[index] === undefined) {
-            delete this.objectToSend[index];
-          }
-        }*/
         this.loopbackService.postRequest(this.objectAPI, this.objectToSend).subscribe((contact: any) => {
           if (contact) {
             Swal.fire({
