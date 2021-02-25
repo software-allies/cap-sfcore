@@ -50,7 +50,7 @@
                       <label *ngIf="!lookUpAccount" for="inputSalutation" class="form-control" (click)="searchLookUp('Accounts'); this.modalService.open('searchAccount');"></label>
 
                       <div *ngIf="lookUpAccount" class="input-group-append">
-                        <button title="Remove Parent Account" (click)="deleteLookUp('parentId')" class="btn btn-outline-dark" type="button">
+                        <button title="Remove Parent Account" (click)="deleteLookUp('parent__SACAP__UUID__c')" class="btn btn-outline-dark" type="button">
                           <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
                           </svg>
@@ -317,7 +317,6 @@
                     />
                   </div>
                 </div>
-
                 <div class="form-row">
                   <div class="form-group col-md-4">
                     <label for="inputShippingState"
@@ -354,147 +353,6 @@
               </div>
             </div>
           </div>
-          <!-- <div class="card">
-            <div class="card-header" id="headingThree">
-              <h5 class="mb-0">
-                <button
-                  class="btn btn-link collapsed"
-                  data-toggle="collapse"
-                  data-target="#collapseAdditionalInformation"
-                  aria-expanded="false"
-                  aria-controls="collapseAdditionalInformation"
-                >
-                  Additional Information
-                </button>
-              </h5>
-            </div>
-            <div
-              id="collapseAdditionalInformation"
-              class="collapse"
-              aria-labelledby="headingThree"
-              data-parent="#accordion"
-            >
-              <div class="card-body">
-                <div class="form-row">
-                  <div class="form-group col-md-4">
-                    <label for="inputCustomPriority">Customer Priority</label>
-                    <select
-                      formControlName="customerPriority__c"
-                      id="inputCustomPriority"
-                      class="form-control"
-                    >
-                      <option value="" selected disabled hidden
-                        >Choose here</option
-                      >
-                      <option
-                        *ngFor="let type of customerPriorityValues"
-                        value="{{ type }}"
-                        class="form-control"
-                        >{{ type }}</option
-                      >
-                    </select>
-                  </div>
-                  <div class="form-group col-md-4">
-                    <label for="inputSlaExpirationDate"
-                      >SLA Expiration Date</label
-                    >
-                    <input
-                      type="date"
-                      class="form-control"
-                      id="inputSlaExpirationDate"
-                      formControlName="slaExpirationDate__c"
-                    />
-                  </div>
-                  <div class="form-group col-md-4">
-                    <label for="inputNumberOfLocations"
-                      >Number of Locations</label
-                    >
-                    <input
-                    [ngClass]="{
-                      'is-invalid': form.controls.numberOfLocations__c.errors
-                    }"
-                      type="text"
-                      class="form-control"
-                      id="inputNumberOfLocations"
-                      formControlName="numberOfLocations__c"
-                    />
-                  </div>
-                </div>
-
-                <div class="form-row">
-                  <div class="form-group col-md-3">
-                    <label for="inputActive">Active</label>
-                    <select
-                      formControlName="active__c"
-                      id="inputActive"
-                      class="form-control"
-                    >
-                      <option value="" selected disabled hidden
-                        >Choose here</option
-                      >
-                      <option
-                        *ngFor="let type of activeValues"
-                        value="{{ type }}"
-                        class="form-control"
-                        >{{ type }}</option
-                      >
-                    </select>
-                  </div>
-                  <div class="form-group col-md-3">
-                    <label for="inputSla">SLA</label>
-                    <select
-                      formControlName="sla__c"
-                      id="inputSla"
-                      class="form-control"
-                    >
-                      <option value="" selected disabled hidden
-                        >Choose here</option
-                      >
-                      <option
-                        *ngFor="let type of slaValues"
-                        value="{{ type }}"
-                        class="form-control"
-                        >{{ type }}</option
-                      >
-                    </select>
-                  </div>
-                  <div class="form-group col-md-3">
-                    <label for="inputSlaSerialNumber">SLA Serial Number </label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="inputSlaSerialNumber"
-                      formControlName="slaSerialNumber__c"
-                      maxlength="10"
-                    />
-                  </div>
-                  <div class="form-group col-md-3">
-                    <label for="inputUpsellOpportunity"
-                      >Upsell Opportunity</label
-                    >
-                    <select
-                      formControlName="upsellOpportunity__c"
-                      id="inputUpsellOpportunity"
-                      class="form-control"
-                    >
-                      <option value="" selected disabled hidden
-                        >Choose here</option
-                      >
-                      <option
-                        *ngFor="let type of upsellOpportunityValues"
-                        value="{{ type }}"
-                        class="form-control"
-                        >{{ type }}</option
-                      >
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> -->
-
-
-
           <div class="card">
             <div class="card-header" id="headingFour">
               <h5 class="mb-0">
@@ -583,7 +441,6 @@
           data-parent="#accordion"
         >
           <div class="card-body row">
-
             <div class="col-md-6">
               <table class="rwd_auto">
                 <thead>
@@ -622,7 +479,6 @@
                 </tbody>
               </table>
             </div>
-
             <div class="col-md-6">
               <table class="rwd_auto">
                 <thead>
@@ -688,7 +544,6 @@
           data-parent="#accordion"
         >
           <div class="card-body row">
-
               <div class="col-md-6">
                 <table class="rwd_auto">
                   <thead>
@@ -718,7 +573,6 @@
                   </tbody>
                 </table>
               </div>
-
               <div class="col-md-6">
                 <table class="rwd_auto">
                   <thead>
@@ -746,86 +600,12 @@
                       <th scope="row">Shipping Street</th>
                       <td>{{ account.ShippingStreet }}</td>
                     </tr>
-
                   </tbody>
                 </table>
               </div>
-
           </div>
         </div>
       </div>
-      <!-- <div class="card">
-        <div class="card-header" id="headingThree">
-          <h5 class="mb-0">
-            <button
-              class="btn btn-link collapsed"
-              data-toggle="collapse"
-              data-target="#collapseAdditionalInformation"
-              aria-expanded="true"
-              aria-controls="collapseAdditionalInformation"
-            >
-              Additional Information
-            </button>
-          </h5>
-        </div>
-        <div
-          id="collapseAdditionalInformation"
-          class="collapse show"
-          aria-labelledby="headingThree"
-          data-parent="#accordion"
-        >
-          <div class="card-body row">
-
-            <div class="col-md-6">
-              <table class="rwd_auto">
-                <thead>
-                  <tr></tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">Customer Priority</th>
-                    <td>{{ account.CustomerPriority__c }}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">SLA Expiration Date</th>
-                    <td>{{ account.SLAExpirationDate__c | date :'MM/dd/yyyy' : 'UTC/GMT' }}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Number of Locations</th>
-                    <td>{{ account.NumberofLocations__c }}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Active</th>
-                    <td>{{ account.Active__c }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <div class="col-md-6">
-              <table class="rwd_auto">
-                <thead>
-                  <tr></tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">SLA</th>
-                    <td>{{ account.SLA__c }}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">SLA Serial Number</th>
-                    <td>{{ account.SLASerialNumber__c }}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Upsell Opportunity</th>
-                    <td>{{ account.UpsellOpportunity__c }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div> -->
       <div class="card">
         <div class="card-header" id="headingFour">
           <h5 class="mb-0">
