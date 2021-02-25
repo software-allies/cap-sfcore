@@ -201,8 +201,8 @@ export class AccountSFComponent implements OnInit {
   }
 
   getLookUps() {
-    if (this.account.ParentId) {
-      this.loopbackService.getLookUp('Accounts', {where:{"SfId":this.account.ParentId}}).subscribe((accounts: Array<{ any }>) => {
+    if (this.account.Parent__SACAP__UUID__c) {
+      this.loopbackService.getLookUp('Accounts', {where:{"SACAP__UUID__c":this.account.Parent__SACAP__UUID__c}}).subscribe((accounts: Array<{ any }>) => {
         this.lookUpAccount = accounts[0];
       }, (error) => {
         console.error('Error ' + error.status + ' - ' + error.name + ' - ' + error.statusText);
@@ -217,15 +217,15 @@ export class AccountSFComponent implements OnInit {
   }
 
   deleteLookUp(field: string) {
-    if (field === 'parentId') {
-      this.form.controls['parentId'].setValue('');
+    if (field === 'parent__SACAP__UUID__c') {
+      this.form.controls['parent__SACAP__UUID__c'].setValue('');
       this.lookUpAccount = null;
     }
   }
 
   LookUpSelected(record: any, modalId: string) {
     if (modalId === 'searchAccount') {
-      this.form.controls['parentId'].setValue(record.SfId);
+      this.form.controls['parent__SACAP__UUID__c'].setValue(record.SACAP__UUID__c);
       this.lookUpAccount = record;
       this.modalService.close(modalId);
     }
@@ -270,11 +270,10 @@ export class AccountSFComponent implements OnInit {
   createForm(account?: any) {
     if (account) {
       this.form = new FormGroup({
-        // id: new FormControl(account.id, [Validators.required]),
         uuid__c: new FormControl(account.SACAP__UUID__c, [Validators.required]),
         name: new FormControl(account.Name, [Validators.required]),
         accountNumber: new FormControl(account.AccountNumber),
-        parentId: new FormControl(account.ParentId),
+        parent__SACAP__UUID__c: new FormControl(account.Parent__SACAP__UUID__c),
         site: new FormControl(account.Site),
         type: new FormControl(account.Type),
         industry: new FormControl(account.Industry),
@@ -298,13 +297,6 @@ export class AccountSFComponent implements OnInit {
         shippingPostalCode: new FormControl(account.ShippingPostalCode),
         shippingCountry: new FormControl(account.ShippingCountry),
         description: new FormControl(account.Description)
-        /*customerPriority__c: new FormControl(account.CustomerPriority__c),
-        slaExpirationDate__c: new FormControl(this.changeFormatDate(account.SLAExpirationDate__c)),
-        numberOfLocations__c: new FormControl(account.NumberofLocations__c, [Validators.pattern('^(\\d{0,3})$')]),
-        active__c: new FormControl(account.Active__c),
-        sla__c: new FormControl(account.SLA__c),
-        slaSerialNumber__c: new FormControl(account.SLASerialNumber__c),
-        upsellOpportunity__c: new FormControl(account.UpsellOpportunity__c),*/
       });
       this.viewAccount = false;
       this.createAccount = false;
@@ -314,7 +306,7 @@ export class AccountSFComponent implements OnInit {
         uuid__c: new FormControl(uuidv4(), [Validators.required]),
         name: new FormControl('', [Validators.required]),
         accountNumber: new FormControl(''),
-        parentId: new FormControl(null),
+        parent__SACAP__UUID__c: new FormControl(''),
         site: new FormControl(''),
         type: new FormControl(''),
         industry: new FormControl(''),
@@ -338,13 +330,6 @@ export class AccountSFComponent implements OnInit {
         shippingPostalCode: new FormControl(''),
         shippingCountry: new FormControl(''),
         description: new FormControl('')
-        /*customerPriority__c: new FormControl(''),
-        slaExpirationDate__c: new FormControl(null),
-        numberOfLocations__c: new FormControl('', [Validators.pattern('^(\\d{0,3})$')]),
-        active__c: new FormControl(''),
-        sla__c: new FormControl(''),
-        slaSerialNumber__c: new FormControl(''),
-        upsellOpportunity__c: new FormControl(''),*/
       });
       this.createAccount = true;
     }
@@ -356,7 +341,7 @@ export class AccountSFComponent implements OnInit {
         SACAP__UUID__c: this.form.get('uuid__c').value,
         Name: this.form.get('name').value,
         AccountNumber: this.form.get('accountNumber').value,
-        ParentId: this.form.get('parentId').value,
+        Parent__SACAP__UUID__c: this.form.get('parent__SACAP__UUID__c').value,
         Site: this.form.get('site').value,
         Type: this.form.get('type').value,
         Industry: this.form.get('industry').value,
@@ -380,13 +365,6 @@ export class AccountSFComponent implements OnInit {
         ShippingPostalCode: this.form.get('shippingPostalCode').value,
         ShippingCountry: this.form.get('shippingCountry').value,
         Description: this.form.get('description').value
-        /*CustomerPriority__c: this.form.get('customerPriority__c').value,
-        SLAExpirationDate__c: this.form.get('slaExpirationDate__c').value ? new Date(this.form.get('slaExpirationDate__c').value) : null,
-        NumberofLocations__c: parseInt(this.form.get('numberOfLocations__c').value),
-        Active__c: this.form.get('active__c').value,
-        SLA__c: this.form.get('sla__c').value,
-        SLASerialNumber__c: this.form.get('slaSerialNumber__c').value,
-        UpsellOpportunity__c: this.form.get('upsellOpportunity__c').value,*/
       };
       for (var index in this.objectToSend) {
         if (!isString(this.objectToSend[index]) && !isDate(this.objectToSend[index]) && isNaN(this.objectToSend[index])) delete this.objectToSend[index];
