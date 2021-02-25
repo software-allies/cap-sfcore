@@ -154,16 +154,16 @@ export class ContactSFComponent implements OnInit {
   }
 
   getLookUps() {
-    if (this.contact.AccountId) {
-      this.loopbackService.getLookUp('Accounts', {where:{"SfId":this.contact.AccountId}}).subscribe((accounts: Array<{ any }>) => {
+    if (this.contact.Account__SACAP__UUID__c) {
+      this.loopbackService.getLookUp('Accounts', {where:{"SACAP__UUID__c":this.contact.Account__SACAP__UUID__c}}).subscribe((accounts: Array<{ any }>) => {
         this.lookUpAccount = accounts[0];
       }, (error) => {
         console.error('Error ' + error.status + ' - ' + error.name + ' - ' + error.statusText);
         this.lookUpAccount =  null;
       });
     }
-    if (this.contact.ReportsToId) {
-      this.loopbackService.getLookUp('Contacts',{where:{"SfId":this.contact.ReportsToId}}).subscribe((contacts: Array<{ any }>) => {
+    if (this.contact.ReportsTo__SACAP__UUID__c) {
+      this.loopbackService.getLookUp('Contacts',{where:{"SACAP__UUID__c":this.contact.ReportsTo__SACAP__UUID__c}}).subscribe((contacts: Array<{ any }>) => {
         this.lookUpContact = contacts[0];
       }, (error) => {
         console.error('Error ' + error.status + ' - ' + error.name + ' - ' + error.statusText);
@@ -213,22 +213,22 @@ export class ContactSFComponent implements OnInit {
   }
 
   deleteLookUp(field: string) {
-    if (field === 'accountId') {
-      this.form.controls['accountId'].setValue('');
+    if (field === 'account__SACAP__UUID__c') {
+      this.form.controls['account__SACAP__UUID__c'].setValue('');
       this.lookUpAccount = null;
-    } else if (field === 'reportsToId') {
-      this.form.controls['reportsToId'].setValue('');
+    } else if (field === 'reportsTo__SACAP__UUID__c') {
+      this.form.controls['reportsTo__SACAP__UUID__c'].setValue('');
       this.lookUpContact = null;
     }
   }
 
   LookUpSelected(record: any, modalId: string) {
     if (modalId === 'searchAccount') {
-      this.form.controls['accountId'].setValue(record.SfId);
+      this.form.controls['account__SACAP__UUID__c'].setValue(record.SACAP__UUID__c);
       this.lookUpAccount = record;
       this.modalService.close(modalId);
     } else if (modalId === 'searchContact') {
-      this.form.controls['reportsToId'].setValue(record.SfId);
+      this.form.controls['reportsTo__SACAP__UUID__c'].setValue(record.SACAP__UUID__c);
       this.lookUpContact = record;
       this.modalService.close(modalId);
     }
@@ -261,16 +261,15 @@ export class ContactSFComponent implements OnInit {
   createForm(contact?: any) {
     if (contact) {
       this.form = new FormGroup({
-        // id: new FormControl(contact.id, [Validators.required]),
         uuid__c: new FormControl(contact.SACAP__UUID__c, [Validators.required]),
         salutation: new FormControl(contact.Salutation),
         firstName: new FormControl(contact.FirstName, [Validators.pattern('^[A-Za-z ]{0,}$')]),
         lastName: new FormControl(contact.LastName, [Validators.required, Validators.pattern('^[A-Za-z ]{0,}$')]),
-        accountId: new FormControl(contact.AccountId),
+        account__SACAP__UUID__c: new FormControl(contact.Account__SACAP__UUID__c),
+        reportsTo__SACAP__UUID__c: new FormControl(contact.ReportsTo__SACAP__UUID__c),
         title: new FormControl(contact.Title),
         department: new FormControl(contact.Department),
         birthdate: new FormControl(this.changeFormatDate(contact.Birthdate)),
-        reportsToId: new FormControl(contact.ReportsToId),
         leadSource: new FormControl(contact.LeadSource),
         phone: new FormControl(contact.Phone),
         homePhone: new FormControl(contact.HomePhone),
@@ -291,8 +290,6 @@ export class ContactSFComponent implements OnInit {
         otherPostalCode: new FormControl(contact.OtherPostalCode),
         otherCountry: new FormControl(contact.OtherCountry),
         description: new FormControl(contact.Description)
-        /*languages__c: new FormControl(contact.Languages__c),
-        level__c: new FormControl(contact.Level__c),*/
       });
       this.viewContact = false;
       this.createContact = false;
@@ -303,11 +300,11 @@ export class ContactSFComponent implements OnInit {
         salutation: new FormControl(''),
         firstName: new FormControl('', [Validators.pattern('^[A-Za-z ]{0,}$')]),
         lastName: new FormControl('', [Validators.required, Validators.pattern('^[A-Za-z ]{0,}$')]),
-        accountId: new FormControl(''),
+        account__SACAP__UUID__c: new FormControl(''),
+        reportsTo__SACAP__UUID__c: new FormControl(''),
         title: new FormControl(''),
         department: new FormControl(''),
         birthdate: new FormControl(null),
-        reportsToId: new FormControl(''),
         leadSource: new FormControl(''),
         phone: new FormControl(''),
         homePhone: new FormControl(''),
@@ -328,8 +325,6 @@ export class ContactSFComponent implements OnInit {
         otherPostalCode: new FormControl(''),
         otherCountry: new FormControl(''),
         description: new FormControl('')
-        /*languages__c: new FormControl(''),
-        level__c: new FormControl(''),*/
       });
       this.createContact = true;
     }
@@ -342,11 +337,11 @@ export class ContactSFComponent implements OnInit {
         Salutation: this.form.get('salutation').value,
         FirstName: this.form.get('firstName').value,
         LastName: this.form.get('lastName').value,
-        AccountId: this.form.get('accountId').value,
+        Account__SACAP__UUID__c: this.form.get('account__SACAP__UUID__c').value,
+        ReportsTo__SACAP__UUID__c: this.form.get('reportsTo__SACAP__UUID__c').value,
         Title: this.form.get('title').value,
         Department: this.form.get('department').value,
         Birthdate: this.form.get('birthdate').value ? new Date(this.form.get('birthdate').value) : null,
-        ReportsToId: this.form.get('reportsToId').value,
         LeadSource: this.form.get('leadSource').value,
         Phone: this.form.get('phone').value,
         HomePhone: this.form.get('homePhone').value,
@@ -366,9 +361,7 @@ export class ContactSFComponent implements OnInit {
         OtherState: this.form.get('otherState').value,
         OtherPostalCode: this.form.get('otherPostalCode').value,
         OtherCountry: this.form.get('otherCountry').value,
-        Description: this.form.get('description').value,
-        /*Languages__c: this.form.get('languages__c').value,
-        Level__c: this.form.get('level__c').value,*/
+        Description: this.form.get('description').value
       };
       for (var index in this.objectToSend) {
         if (!isString(this.objectToSend[index]) && !isDate(this.objectToSend[index]) && isNaN(this.objectToSend[index])) delete this.objectToSend[index];
