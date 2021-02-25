@@ -101,12 +101,7 @@ export class OpportunitySFComponent implements OnInit {
     'Closed Won',
     'Closed Lost'
   ];
-  // tslint:disable-next-line: variable-name
-  /*deliveryInstallationStatus__cValues: string[] = [
-    'In progress',
-    'Yet to begin',
-    'Completed'
-  ];*/
+
   isInvalid: boolean;
   objectAPI: string;
 
@@ -177,23 +172,22 @@ export class OpportunitySFComponent implements OnInit {
   }
 
   getLookUps() {
-    if (this.opportunity.AccountId) {
-      this.loopbackService.getLookUp('Accounts', {where:{"SfId":this.opportunity.AccountId}}).subscribe((accounts: Array<{ any }>) => {
+    if (this.opportunity.Account__SACAP__UUID__c) {
+      this.loopbackService.getLookUp('Accounts', {where:{"SACAP__UUID__c":this.opportunity.Account__SACAP__UUID__c}}).subscribe((accounts: Array<{ any }>) => {
         this.lookUpAccount = accounts[0];
       }, (error) => {
         console.error('Error ' + error.status + ' - ' + error.name + ' - ' + error.statusText);
         this.lookUpAccount =  null;
       });
     }
-
-    if (this.opportunity.CampaignId) {
+    /*if (this.opportunity.CampaignId) {
       this.loopbackService.getLookUp('Contacts',{where:{"SfId":this.opportunity.CampaignId}} ).subscribe((contacts: Array<{ any }>) => {
         this.lookUpContact = contacts[0];
       }, (error) => {
         console.error('Error ' + error.status + ' - ' + error.name + ' - ' + error.statusText);
         this.lookUpContact =  null;
       });
-    }
+    }*/
   }
 
   cancelAction(goBack?: boolean) {
@@ -233,8 +227,8 @@ export class OpportunitySFComponent implements OnInit {
   }
 
   deleteLookUp(field: string) {
-    if (field === 'accountId') {
-      this.form.controls['accountId'].setValue('');
+    if (field === 'account__SACAP__UUID__c') {
+      this.form.controls['account__SACAP__UUID__c'].setValue('');
       this.lookUpAccount = null;
     } else if (field === 'campaignId') {
       this.form.controls['campaignId'].setValue('');
@@ -244,14 +238,14 @@ export class OpportunitySFComponent implements OnInit {
 
   LookUpSelected(record: any, modalId: string) {
     if (modalId === 'searchAccount') {
-      this.form.controls['accountId'].setValue(record.SfId);
+      this.form.controls['account__SACAP__UUID__c'].setValue(record.SACAP__UUID__c);
       this.lookUpAccount = record;
       this.modalService.close(modalId);
-    } else if (modalId === 'searchContact') {
+    } /*else if (modalId === 'searchContact') {
       this.form.controls['campaignId'].setValue(record.SfId);
       this.lookUpContact = record;
       this.modalService.close(modalId);
-    }
+    }*/
   }
 
   onCloseModal(event: boolean) {
@@ -274,11 +268,10 @@ export class OpportunitySFComponent implements OnInit {
   createForm(opportunity?: any) {
     if (opportunity) {
       this.form = new FormGroup({
-        // id: new FormControl(opportunity.id, [Validators.required]),
         uuid__c: new FormControl(opportunity.SACAP__UUID__c, [Validators.required]),
         isPrivate: new FormControl(opportunity.IsPrivate),
         name: new FormControl(opportunity.Name, [Validators.required]),
-        accountId: new FormControl(opportunity.AccountId),
+        account__SACAP__UUID__c: new FormControl(opportunity.Account__SACAP__UUID__c),
         type: new FormControl(opportunity.Type),
         leadSource: new FormControl(opportunity.LeadSource),
         amount: new FormControl(opportunity.Amount, [Validators.pattern('^[0-9]+([.][0-9]+)?$')]),
@@ -288,12 +281,6 @@ export class OpportunitySFComponent implements OnInit {
         stageName: new FormControl(opportunity.StageName, [Validators.required]),
         probability: new FormControl(opportunity.Probability, [Validators.pattern('^(\\d{0,3})$')]),
         description: new FormControl(opportunity.Description)
-        /*campaignId: new FormControl(opportunity.CampaignId),
-        orderNumber__c: new FormControl(opportunity.OrderNumber__c),
-        currentGenerators__c: new FormControl(opportunity.CurrentGenerators__c),
-        trackingNumber__c: new FormControl(opportunity.TrackingNumber__c),
-        mainCompetitors__c: new FormControl(opportunity.MainCompetitors__c),
-        deliveryInstallationStatus__c: new FormControl(opportunity.DeliveryInstallationStatus__c),*/
       });
       this.createOpportunity = false;
       this.viewOpportunity = false;
@@ -303,7 +290,7 @@ export class OpportunitySFComponent implements OnInit {
         uuid__c: new FormControl(uuidv4(), [Validators.required]),
         isPrivate: new FormControl(false),
         name: new FormControl('', [Validators.required]),
-        accountId: new FormControl(''),
+        account__SACAP__UUID__c: new FormControl(''),
         type: new FormControl(''),
         leadSource: new FormControl(''),
         amount: new FormControl('', [Validators.pattern('^[0-9]+([.][0-9]+)?$')]),
@@ -313,12 +300,6 @@ export class OpportunitySFComponent implements OnInit {
         stageName: new FormControl('', [Validators.required]),
         probability: new FormControl('', [Validators.pattern('^(\\d{0,3})$')]),
         description: new FormControl('')
-        /*campaignId: new FormControl(''),
-        orderNumber__c: new FormControl(''),
-        currentGenerators__c: new FormControl(''),
-        trackingNumber__c: new FormControl(''),
-        mainCompetitors__c: new FormControl(''),
-        deliveryInstallationStatus__c: new FormControl(''),*/
       });
       this.createOpportunity = true;
     }
@@ -330,7 +311,7 @@ export class OpportunitySFComponent implements OnInit {
         SACAP__UUID__c: this.form.get('uuid__c').value,
         IsPrivate: this.form.get('isPrivate').value,
         Name: this.form.get('name').value,
-        AccountId: this.form.get('accountId').value,
+        Account__SACAP__UUID__c: this.form.get('account__SACAP__UUID__c').value,
         Type: this.form.get('type').value,
         LeadSource: this.form.get('leadSource').value,
         Amount: parseInt(this.form.get('amount').value),
@@ -340,12 +321,6 @@ export class OpportunitySFComponent implements OnInit {
         StageName: this.form.get('stageName').value,
         Probability: parseInt(this.form.get('probability').value),
         Description: this.form.get('description').value
-        /*CampaignId: this.form.get('campaignId').value,
-        OrderNumber__c: this.form.get('orderNumber__c').value,
-        CurrentGenerators__c: this.form.get('currentGenerators__c').value,
-        TrackingNumber__c: this.form.get('trackingNumber__c').value,
-        MainCompetitors__c: this.form.get('mainCompetitors__c').value,
-        DeliveryInstallationStatus__c: this.form.get('deliveryInstallationStatus__c').value,*/
       };
       for (var index in this.objectToSend) {
         if (!isString(this.objectToSend[index]) && !isDate(this.objectToSend[index]) && isNaN(this.objectToSend[index])) delete this.objectToSend[index];
