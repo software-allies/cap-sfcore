@@ -349,18 +349,18 @@ export class IndexComponent implements OnInit {
       if (this.objectAPI === 'Contacts' || this.objectAPI === 'Opportunities') {
         let lookUps = [];
         for (let index in res) {
-          lookUps.push({ SfId: res[index].AccountId });
+          lookUps.push({ SACAP__UUID__c: res[index].Account__SACAP__UUID__c });
         }
-        lookUps = lookUps.filter(id => id.SfId !== null);
+        lookUps = lookUps.filter(id => id.SACAP__UUID__c !== null);
         const query = `Accounts?filter={"where":{"or":${JSON.stringify(
           lookUps
-        )}},"fields":{"SACAP__UUID__c":true,"id":true,"SfId":true,"AccountNumber":true,"Name":true}}`;
+        )}},"fields":{"SACAP__UUID__c":true,"id":true,"AccountNumber":true,"Name":true}}`;
         if (lookUps.length) {
           this.loopBackService
           .getWithFilter(query)
           .subscribe((accounts: Array<any>) => {
             this.listings.forEach((item, index) => {
-              let account = accounts.filter(account => account.SfId === item.AccountId)
+              let account = accounts.filter(account => account.SACAP__UUID__c === item.Account__SACAP__UUID__c)
               if (account[0] !== undefined) {
                 this.listings[index].accountName = account[0].Name;
                 this.listings[index].accountSACAP__UUID__c = account[0].SACAP__UUID__c;
