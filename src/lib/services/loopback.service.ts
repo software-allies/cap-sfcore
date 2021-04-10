@@ -183,7 +183,7 @@ export class LoopbackService {
         Authorization: `Bearer ${this.getToken()}`
       })
     };
-    return this.http.patch(`${this.url}/${tableName}/${id}`, body, httpOptions);
+    return this.http.put(`${this.url}/${tableName}/${id}`, body, httpOptions);
   }
 
   deleteItem(tableName: string, id: number) {
