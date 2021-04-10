@@ -268,6 +268,7 @@ export class OpportunitySFComponent implements OnInit {
   createForm(opportunity?: any) {
     if (opportunity) {
       this.form = new FormGroup({
+        id: new FormControl(opportunity.id),
         uuid__c: new FormControl(opportunity.SACAP__UUID__c, [Validators.required]),
         isPrivate: new FormControl(opportunity.IsPrivate),
         name: new FormControl(opportunity.Name, [Validators.required]),
@@ -276,7 +277,7 @@ export class OpportunitySFComponent implements OnInit {
         leadSource: new FormControl(opportunity.LeadSource),
         amount: new FormControl(opportunity.Amount, [Validators.pattern('^[0-9]+([.][0-9]+)?$')]),
         revenue: new FormControl(opportunity.ExpectedRevenue, [Validators.pattern('^[0-9]+([.][0-9]+)?$')]),
-        closeDate: new FormControl(this.changeFormatDate(opportunity.CloseDate), [Validators.required]),
+        closeDate: new FormControl(opportunity.CloseDate ? this.changeFormatDate(opportunity.CloseDate): null, [Validators.required]),
         nextStep: new FormControl(opportunity.NextStep),
         stageName: new FormControl(opportunity.StageName, [Validators.required]),
         probability: new FormControl(opportunity.Probability, [Validators.pattern('^(\\d{0,3})$')]),
@@ -287,6 +288,7 @@ export class OpportunitySFComponent implements OnInit {
       this.updateOpportunity = true;
     } else {
       this.form = new FormGroup({
+        id: new FormControl(null),
         uuid__c: new FormControl(uuidv4(), [Validators.required]),
         isPrivate: new FormControl(false),
         name: new FormControl('', [Validators.required]),
@@ -295,7 +297,7 @@ export class OpportunitySFComponent implements OnInit {
         leadSource: new FormControl(''),
         amount: new FormControl('', [Validators.pattern('^[0-9]+([.][0-9]+)?$')]),
         revenue: new FormControl('', [Validators.pattern('^[0-9]+([.][0-9]+)?$')]),
-        closeDate: new FormControl('', [Validators.required]),
+        closeDate: new FormControl(null, [Validators.required]),
         nextStep: new FormControl(''),
         stageName: new FormControl('', [Validators.required]),
         probability: new FormControl('', [Validators.pattern('^(\\d{0,3})$')]),
@@ -307,7 +309,12 @@ export class OpportunitySFComponent implements OnInit {
 
   onSubmit(updateOrcreate?: boolean) {
     if (this.form.valid) {
+      if (this.form.controls['closeDate'].value) {
+        let closeDate = new Date(this.form.controls['closeDate'].value);
+        this.form.controls['closeDate'].setValue(closeDate.toISOString());
+      };
       this.objectToSend = {
+        id: this.form.get('id').value ? this.form.get('id').value : null,
         SACAP__UUID__c: this.form.get('uuid__c').value,
         IsPrivate: this.form.get('isPrivate').value,
         Name: this.form.get('name').value,
@@ -316,7 +323,7 @@ export class OpportunitySFComponent implements OnInit {
         LeadSource: this.form.get('leadSource').value,
         Amount: parseInt(this.form.get('amount').value),
         ExpectedRevenue: parseInt(this.form.get('revenue').value),
-        CloseDate: this.form.get('closeDate').value ? new Date(this.form.get('closeDate').value) : null,
+        CloseDate: this.form.get('closeDate').value,
         NextStep: this.form.get('nextStep').value,
         StageName: this.form.get('stageName').value,
         Probability: parseInt(this.form.get('probability').value),
