@@ -261,6 +261,7 @@ export class ContactSFComponent implements OnInit {
   createForm(contact?: any) {
     if (contact) {
       this.form = new FormGroup({
+        id: new FormControl(contact.id),
         uuid__c: new FormControl(contact.SACAP__UUID__c, [Validators.required]),
         salutation: new FormControl(contact.Salutation),
         firstName: new FormControl(contact.FirstName, [Validators.pattern('^[A-Za-z ]{0,}$')]),
@@ -269,7 +270,7 @@ export class ContactSFComponent implements OnInit {
         reportsTo__SACAP__UUID__c: new FormControl(contact.ReportsTo__SACAP__UUID__c),
         title: new FormControl(contact.Title),
         department: new FormControl(contact.Department),
-        birthdate: new FormControl(this.changeFormatDate(contact.Birthdate)),
+        birthdate: new FormControl(contact.Birthdate ? this.changeFormatDate(contact.Birthdate) : null),
         leadSource: new FormControl(contact.LeadSource),
         phone: new FormControl(contact.Phone),
         homePhone: new FormControl(contact.HomePhone),
@@ -296,6 +297,7 @@ export class ContactSFComponent implements OnInit {
       this.updateContact = true;
     } else {
       this.form = new FormGroup({
+        id: new FormControl(null),
         uuid__c: new FormControl(uuidv4(), [Validators.required]),
         salutation: new FormControl(''),
         firstName: new FormControl('', [Validators.pattern('^[A-Za-z ]{0,}$')]),
@@ -332,7 +334,12 @@ export class ContactSFComponent implements OnInit {
 
   onSubmit(updateOrcreate?: boolean) {
     if (this.form.valid) {
+      if (this.form.controls['birthdate'].value) {
+        let birthdate = new Date(this.form.controls['birthdate'].value);
+        this.form.controls['birthdate'].setValue(birthdate.toISOString());
+      };
       this.objectToSend = {
+        id: this.form.get('id').value ? this.form.get('id').value : null,
         SACAP__UUID__c: this.form.get('uuid__c').value,
         Salutation: this.form.get('salutation').value,
         FirstName: this.form.get('firstName').value,
@@ -341,7 +348,7 @@ export class ContactSFComponent implements OnInit {
         ReportsTo__SACAP__UUID__c: this.form.get('reportsTo__SACAP__UUID__c').value,
         Title: this.form.get('title').value,
         Department: this.form.get('department').value,
-        Birthdate: this.form.get('birthdate').value ? new Date(this.form.get('birthdate').value) : null,
+        Birthdate: this.form.get('birthdate').value,
         LeadSource: this.form.get('leadSource').value,
         Phone: this.form.get('phone').value,
         HomePhone: this.form.get('homePhone').value,

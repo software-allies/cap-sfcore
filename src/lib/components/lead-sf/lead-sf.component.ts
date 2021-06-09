@@ -174,45 +174,40 @@ export class LeadSFComponent implements OnInit {
     }
   }
 
-  createForm(contact?: any) {
-    if (contact) {
+  createForm(lead?: any) {
+    if (lead) {
       this.form = new FormGroup({
-        // id: new FormControl(contact.id, [Validators.required]),
-        uuid__c: new FormControl(contact.SACAP__UUID__c, [Validators.required]),
-        salutation: new FormControl(contact.Salutation),
-        firstName: new FormControl(contact.FirstName),
-        lastName: new FormControl(contact.LastName, [Validators.required]),
-        company: new FormControl(contact.Company, [Validators.required]),
-        title: new FormControl(contact.Title),
-        leadSource: new FormControl(contact.LeadSource),
-        industry: new FormControl(contact.Industry),
-        annualRevenue: new FormControl(contact.AnnualRevenue, [Validators.pattern('^(\\d*|\\d+\\.\\d{1,2})$')]),
-        phone: new FormControl(contact.Phone),
-        mobilePhone: new FormControl(contact.MobilePhone),
-        fax: new FormControl(contact.Fax),
-        email: new FormControl(contact.Email, [Validators.pattern('(^$|^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.(?:[a-zA-Z]{1,5})$)')]),
-        website: new FormControl(contact.Website),
-        status: new FormControl(contact.Status, [Validators.required]),
-        rating: new FormControl(contact.Rating),
-        numberOfEmployees: new FormControl(contact.NumberOfEmployees, [Validators.pattern('^(\\d{0,8})$')]),
-        street: new FormControl(contact.Street),
-        city: new FormControl(contact.City),
-        state: new FormControl(contact.State),
-        postalCode: new FormControl(contact.PostalCode),
-        country: new FormControl(contact.Country),
-        description: new FormControl(contact.Description)
-        /*campaignId: new FormControl(contact.CampaignId),
-        productInterest__c: new FormControl(contact.ProductInterest__c),
-        sicCode__c: new FormControl(contact.SICCode__c),
-        numberOfLocations__c: new FormControl(contact.NumberofLocations__c, [Validators.pattern('^(\\d{0,3})$')]),
-        currentGenerators__c: new FormControl(contact.CurrentGenerators__c),
-        primary__c: new FormControl(contact.Primary__c),*/
+        id: new FormControl(lead.id),
+        uuid__c: new FormControl(lead.SACAP__UUID__c, [Validators.required]),
+        salutation: new FormControl(lead.Salutation),
+        firstName: new FormControl(lead.FirstName),
+        lastName: new FormControl(lead.LastName, [Validators.required]),
+        company: new FormControl(lead.Company, [Validators.required]),
+        title: new FormControl(lead.Title),
+        leadSource: new FormControl(lead.LeadSource),
+        industry: new FormControl(lead.Industry),
+        annualRevenue: new FormControl(lead.AnnualRevenue, [Validators.pattern('^(\\d*|\\d+\\.\\d{1,2})$')]),
+        phone: new FormControl(lead.Phone),
+        mobilePhone: new FormControl(lead.MobilePhone),
+        fax: new FormControl(lead.Fax),
+        email: new FormControl(lead.Email, [Validators.pattern('(^$|^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.(?:[a-zA-Z]{1,5})$)')]),
+        website: new FormControl(lead.Website),
+        status: new FormControl(lead.Status, [Validators.required]),
+        rating: new FormControl(lead.Rating),
+        numberOfEmployees: new FormControl(lead.NumberOfEmployees, [Validators.pattern('^(\\d{0,8})$')]),
+        street: new FormControl(lead.Street),
+        city: new FormControl(lead.City),
+        state: new FormControl(lead.State),
+        postalCode: new FormControl(lead.PostalCode),
+        country: new FormControl(lead.Country),
+        description: new FormControl(lead.Description)
       });
       this.createLead = false;
       this.viewLead = false;
       this.updateLead = true;
     } else {
       this.form = new FormGroup({
+        id:  new FormControl(null),
         uuid__c: new FormControl(uuidv4(), [Validators.required]),
         salutation: new FormControl(''),
         firstName: new FormControl(''),
@@ -236,12 +231,6 @@ export class LeadSFComponent implements OnInit {
         postalCode: new FormControl(''),
         country: new FormControl(''),
         description: new FormControl('')
-        /*campaignId: new FormControl(''),
-        productInterest__c: new FormControl(''),
-        sicCode__c: new FormControl(''),
-        numberOfLocations__c: new FormControl('', [Validators.pattern('^(\\d{0,3})$')]),
-        currentGenerators__c: new FormControl(''),
-        primary__c: new FormControl(''),*/
       });
       this.createLead = true;
     }
@@ -250,6 +239,7 @@ export class LeadSFComponent implements OnInit {
   onSubmit(updateOrcreate?: boolean) {
     if (this.form.valid) {
       this.objectToSend = {
+        id: this.form.get('id').value ? this.form.get('id').value : null,
         SACAP__UUID__c: this.form.get('uuid__c').value,
         Salutation: this.form.get('salutation').value,
         FirstName: this.form.get('firstName').value,

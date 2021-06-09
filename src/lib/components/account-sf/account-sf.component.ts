@@ -260,17 +260,11 @@ export class AccountSFComponent implements OnInit {
     }
   }
 
-  changeFormatDate(formatDate: any): string {
-    const date = new Date(formatDate);
-    const day = ('0' + date.getUTCDate()).slice(-2);
-    const month = ('0' + (date.getUTCMonth() + 1)).slice(-2);
-    return date.getUTCFullYear() + '-' + month + '-' + day;
-  }
-
   createForm(account?: any) {
     if (account) {
       this.form = new FormGroup({
         uuid__c: new FormControl(account.SACAP__UUID__c, [Validators.required]),
+        id: new FormControl(account.id),
         name: new FormControl(account.Name, [Validators.required]),
         accountNumber: new FormControl(account.AccountNumber),
         parent__SACAP__UUID__c: new FormControl(account.Parent__SACAP__UUID__c),
@@ -304,6 +298,7 @@ export class AccountSFComponent implements OnInit {
     } else {
       this.form = new FormGroup({
         uuid__c: new FormControl(uuidv4(), [Validators.required]),
+        id: new FormControl(null),
         name: new FormControl('', [Validators.required]),
         accountNumber: new FormControl(''),
         parent__SACAP__UUID__c: new FormControl(''),
@@ -338,6 +333,7 @@ export class AccountSFComponent implements OnInit {
   onSubmit(updateOrcreate?: boolean) {
     if (this.form.valid) {
       this.objectToSend = {
+        id: this.form.get('id').value ? this.form.get('id').value : null,
         SACAP__UUID__c: this.form.get('uuid__c').value,
         Name: this.form.get('name').value,
         AccountNumber: this.form.get('accountNumber').value,

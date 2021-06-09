@@ -400,34 +400,74 @@ export class IndexComponent implements OnInit {
   }
 
   deleteItem(id: number) {
-    Swal.fire({
-      title: 'Are you sure?',
-      text: 'You will not be able to recover this record!',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Yes, delete it!',
-      cancelButtonText: 'No, keep it'
-    }).then(result => {
-      if (result.value) {
-        this.listings = this.listings.filter(acc => acc.SACAP__UUID__c !== id);
-        this.loopBackService.deleteItem(this.objectAPI, id).subscribe(res => {
-          Swal.fire('Deleted!', 'Your record has been deleted.', 'success');
-          this.loopBackService.getTotalItems(
-            this.objectAPI,
-            this.searchAttribute,
-            this.selectAttribute,
-            this.searchByText
-          ).subscribe(totalitmes => {
-            this.totalItems = totalitmes;
-            if (totalitmes <= 20) {
-              this.actionPage(1);
-            }
+    if (this.objectComponent === 'account') {
+      this.loopBackService.getLookUp('Opportunities',{where:{Account__SACAP__UUID__c:id}}).subscribe({
+        next: (opportunities: any[]) => {
+          if (opportunities.length>0) {
+            Swal.fire('Denied', 'The record you want to delete has a record of type Opportunity linked', 'error');
+          } else {
+            Swal.fire({
+              title: 'Are you sure?',
+              text: 'You will not be able to recover this record!',
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonText: 'Yes, delete it!',
+              cancelButtonText: 'No, keep it'
+            }).then(result => {
+              if (result.value) {
+                this.listings = this.listings.filter(acc => acc.SACAP__UUID__c !== id);
+                this.loopBackService.deleteItem(this.objectAPI, id).subscribe(res => {
+                  Swal.fire('Deleted!', 'Your record has been deleted.', 'success');
+                  this.loopBackService.getTotalItems(
+                    this.objectAPI,
+                    this.searchAttribute,
+                    this.selectAttribute,
+                    this.searchByText
+                  ).subscribe(totalitmes => {
+                    this.totalItems = totalitmes;
+                    if (totalitmes <= 20) {
+                      this.actionPage(1);
+                    }
+                  });
+                });
+              } else if (result.dismiss === Swal.DismissReason.cancel) {
+                Swal.fire('Cancelled', 'Your record is safe :)', 'error');
+              };
+            });
+          }
+        },
+        error: (error: any) => console.log(error)
+      })
+    } else {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'You will not be able to recover this record!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, keep it'
+      }).then(result => {
+        if (result.value) {
+          this.listings = this.listings.filter(acc => acc.SACAP__UUID__c !== id);
+          this.loopBackService.deleteItem(this.objectAPI, id).subscribe(res => {
+            Swal.fire('Deleted!', 'Your record has been deleted.', 'success');
+            this.loopBackService.getTotalItems(
+              this.objectAPI,
+              this.searchAttribute,
+              this.selectAttribute,
+              this.searchByText
+            ).subscribe(totalitmes => {
+              this.totalItems = totalitmes;
+              if (totalitmes <= 20) {
+                this.actionPage(1);
+              }
+            });
           });
-        });
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire('Cancelled', 'Your record is safe :)', 'error');
-      }
-    });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire('Cancelled', 'Your record is safe :)', 'error');
+        }
+      });
+    }
   }
 
   ApplyQueryParams(queryParams) {
