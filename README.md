@@ -135,3 +135,9 @@ You can also do it automatically by calling a schematic for Angular as follows:
 ```
 ng add cap-angular-schematic-responsive <App title> false false false
 ```
+
+
+![Alt text](https://raw.githubusercontent.com/software-allies/cap-angular-schematic-sfcore/development/assets/images/CRUD.png "List")
+
+![Alt text](https://raw.githubusercontent.com/software-allies/cap-angular-schematic-sfcore/development/assets/images/DETAIL.png "List")
+
