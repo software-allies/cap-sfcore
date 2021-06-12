@@ -7,219 +7,161 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-index-sf',
   template: `
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12 mx-auto">
-      <div class="page-header">
-        <div class="row">
-
-          <div class="col-md-3 mb-2">
-            <a routerLink="/{{objectComponent}}/create" class="btn btn-outline-dark pull-right">
-              Add New {{objectComponent | titlecase}}
-            </a>
-          </div>
-
-          <div class="col-md-9">
-            <div class="form-row">
-
-            <!--
-              <div class="col-md-3 mb-2">
-                <select class="custom-select" [(ngModel)]="selectAttribute">
-                  <option *ngFor="let search of object.search; let i = index" value="{{search}}">{{search}}</option>
-                </select>
-              </div>
-            -->
-
-              <div class="input-group input-border col-md-12 mb-2">
-                <input
-                  type="text"
-                  id="search"
-                  name="search"
-                  [(ngModel)]="searchAttribute" class="form-control"
-                  (keyup.enter)="searchAttribute === '' ? '' :searchBy()"
-                >
-
-                <div class="input-group-append" *ngIf="searchByText">
-                  <button title="Clear Filter" (click)="everythingRecords()" class="btn btn-outline-dark" type="button" >
-                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                      <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                      <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/>
-                      <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/>
-                    </svg>
-                  </button>
-                </div>
-
-                <div class="input-group-append">
-                  <button
-                    (click)="searchBy()"
-                    class="btn btn-outline-dark"
-                    type="button"
-                    [disabled]="searchAttribute === ''">
-                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                      <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
-                      <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
-                    </svg>
-                  </button>
-                </div>
-
-              </div>
-            </div>
-          </div>
-        </div>
+<div class="section-table">
+  <div class="container-action">
+    <h2 class="heading-secondary--light u-text-uppercase u-center-text u-margin-bottom-big">{{objectComponent | titlecase}}</h2>
+    <div class="container-search">
+      <a routerLink="/{{objectComponent}}/create" class="btns btns--blue u-position-button-input-right">Add new {{objectComponent | titlecase}}</a>
+      <div class="container-input">
+        <input
+          name="search"
+          type="text"
+          class="form__input u-shadow-small u-margin-input"
+          id="search"
+          name="search"
+          placeholder="Search {{objectComponent}}"
+          [(ngModel)]="searchAttribute"
+          (keyup.enter)="searchAttribute === '' ? '' :searchBy()"
+          >
+        <a (click)="searchBy()" class="btns btns--blue ">
+          <i class="bi bi-search"></i>
+        </a>
       </div>
-        <table *ngIf="listings.length && !listings404" class="table table-borderless table-hover rwd_auto mt-3">
-          <thead class="thead-dark">
-            <tr *ngIf="objectComponent === 'account'">
-              <th scope="col">Account Name</th>
-              <th scope="col" class="discard">Billing City</th>
-              <th scope="col" class="discard">Phone</th>
-              <th scope="col">Actions</th>
-            </tr>
-            <tr *ngIf="objectComponent === 'contact'">
-              <th scope="col">Name</th>
-              <th scope="col" class="discard">Account Name</th>
-              <th scope="col" class="discard">Phone</th>
-              <th scope="col">Actions</th>
-            </tr>
-            <tr *ngIf="objectComponent === 'opportunity'">
-              <th scope="col">Opportunity Name</th>
-              <th scope="col" class="discard">Account Name</th>
-              <th scope="col" class="discard">Close Date</th>
-              <th scope="col">Actions</th>
-            </tr>
-            <tr *ngIf="objectComponent === 'lead'">
-              <th scope="col">Name</th>
-              <th scope="col" class="discard">Company</th>
-              <th scope="col" class="discard">Phone</th>
-              <th scope="col">Actions</th>
-            </tr>
+    </div>
+  </div>
+    <div class="container-table">
+      <div class="table-container">
+
+        <table *ngIf="listings.length && !listings404" id="table" class="table" cellspacing="0" cellpadding="0">
+          <thead class="thead">
+
+            <ng-container *ngIf="objectComponent === 'account'">
+              <tr class="head">
+                <th scope="col" id="..." class="head__title">Account Name</th>
+                <th scope="col" id="..." class="head__title discard">Billing City</th>
+                <th scope="col" id="..." class="head__title discard">Phone</th>
+                <th scope="col" id="..." class="head__title">Actions</th>
+              </tr>
+            </ng-container>
+
+            <ng-container *ngIf="objectComponent === 'contact'">
+              <tr class="head">
+                <th scope="col" id="..." class="head__title">Name</th>
+                <th scope="col" id="..." class="head__title discard">Account Name</th>
+                <th scope="col" id="..." class="head__title discard">Phone</th>
+                <th scope="col" id="..." class="head__title">Actions</th>
+              </tr>
+            </ng-container>
+
+            <ng-container *ngIf="objectComponent === 'opportunity'">
+              <tr class="head">
+                <th scope="col" id="..." class="head__title">Opportunity Name</th>
+                <th scope="col" id="..." class="head__title discard">Account Name</th>
+                <th scope="col" id="..." class="head__title discard">Close Date</th>
+                <th scope="col" id="..." class="head__title">Actions</th>
+              </tr>
+            </ng-container>
+
+            <ng-container *ngIf="objectComponent === 'lead'">
+              <tr class="head">
+                <th scope="col" id="..." class="head__title">Name</th>
+                <th scope="col" id="..." class="head__title discard">Companye</th>
+                <th scope="col" id="..." class="head__title discard">Phone</th>
+                <th scope="col" id="..." class="head__title">Actions</th>
+              </tr>
+            </ng-container>
           </thead>
           <tbody>
-            <tr *ngFor="let object of listings | paginate: { id: 'pagination', itemsPerPage: totalListings, currentPage: currentPage, totalItems: totalItems}">
+            <tr class="tbody" *ngFor="let object of listings | paginate: { id: 'pagination', itemsPerPage: totalListings, currentPage: currentPage, totalItems: totalItems}">
 
-              <td *ngIf="objectComponent === 'account'" scope="row">
-                <a routerLink="/{{objectComponent}}/{{object.SACAP__UUID__c}}">{{ object.Name }}</a>
-              </td>
-              <td *ngIf="objectComponent === 'account'" class="discard">{{ object.BillingCity }}</td>
-              <td *ngIf="objectComponent === 'account'" class="numeric discard">{{ object.Phone }}</td>
+              <ng-container *ngIf="objectComponent === 'account'">
+                <th scope="col" id="..." class="tbody__content">
+                  <a class="tbody__content--link" routerLink="/{{objectComponent}}/{{object.SACAP__UUID__c}}">{{ object.Name }}</a>
+                </th>
+                <th scope="col" id="..." class="tbody__content discard">{{ object.BillingCity }}</th>
+                <th scope="col" id="..." class="tbody__content discard">{{ object.Phone }}</th>
+              </ng-container>
 
-              <td *ngIf="objectComponent === 'contact'" scope="row">
-                <a routerLink="/{{objectComponent}}/{{object.SACAP__UUID__c}}">{{ object.FirstName }} {{ object.LastName }}</a>
-              </td>
-              <td *ngIf="objectComponent === 'contact'" class="discard">
-                <a routerLink="/account/{{object.accountSACAP__UUID__c}}">{{ object.accountName }}</a>
-              </td>
-              <td *ngIf="objectComponent === 'contact'" class="numeric discard">{{ object.MobilePhone }}</td>
+              <ng-container *ngIf="objectComponent === 'contact'">
+                <th scope="col" id="..." class="tbody__content">
+                  <a class="tbody__content--link" routerLink="/{{objectComponent}}/{{object.SACAP__UUID__c}}">{{ object.FirstName }} {{ object.LastName }}</a>
+                </th>
+                <th scope="col" id="..." class="tbody__content discard">
+                  <a class="tbody__content--link" routerLink="/account/{{object.accountSACAP__UUID__c}}">{{ object.FirstName }} {{ object.LastName }}</a>
+                </th>
+                <th scope="col" id="..." class="tbody__content discard">{{ object.MobilePhone }}</th>
+              </ng-container>
 
-              <td *ngIf="objectComponent === 'opportunity'" scope="row">
-                <a routerLink="/{{objectComponent}}/{{object.SACAP__UUID__c}}">{{ object.Name }}</a>
-              </td>
-              <td *ngIf="objectComponent === 'opportunity'" class="discard">
-                <a routerLink="/account/{{object.accountSACAP__UUID__c}}">{{ object.accountName }}</a>
-              </td>
-              <td *ngIf="objectComponent === 'opportunity'" class="date discard">{{ object.CloseDate | date: 'MM/dd/yyyy' : 'UTC/GMT'}}</td>
+              <ng-container *ngIf="objectComponent === 'opportunity'">
+                <th scope="col" id="..." class="tbody__content">
+                  <a class="tbody__content--link" routerLink="/{{objectComponent}}/{{object.SACAP__UUID__c}}">{{ object.Name }}</a>
+                </th>
+                <th scope="col" id="..." class="tbody__content discard">
+                  <a class="tbody__content--link" routerLink="/account/{{object.accountSACAP__UUID__c}}">{{ object.accountName }}</a>
+                </th>
+                <th scope="col" id="..." class="tbody__content discard">{{ object.CloseDate | date: 'MM/dd/yyyy' : 'UTC/GMT'}}</th>
+              </ng-container>
 
-              <td *ngIf="objectComponent === 'lead'"  scope="row">
-                <a routerLink="/{{objectComponent}}/{{object.SACAP__UUID__c}}">{{ object.FirstName }} {{ object.LastName }}</a>
-              </td>
-              <td *ngIf="objectComponent === 'lead'" class="discard">{{ object.Company }}</td>
-              <td *ngIf="objectComponent === 'lead'" class="numeric discard">{{ object.Phone }}</td>
 
-              <td class="text-center">
+              <ng-container *ngIf="objectComponent === 'lead'">
+                <th scope="col" id="..." class="tbody__content">
+                  <a class="tbody__content--link" routerLink="/{{objectComponent}}/{{object.SACAP__UUID__c}}">{{ object.FirstName }} {{ object.LastName }}</a>
+                </th>
+                <th scope="col" id="..." class="tbody__content discard">{{ object.Company }}</th>
+                <th scope="col" id="..." class="tbody__content discard">{{ object.Phone }}</th>
+              </ng-container>
+
+              <th scope="col" id="..." class="tbody__content">
                 <div class="dropdown">
-                  <button
-                    class="btn btn-dark btn-sm dropdown-toggle"
-                    type="button"
-                    id="actions"
+                  <a
+                    class="btns btns-secondary dropdown-toggle"
+                    role="button"
+                    id="dropdownMenuLink"
+                    data-bs-toggle="dropdown"
                     data-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
-                    <i class="fa fa-ellipsis-h"></i>
-                  </button>
-                  <div class="dropdown-menu" aria-labelledby="actions">
-                    <button class="dropdown-item" type="button" routerLink="/{{objectComponent}}/{{ object.SACAP__UUID__c }}">View</button>
-                    <button class="dropdown-item" type="button" routerLink="/{{objectComponent}}/{{ object.SACAP__UUID__c }}/update">Update</button>
-                    <button class="dropdown-item" type="button" (click)="deleteItem(object.SACAP__UUID__c)">Delete</button>
-                  </div>
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <li><a class="dropdown-item" routerLink="/{{objectComponent}}/{{ object.SACAP__UUID__c }}">View</a></li>
+                    <li><a class="dropdown-item" routerLink="/{{objectComponent}}/{{ object.SACAP__UUID__c }}/update">Update</a></li>
+                    <li><a class="dropdown-item" (click)="deleteItem(object.SACAP__UUID__c)">Delete</a></li>
+                  </ul>
                 </div>
-              </td>
+              </th>
             </tr>
           </tbody>
         </table>
       </div>
-    </div>
-
-    <div class="pagination" *ngIf="totalItems && currentPage && totalItems > totalListings">
-      <app-pagination #PaginationComponentChild (pageChange)="actionPage($event)"></app-pagination>
-    </div>
-
-    <div  *ngIf="!listings.length && listings404" class="card text-center mt-3">
-      <div class="card-body">
-        <h5 class="card-title">No Results found!</h5>
-        <p class="card-text">
-          Sorry, but nothing matched your search terms. Please try again with some different keywords.
-        </p>
+      <div  *ngIf="!listings.length && listings404" class="card text-center mt-3">
+        <div class="card-body">
+          <h5 class="card-title">No Results found!</h5>
+          <p class="card-text">
+            Sorry, but nothing matched your search terms. Please try again with some different keywords.
+          </p>
+        </div>
+      </div>
+      <div class="pagination" *ngIf="totalItems && currentPage && totalItems > totalListings">
+        <app-pagination #PaginationComponentChild (pageChange)="actionPage($event)"></app-pagination>
       </div>
     </div>
-
   </div>
-
   `,
   styles: [`
-
-  div.input-border input {
-    border-color: #343a40;
+  @media (max-width: 767px) {
+    .table th.discard, .table td.discard { display: none !important; }
   }
-
-  div.input-border input:focus {
-    outline:none !important;
-    outline-width: 0 !important;
-    box-shadow: none !important;
-    -moz-box-shadow: none !important;
-    -webkit-box-shadow: none !important;
-    border-color: #343a40;
-    // border-width: 1.5px;
-  }
-
-  table {
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    border-collapse: collapse;
-  }
-
-  table.rwd_auto {width: 100%; margin: 0 0 50px 0; }
-  .rwd_auto th {word-wrap: break-word; padding:5px; text-align: left; }
-  .rwd_auto th:last-child {text-align: center; }
-
-  .rwd_auto td {word-wrap: break-word; border-bottom: .5px solid #ccc; padding: 5px; text-align: left; }
-  .rwd_auto td.numeric { text-align: left; }
-  .rwd_auto td.date { text-align: left; }
-  .rwd_auto tr:last-child td { border:0; }
-
-
-	/* Mobile ----------- */
-	@media (max-width: 767px) {
-    .rwd_auto th.discard, .rwd_auto td.discard { display: none !important; }
-  }
-
   .ngx-pagination {
     padding: 0 !important;
   }
-
   .pagination {
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    margin-right: 3rem;
-  }
-
-  a{
-    color: #000;
-  }
-
-  td{
-    text-align: left;
+    margin-top:4rem;
+    margin-bottom:4rem ;
   }
   `]
 })
