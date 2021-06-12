@@ -1,523 +1,410 @@
-<div class="container">
-  <div class="row" *ngIf="createLead || updateLead">
 
-    <div class="col-lg-12">
-      <form [formGroup]="form">
-        <div id="accordion">
-          <div class="card">
-            <div class="card-header" id="headingOne">
-              <h5 class="mb-0">
-                <button [ngClass]="{
-                    'text-danger': isInvalid
-                  }" class="btn btn-link" data-toggle="collapse" data-target="#collapseLeadInformation"
-                  aria-expanded="true" aria-controls="collapseLeadInformation">
-                  Lead Information
-                </button>
-              </h5>
-            </div>
-
-            <div id="collapseLeadInformation" class="collapse show" aria-labelledby="headingOne"
-              data-parent="#accordion">
-              <div class="card-body">
-                <div class="form-row">
-                  <div class="form-group col-md-2">
-                    <label for="inputSalutation">Salutation</label>
-                    <select formControlName="salutation" id="inputSalutation" class="form-control">
-                      <option value="" selected disabled hidden>Choose here</option>
-                      <option *ngFor="let type of salutationValues" value="{{ type }}" class="form-control">{{ type }}
-                      </option>
-                    </select>
-                  </div>
-                  <div class="form-group col-md-5">
-                    <label for="inputFirstName">First Name</label>
-                    <input type="text" class="form-control" id="inputFirstName" formControlName="firstName" />
-                  </div>
-                  <div class="form-group col-md-5">
-                    <label for="inputLastName">Last Name*</label>
-                    <input [ngClass]="{
-                        'is-invalid': isInvalid && !form.controls.lastName.value
-                      }" type="text" class="form-control" id="inputLastName" formControlName="lastName" />
-                  </div>
-                </div>
-                <div class="form-row ">
-                  <div class="form-group col-md-4">
-                    <label for="inputCompany">Company*</label>
-                    <input [ngClass]="{
-                        'is-invalid': isInvalid && !form.controls.company.value
-                      }" type="text" class="form-control" id="inputCompany" formControlName="company" />
-                  </div>
-                  <div class="form-group col-md-4">
-                    <label for="inputTitle">Title</label>
-                    <input type="text" class="form-control" id="inputTitle" formControlName="title" />
-                  </div>
-                  <div class="form-group col-md-4">
-                    <label for="inputLeadSource">Lead Source</label>
-                    <select formControlName="leadSource" id="inputLeadSource" class="form-control">
-                      <option value="" selected disabled hidden>Choose here</option>
-                      <option *ngFor="let type of leadSourceValues" value="{{ type }}" class="form-control">{{ type }}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-
-                <div class="form-row">
-                  <!-- <div class="form-group col-md-6">
-                    <label for="inputCampaign">Campaign</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="inputCampaign"
-                      formControlName="campaignId"
-                    />
-                  </div> -->
-                  <div class="form-group col-md-3">
-                    <label for="inputIndustry">Industry</label>
-                    <select formControlName="industry" id="inputIndustry" class="form-control">
-                      <option value="" selected disabled hidden>Choose here</option>
-                      <option *ngFor="let type of industryValues" value="{{ type }}" class="form-control">{{ type }}
-                      </option>
-                    </select>
-                  </div>
-                  <div class="form-group col-md-3">
-                    <label for="inputAnnualRevenue">Annual Revenue</label>
-                    <input [ngClass]="{
-                        'is-invalid': form.controls.annualRevenue.errors
-                      }" type="text" class="form-control" id="inputAnnualRevenue" formControlName="annualRevenue" />
-                  </div>
-                  <div class="form-group col-md-3">
-                    <label for="inputRating">Rating</label>
-                    <select formControlName="rating" id="inputRating" class="form-control">
-                      <option value="" selected disabled hidden>Choose here</option>
-                      <option *ngFor="let type of ratingValues" value="{{ type }}" class="form-control">{{ type }}
-                      </option>
-                    </select>
-                  </div>
-                  <div class="form-group col-md-3">
-                    <label for="inputNoEmployees">No. of Employees</label>
-                    <input [ngClass]="{
-                        'is-invalid': form.controls.numberOfEmployees.errors
-                      }" type="text" class="form-control" id="inputNoEmployees" formControlName="numberOfEmployees" />
-                  </div>
-                </div>
-
-                <div class="form-row">
-                  <div class="form-group col-md-4">
-                    <label for="inputPhone">Phone</label>
-                    <input type="text" class="form-control" id="inputPhone" formControlName="phone" />
-                  </div>
-                  <div class="form-group col-md-4">
-                    <label for="inputMobile">Mobile</label>
-                    <input type="text" class="form-control" id="inputMobile" formControlName="mobilePhone" />
-                  </div>
-                  <div class="form-group col-md-4">
-                    <label for="inputFax">Fax</label>
-                    <input type="text" class="form-control" id="inputFax" formControlName="fax" />
-                  </div>
-                </div>
-
-                <div class="form-row">
-                  <div class="form-group col-md-4">
-                    <label for="inputEmail">Email</label>
-                    <input [ngClass]="{
-                        'is-invalid': form.controls.email.errors
-                      }" type="text" class="form-control" id="inputEmail" formControlName="email" />
-                  </div>
-                  <div class="form-group col-md-4">
-                    <label for="inputWebsite">Website</label>
-                    <input type="text" class="form-control" id="inputWebsite" formControlName="website" />
-                  </div>
-                  <div class="form-group col-md-4">
-                    <label for="inputLeadStatus">Lead Status*</label>
-                    <select [ngClass]="{
-                        'is-invalid': isInvalid && !form.controls.status.value
-                      }" formControlName="status" id="inputLeadStatus" class="form-control">
-                      <option value="" selected disabled hidden>Choose here</option>
-                      <option *ngFor="let type of statusValues" value="{{ type }}" class="form-control">{{ type }}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-row">
-
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-header" id="headingTwo">
-              <h5 class="mb-0">
-                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseAddressInformation"
-                  aria-expanded="false" aria-controls="collapseAddressInformation">
-                  Address Information
-                </button>
-              </h5>
-            </div>
-            <div id="collapseAddressInformation" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-              <div class="card-body">
-                <div class="form-row">
-                  <div class="form-group col-md-6">
-                    <label for="inputStreet">Street</label>
-                    <input type="email" class="form-control" id="Street" formControlName="street" />
-                  </div>
-                  <div class="form-group col-md-6">
-                    <label for="inputCity">City</label>
-                    <input type="text" class="form-control" id="inputCity" formControlName="city" />
-                  </div>
-                </div>
-                <div class="form-row">
-                  <div class="form-group col-md-4">
-                    <label for="inputState">State/Province</label>
-                    <input type="text" class="form-control" id="inputState" formControlName="state" />
-                  </div>
-                  <div class="form-group col-md-4">
-                    <label for="inputPostalCode">Zip/Postal Code</label>
-                    <input type="text" class="form-control" id="inputPostalCode" formControlName="postalCode" />
-                  </div>
-                  <div class="form-group col-md-4">
-                    <label for="inputCountry">Country</label>
-                    <input type="text" class="form-control" id="inputCountry" formControlName="country" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- <div class="card">
-            <div class="card-header" id="headingThree">
-              <h5 class="mb-0">
-                <button class="btn btn-link collapsed" data-toggle="collapse"
-                  data-target="#collapseAdditionalInformation" aria-expanded="false"
-                  aria-controls="collapseAdditionalInformation">
-                  Additional Information
-                </button>
-              </h5>
-            </div>
-            <div id="collapseAdditionalInformation" class="collapse" aria-labelledby="headingThree"
-              data-parent="#accordion">
-              <div class="card-body">
-                <div class="form-row">
-                  <div class="form-group col-md-4">
-                    <label for="inputProductInterest">Product Interest</label>
-                    <select formControlName="productInterest__c" id="inputProductInterest" class="form-control">
-                      <option value="" selected disabled hidden>Choose here</option>
-                      <option *ngFor="let type of productInterestValues" value="{{ type }}" class="form-control">
-                        {{ type }}</option>
-                    </select>
-                  </div>
-                  <div class="form-group col-md-4">
-                    <label for="inputSicCode">SIC Code</label>
-                    <input type="text" class="form-control" id="inputSicCode" formControlName="sicCode__c" />
-                  </div>
-                  <div class="form-group col-md-4">
-                    <label for="inputNumberOfLocations">Number of Locations</label>
-                    <input [ngClass]="{
-                        'is-invalid': form.controls.numberOfLocations__c.errors
-                      }" type="text" class="form-control" id="inputNumberOfLocations"
-                      formControlName="numberOfLocations__c" />
-                  </div>
-                </div>
-
-                <div class="form-row">
-                  <div class="form-group col-md-6">
-                    <label for="inputCurrentGenerators">Current Generator(s)</label>
-                    <input type="text" class="form-control" id="inputCurrentGenerators"
-                      formControlName="currentGenerators__c" />
-                  </div>
-                  <div class="form-group col-md-6">
-                    <label for="inputPrimary">Primary</label>
-                    <select formControlName="primary__c" id="inputPrimary" class="form-control">
-                      <option value="" selected disabled hidden>Choose here</option>
-                      <option *ngFor="let type of primaryValues" value="{{ type }}" class="form-control">{{ type }}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> -->
-          <div class="card">
-            <div class="card-header" id="headingFour">
-              <h5 class="mb-0">
-                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseDescription"
-                  aria-expanded="false" aria-controls="collapseDescription">
-                  Description Information
-                </button>
-              </h5>
-            </div>
-            <div id="collapseDescription" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
-              <div class="card-body">
-                <div class="form-group">
-                  <label for="description">Description:</label>
-                  <textarea formControlName="description" class="form-control" rows="5" id="description"></textarea>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="form-row text-center mt-3">
-          <div class="col-md-6">
-            <button *ngIf="updateLead" (click)="onSubmit(true)"
-              class="btn btn-outline-dark action-button mt-1 mb-1">Submit</button>
-            <button *ngIf="createLead" (click)="onSubmit(false)"
-              class="btn btn-outline-dark action-button mt-1 mb-1">Submit</button>
-          </div>
-          <div class="col-md-6">
-            <button *ngIf="createLead" type="button" (click)="cancelAction(true)"
-              class="btn btn-outline-dark action-button mt-1 mb-1">Cancel</button>
-            <button *ngIf="updateLead" type="button" (click)="cancelAction()"
-              class="btn btn-outline-dark action-button mt-1 mb-1">Cancel</button>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- VIEW -->
-  <div *ngIf="viewLead">
-    <div class="row mt-3 mb-3">
-      <div class="col-6 text-center">
-        <button (click)="cancelAction(true)" type="button" class="btn btn-outline-dark">Go back</button>
-      </div>
-      <div class="col-6 text-center">
-        <button type="button" (click)="createForm(lead)" class="btn btn-outline-dark">
-          Update
-        </button>
-      </div>
-    </div>
-
-    <div class="col-lg-12">
-
+<ng-container *ngIf="createLead || updateLead">
+  <div class="collapse-section">
+    <form [formGroup]="form">
       <div id="accordion">
         <div class="card">
-          <div class="card-header" id="headingOne">
-            <h5 class="mb-0">
-              <button [ngClass]="{
-                  'text-danger': isInvalid
-                }" class="btn btn-link" data-toggle="collapse" data-target="#collapseLeadInformation"
-                aria-expanded="true" aria-controls="collapseLeadInformation">
-                Lead Information
-              </button>
-            </h5>
-          </div>
-
-          <div id="collapseLeadInformation" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-            <div class="card-body row">
-              <div class="col-md-6">
-                <table class="rwd_auto">
-                  <thead>
-                    <tr></tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th scope="row">Name</th>
-                      <td>{{ lead.Salutation }} {{ lead.FirstName }} {{ lead.LastName }}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Company</th>
-                      <td>{{ lead.Company }}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Title</th>
-                      <td>{{ lead.Title }}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Lead Source</th>
-                      <td>{{ lead.LeadSource }}</td>
-                    </tr>
-                    <!-- <tr>
-                      <th scope="row">Birthdate</th>
-                      <td>{{ lead.Birthdate }}</td>
-                    </tr> -->
-                    <tr>
-                      <th scope="row">Industry</th>
-                      <td>{{ lead.Industry }}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Annual Revenue</th>
-                      <td>{{ lead.AnnualRevenue | currency : 'USD'}}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Rating</th>
-                      <td>{{ lead.Rating }}</td>
-                    </tr>
-                  </tbody>
-                </table>
+          <a
+            class="collapsible__button font-weight-bold"
+            data-bs-toggle="collapse"
+            data-target="#collapseGeneralInformation"
+            role="button"
+            aria-expanded="false"
+            aria-controls="collapseGeneralInformation"
+          >
+            Lead Information
+          </a>
+          <div
+            id="collapseGeneralInformation"
+            class="collapse show"
+            aria-labelledby="headingOne"
+            data-parent="#accordion"
+          >
+            <div class="card-body mx-5 my-5">
+              <div class="form-row">
+                <div class="form-group col-md-2">
+                  <label for="inputSalutation">Salutation</label>
+                  <select formControlName="salutation" id="inputSalutation" class="form-control">
+                    <option value="" selected disabled hidden>Choose here</option>
+                    <option *ngFor="let type of salutationValues" value="{{ type }}" class="form-control">{{ type }}
+                    </option>
+                  </select>
+                </div>
+                <div class="form-group col-md-5">
+                  <label for="inputFirstName">First Name</label>
+                  <input type="text" class="form-control" id="inputFirstName" formControlName="firstName" />
+                </div>
+                <div class="form-group col-md-5">
+                  <label for="inputLastName">Last Name*</label>
+                  <input [ngClass]="{
+                      'is-invalid': isInvalid && !form.controls.lastName.value
+                    }" type="text" class="form-control" id="inputLastName" formControlName="lastName" />
+                </div>
               </div>
-              <div class="col-md 6">
-                <table class="rwd_auto">
-                  <thead>
-                    <tr></tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th scope="row">Phone</th>
-                      <td>{{ lead.Phone }}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Mobile</th>
-                      <td>{{ lead.MobilePhone }}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Fax</th>
-                      <td>{{ lead.Fax }}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Email</th>
-                      <td>{{ lead.Email }}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Web Site</th>
-                      <td>{{ lead.Website }}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Lead Status</th>
-                      <td>{{ lead.Status }}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">No. of Employees</th>
-                      <td>{{ lead.NumberOfEmployees | number }}</td>
-                    </tr>
-
-                  </tbody>
-                </table>
+              <div class="form-row ">
+                <div class="form-group col-md-4">
+                  <label for="inputCompany">Company*</label>
+                  <input [ngClass]="{
+                      'is-invalid': isInvalid && !form.controls.company.value
+                    }" type="text" class="form-control" id="inputCompany" formControlName="company" />
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="inputTitle">Title</label>
+                  <input type="text" class="form-control" id="inputTitle" formControlName="title" />
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="inputLeadSource">Lead Source</label>
+                  <select formControlName="leadSource" id="inputLeadSource" class="form-control">
+                    <option value="" selected disabled hidden>Choose here</option>
+                    <option *ngFor="let type of leadSourceValues" value="{{ type }}" class="form-control">{{ type }}
+                    </option>
+                  </select>
+                </div>
               </div>
-
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-header" id="headingTwo">
-            <h5 class="mb-0">
-              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseAddressInformation"
-                aria-expanded="true" aria-controls="collapseAddressInformation">
-                Address Information
-              </button>
-            </h5>
-          </div>
-          <div id="collapseAddressInformation" class="collapse show" aria-labelledby="headingTwo"
-            data-parent="#accordion">
-            <div class="card-body row">
-              <div class="col-md-6">
-                <table class="rwd_auto">
-                  <thead>
-                    <tr></tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th scope="row">Street</th>
-                      <td>{{ lead.Street}}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">City</th>
-                      <td>{{ lead.City }}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">State/Province</th>
-                      <td>{{ lead.State }}</td>
-                    </tr>
-                  </tbody>
-                </table>
+              <div class="form-row">
+                <div class="form-group col-md-3">
+                  <label for="inputIndustry">Industry</label>
+                  <select formControlName="industry" id="inputIndustry" class="form-control">
+                    <option value="" selected disabled hidden>Choose here</option>
+                    <option *ngFor="let type of industryValues" value="{{ type }}" class="form-control">{{ type }}
+                    </option>
+                  </select>
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="inputAnnualRevenue">Annual Revenue</label>
+                  <input [ngClass]="{
+                      'is-invalid': form.controls.annualRevenue.errors
+                    }" type="text" class="form-control" id="inputAnnualRevenue" formControlName="annualRevenue" />
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="inputRating">Rating</label>
+                  <select formControlName="rating" id="inputRating" class="form-control">
+                    <option value="" selected disabled hidden>Choose here</option>
+                    <option *ngFor="let type of ratingValues" value="{{ type }}" class="form-control">{{ type }}
+                    </option>
+                  </select>
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="inputNoEmployees">No. of Employees</label>
+                  <input [ngClass]="{
+                      'is-invalid': form.controls.numberOfEmployees.errors
+                    }" type="text" class="form-control" id="inputNoEmployees" formControlName="numberOfEmployees" />
+                </div>
               </div>
-              <div class="col-md-6">
-                <table class="rwd_auto">
-                  <thead>
-                    <tr></tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th scope="row">Zip/Postal Code</th>
-                      <td>{{ lead.PostalCode }}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Country</th>
-                      <td>{{ lead.Country }}</td>
-                    </tr>
-                  </tbody>
-                </table>
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label for="inputPhone">Phone</label>
+                  <input type="text" class="form-control" id="inputPhone" formControlName="phone" />
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="inputMobile">Mobile</label>
+                  <input type="text" class="form-control" id="inputMobile" formControlName="mobilePhone" />
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="inputFax">Fax</label>
+                  <input type="text" class="form-control" id="inputFax" formControlName="fax" />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label for="inputEmail">Email</label>
+                  <input [ngClass]="{
+                      'is-invalid': form.controls.email.errors
+                    }" type="text" class="form-control" id="inputEmail" formControlName="email" />
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="inputWebsite">Website</label>
+                  <input type="text" class="form-control" id="inputWebsite" formControlName="website" />
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="inputLeadStatus">Lead Status*</label>
+                  <select [ngClass]="{
+                      'is-invalid': isInvalid && !form.controls.status.value
+                    }" formControlName="status" id="inputLeadStatus" class="form-control">
+                    <option value="" selected disabled hidden>Choose here</option>
+                    <option *ngFor="let type of statusValues" value="{{ type }}" class="form-control">{{ type }}
+                    </option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <!-- <div class="card">
-          <div class="card-header" id="headingThree">
-            <h5 class="mb-0">
-              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseAdditionalInformation"
-                aria-expanded="true" aria-controls="collapseAdditionalInformation">
-                Additional Information
-              </button>
-            </h5>
-          </div>
-          <div id="collapseAdditionalInformation" class="collapse show" aria-labelledby="headingThree"
-            data-parent="#accordion">
-            <div class="card-body row">
-              <div class="col-md-6">
-                <table class="rwd_auto">
-                  <thead>
-                    <tr></tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th scope="row">Product Interest</th>
-                      <td>{{ lead.ProductInterest__c }}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">SIC Code</th>
-                      <td>{{ lead.SICCode__c }}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Number of Locations</th>
-                      <td>{{ lead.NumberofLocations__c }}</td>
-                    </tr>
-                  </tbody>
-                </table>
+        <div class="card">
+          <a
+            class="collapsible__button font-weight-bold"
+            data-bs-toggle="collapse"
+            data-target="#collapseAddressInformation"
+            role="button"
+            aria-expanded="false"
+            aria-controls="collapseAddressInformation"
+          >
+            Address Information
+          </a>
+          <div
+            id="collapseGeneralInformation"
+            class="collapse show"
+            aria-labelledby="headingOne"
+            data-parent="#accordion"
+          >
+            <div class="card-body mx-5 my-5">
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="inputStreet">Street</label>
+                  <input type="email" class="form-control" id="Street" formControlName="street" />
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="inputCity">City</label>
+                  <input type="text" class="form-control" id="inputCity" formControlName="city" />
+                </div>
               </div>
-              <div class="col-md-6">
-                <table class="rwd_auto">
-                  <thead>
-                    <tr></tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th scope="row">Current Generator(s)</th>
-                      <td>{{ lead.CurrentGenerators__c }}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Primary</th>
-                      <td>{{ lead.Primary__c }}</td>
-                    </tr>
-                  </tbody>
-                </table>
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label for="inputState">State/Province</label>
+                  <input type="text" class="form-control" id="inputState" formControlName="state" />
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="inputPostalCode">Zip/Postal Code</label>
+                  <input type="text" class="form-control" id="inputPostalCode" formControlName="postalCode" />
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="inputCountry">Country</label>
+                  <input type="text" class="form-control" id="inputCountry" formControlName="country" />
+                </div>
               </div>
             </div>
           </div>
-        </div> -->
+        </div>
         <div class="card">
-          <div class="card-header" id="headingFour">
-            <h5 class="mb-0">
-              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseDescription"
-                aria-expanded="true" aria-controls="collapseDescription">
-                Description Information
-              </button>
-            </h5>
-          </div>
-          <div id="collapseDescription" class="collapse show" aria-labelledby="headingFour" data-parent="#accordion">
-            <div class="card-body row">
-              <div class="col-md-12">
-                <table class="rwd_auto">
-                  <thead>
-                    <tr></tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th scope="row">Description</th>
-                      <td>{{ lead.Description }}</td>
-                    </tr>
-                  </tbody>
-                </table>
+          <a
+            class="collapsible__button font-weight-bold"
+            data-bs-toggle="collapse"
+            data-target="#collapseDescription"
+            role="button"
+            aria-expanded="false"
+            aria-controls="collapseDescription"
+          >
+            Description Information
+          </a>
+          <div
+            id="collapseDescription"
+            class="collapse show"
+            aria-labelledby="headingFour"
+            data-parent="#accordion"
+          >
+            <div class="card-body mx-5 my-5">
+              <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea formControlName="description" class="form-control" rows="5" id="description"></textarea>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row text-center">
+        <div class="col-md-6 my-3">
+          <a *ngIf="updateLead" (click)="onSubmit(true)"  type="button" style="cursor: pointer; text-decoration: none;" class="btns btns--blue u-position-button-input-right">Submit</a>
+          <a *ngIf="createLead" (click)="onSubmit(false)" type="button" style="cursor: pointer; text-decoration: none;" class="btns btns--blue u-position-button-input-right">Submit</a>
+        </div>
+        <div class="col-md-6 my-3">
+          <a *ngIf="createLead" (click)="cancelAction(true)"  style="cursor: pointer; text-decoration: none;" class="btns btns--red  u-position-button-input-right">Cancel</a>
+          <a *ngIf="updateLead" (click)="cancelAction()"      style="cursor: pointer; text-decoration: none;" class="btns btns--red  u-position-button-input-right">Cancel</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="viewLead">
+  <div class="collapse-section">
+    <div class="row">
+      <div class="col-md-6 text-center my-4">
+        <a (click)="cancelAction(true)" type="button" style="cursor: pointer; text-decoration: none;" class="btns btns--blue u-position-button-input-right">Go back</a>
+      </div>
+      <div class="col-md-6 text-center my-4">
+        <a (click)="createForm(lead)" type="button" style="cursor: pointer; text-decoration: none;" class="btns btns--blue u-position-button-input-right">Update</a>
+      </div>
+    </div>
+    <div id="accordion">
+      <div class="card">
+        <a
+          class="collapsible__button font-weight-bold"
+          data-bs-toggle="collapse"
+          data-target="#collapseGeneralInformation"
+          role="button"
+          aria-expanded="false"
+          aria-controls="collapseGeneralInformation"
+        >
+          Lead Information
+        </a>
+        <div
+          id="collapseGeneralInformation"
+          class="collapse show"
+          aria-labelledby="headingOne"
+          data-parent="#accordion"
+        >
+          <div class="card-body row">
+            <div class="col-md-6">
+              <table class="rwd_auto">
+                <tbody>
+                  <tr>
+                    <th scope="row">Name</th>
+                    <td>{{ lead.Salutation }} {{ lead.FirstName }} {{ lead.LastName }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Company</th>
+                    <td>{{ lead.Company }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Title</th>
+                    <td>{{ lead.Title }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Lead Source</th>
+                    <td>{{ lead.LeadSource }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Industry</th>
+                    <td>{{ lead.Industry }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Annual Revenue</th>
+                    <td>{{ lead.AnnualRevenue | currency : 'USD'}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Rating</th>
+                    <td>{{ lead.Rating }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-md-6">
+              <table class="rwd_auto">
+                <tbody>
+                  <tr>
+                    <th scope="row">Phone</th>
+                    <td>{{ lead.Phone }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Mobile</th>
+                    <td>{{ lead.MobilePhone }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Fax</th>
+                    <td>{{ lead.Fax }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Email</th>
+                    <td>{{ lead.Email }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Web Site</th>
+                    <td>{{ lead.Website }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Lead Status</th>
+                    <td>{{ lead.Status }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">No. of Employees</th>
+                    <td>{{ lead.NumberOfEmployees | number }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <a
+          class="collapsible__button font-weight-bold"
+          data-bs-toggle="collapse"
+          data-target="#collapseAddressInformation"
+          role="button"
+          aria-expanded="false"
+          aria-controls="collapseAddressInformation"
+        >
+          Address Information
+        </a>
+        <div
+          id="collapseGeneralInformation"
+          class="collapse show"
+          aria-labelledby="headingOne"
+          data-parent="#accordion"
+        >
+          <div class="card-body row">
+            <div class="col-md-6">
+              <table class="rwd_auto">
+                <thead>
+                  <tr></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Street</th>
+                    <td>{{ lead.Street}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">City</th>
+                    <td>{{ lead.City }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">State/Province</th>
+                    <td>{{ lead.State }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-md-6">
+              <table class="rwd_auto">
+                <thead>
+                  <tr></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Zip/Postal Code</th>
+                    <td>{{ lead.PostalCode }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Country</th>
+                    <td>{{ lead.Country }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <a
+          class="collapsible__button font-weight-bold"
+          data-bs-toggle="collapse"
+          data-target="#collapseDescription"
+          role="button"
+          aria-expanded="false"
+          aria-controls="collapseDescription"
+        >
+          Description Information
+        </a>
+        <div
+          id="collapseDescription"
+          class="collapse show"
+          aria-labelledby="headingFour"
+          data-parent="#accordion"
+        >
+          <div class="card-body row">
+            <div class="col-md-12">
+              <table class="rwd_auto">
+                <tbody>
+                  <tr>
+                    <th scope="row">Description</th>
+                    <td>{{ lead.Description }}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+</ng-container>
