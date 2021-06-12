@@ -1,439 +1,415 @@
-<div class="container">
-  <div class="row" *ngIf="createAccount || updateAccount">
-    <div class="col-lg-12">
-      <form [formGroup]="form">
-        <div id="accordion">
-          <div class="card">
-            <div class="card-header" id="headingOne">
-              <h5 class="mb-0">
-                <button
-                  [ngClass]="{
-                    'text-danger': isInvalid
-                  }"
-                  class="btn btn-link"
-                  data-toggle="collapse"
-                  data-target="#collapseGeneralInformation"
-                  aria-expanded="true"
-                  aria-controls="collapseGeneralInformation"
-                >
-                  Account Information
-                </button>
-              </h5>
-            </div>
+<ng-container *ngIf="createAccount || updateAccount">
+  <div class="collapse-section">
+    <form [formGroup]="form">
+      <div id="accordion">
+        <div class="card">
+          <a
+            class="collapsible__button font-weight-bold"
+            data-bs-toggle="collapse"
+            data-target="#collapseGeneralInformation"
+            role="button"
+            aria-expanded="false"
+            aria-controls="collapseGeneralInformation"
+          >
+            Account Information
+          </a>
+          <div
+            id="collapseGeneralInformation"
+            class="collapse show"
+            aria-labelledby="headingOne"
+            data-parent="#accordion"
+          >
+            <div class="card-body mx-5 my-5">
 
-            <div
-              id="collapseGeneralInformation"
-              class="collapse show"
-              aria-labelledby="headingOne"
-              data-parent="#accordion"
-            >
-              <div class="card-body">
-                <div class="form-row">
-                  <div class="form-group col-md-4">
-                    <label for="inputAccountName">Account Name*</label>
-                    <input
-                      [ngClass]="{
-                        'is-invalid': isInvalid && !form.controls.name.value
-                      }"
-                      type="email"
-                      class="form-control"
-                      id="inputAccountName"
-                      formControlName="name"
-                    />
-                  </div>
 
-                  <div class="form-group col-md-4">
-                    <label for="inputSalutation">Parent Account</label>
-                    <div class="input-group input-border mb-3">
-                      <input *ngIf="lookUpAccount" type="text" class="form-control" id="inputAmount" [ngModelOptions]="{standalone: true}" [(ngModel)]="lookUpAccount.Name" (click)="searchLookUp('Accounts'); this.modalService.open('searchAccount');">
-                      <input *ngIf="!lookUpAccount" type="text" class="form-control" id="inputAmount" (click)="searchLookUp('Accounts'); this.modalService.open('searchAccount');">
-                      <!-- <label *ngIf="lookUpAccount" for="inputSalutation" class="form-control text-break" style="height: auto;" (click)="searchLookUp('Accounts'); this.modalService.open('searchAccount');">{{lookUpAccount.Name}}</label>
-                      <label *ngIf="!lookUpAccount" for="inputSalutation" class="form-control text-break" (click)="searchLookUp('Accounts'); this.modalService.open('searchAccount');"></label> -->
-                      <div *ngIf="lookUpAccount" class="input-group-append">
-                        <button title="Remove Parent Account" (click)="deleteLookUp('parent__SACAP__UUID__c')" class="btn btn-outline-dark" type="button">
-                          <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
-                          </svg>
-                        </button>
-                      </div>
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label for="inputAccountName">Account Name*</label>
+                  <input
+                    [ngClass]="{
+                      'is-invalid': isInvalid && !form.controls.name.value
+                    }"
+                    type="email"
+                    class="form-control"
+                    id="inputAccountName"
+                    formControlName="name"
+                  />
+                </div>
+
+                <div class="form-group col-md-4">
+                  <label for="inputSalutation">Parent Account</label>
+                  <div class="input-group input-border mb-3">
+                    <input *ngIf="lookUpAccount" type="text" class="form-control" id="inputAmount" [ngModelOptions]="{standalone: true}" [(ngModel)]="lookUpAccount.Name" (click)="searchLookUp('Accounts'); this.modalService.open('searchAccount');">
+                    <input *ngIf="!lookUpAccount" type="text" class="form-control" id="inputAmount" (click)="searchLookUp('Accounts'); this.modalService.open('searchAccount');">
+                    <div *ngIf="lookUpAccount" class="input-group-append">
+                      <button title="Remove Parent Account" (click)="deleteLookUp('parent__SACAP__UUID__c')" class="btn btn-outline-dark" type="button">
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                          <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
+                        </svg>
+                      </button>
                     </div>
                   </div>
-                  <div class="form-group col-md-4">
-                    <label for="inputAccountNumber">Account Number</label>
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="inputAccountNumber"
-                      formControlName="accountNumber"
-                    />
-                  </div>
                 </div>
-                <div class="form-row ">
-                  <div class="form-group col-md-4">
-                    <label for="inputAccountSite">Account Site</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="inputAccountSite"
-                      formControlName="site"
-                    />
-                  </div>
-                  <div class="form-group col-md-4">
-                    <label for="inputAccountType">Type</label>
-                    <select
-                      formControlName="type"
-                      id="inputAccountType"
-                      class="form-control"
-                    >
-                      <option value="" selected disabled hidden
-                        >Choose here</option
-                      >
-                      <option
-                        *ngFor="let type of typeValues"
-                        value="{{ type }}"
-                        class="form-control"
-                        >{{ type }}</option
-                      >
-                    </select>
-                  </div>
-                  <div class="form-group col-md-4">
-                    <label for="inputIndustry">Industry</label>
-                    <select formControlName="industry" id="inputIndustry" class="form-control">
-                      <option value="" selected disabled hidden>Choose here</option>
-                      <option
-                        *ngFor="let type of industryValues"
-                        value="{{ type.value }}"
-                        class="form-control">
-                        {{ type.id }}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-row">
-                  <div class="form-group col-md-4">
-                    <label for="inputAnnualRevenue">Annual Revenue</label>
-                    <input
-                      [ngClass]="{
-                        'is-invalid': form.controls.annualRevenue.errors
-                      }"
-                      type="text"
-                      class="form-control"
-                      id="inputAnnualRevenue"
-                      formControlName="annualRevenue"
-                    />
-                  </div>
-                  <div class="form-group col-md-4">
-                    <label for="inputRating">Rating</label>
-                    <select
-                      formControlName="rating"
-                      id="inputRating"
-                      class="form-control"
-                    >
-                      <option value="" selected disabled hidden
-                        >Choose here</option
-                      >
-                      <option
-                        *ngFor="let type of ratingValues"
-                        value="{{ type }}"
-                        class="form-control"
-                        >{{ type }}</option
-                      >
-                    </select>
-                  </div>
-                  <div class="form-group col-md-4">
-                    <label for="inputPhone">Phone</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="inputPhone"
-                      formControlName="phone"
-                    />
-                  </div>
-                </div>
-
-                <div class="form-row">
-                  <div class="form-group col-md-4">
-                    <label for="inputFax">Fax</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="inputFax"
-                      formControlName="fax"
-                    />
-                  </div>
-                  <div class="form-group col-md-5">
-                    <label for="inputWebsite">Website</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="inputWebsite"
-                      formControlName="website"
-                    />
-                  </div>
-                  <div class="form-group col-md-3">
-                    <label for="inputTickerSymbol">Ticker Symbol</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="inputTickerSymbol"
-                      formControlName="tickerSymbol"
-                    />
-                  </div>
-                </div>
-
-                <div class="form-row">
-                  <div class="form-group col-md-4">
-                    <label for="inputOwnership">Ownership</label>
-                    <select
-                      formControlName="ownership"
-                      id="inputOwnership"
-                      class="form-control"
-                    >
-                      <option value="" selected disabled hidden
-                        >Choose here</option
-                      >
-                      <option
-                        *ngFor="let type of ownershipValues"
-                        value="{{ type }}"
-                        class="form-control"
-                        >{{ type }}</option
-                      >
-                    </select>
-                  </div>
-                  <div class="form-group col-md-4">
-                    <label for="inputEmployees">Employees</label>
-                    <input
-                      [ngClass]="{
-                        'is-invalid': form.controls.numberOfEmployees.errors
-                      }"
-                      type="text"
-                      class="form-control"
-                      id="inputEmployees"
-                      formControlName="numberOfEmployees"
-                    />
-                  </div>
-                  <div class="form-group col-md-4">
-                    <label for="inputSicCode">SIC Code</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="inputSicCode"
-                      formControlName="sic"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-header" id="headingTwo">
-              <h5 class="mb-0">
-                <button
-                  class="btn btn-link collapsed"
-                  data-toggle="collapse"
-                  data-target="#collapseAddressInformation"
-                  aria-expanded="false"
-                  aria-controls="collapseAddressInformation"
-                >
-                  Address Information
-                </button>
-              </h5>
-            </div>
-            <div
-              id="collapseAddressInformation"
-              class="collapse"
-              aria-labelledby="headingTwo"
-              data-parent="#accordion"
-            >
-              <div class="card-body">
-                <div class="form-group">
-                  <label for="inputBillingStreet">Billing Street</label>
+                <div class="form-group col-md-4">
+                  <label for="inputAccountNumber">Account Number</label>
                   <input
                     type="email"
                     class="form-control"
-                    id="inputBillingStreet"
-                    formControlName="billingStreet"
+                    id="inputAccountNumber"
+                    formControlName="accountNumber"
                   />
                 </div>
-                <div class="form-row">
-                  <div class="form-group col-md-4">
-                    <label for="inputBillingCity">Billing City</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="inputBillingCity"
-                      formControlName="billingCity"
-                    />
-                  </div>
-                  <div class="form-group col-md-4">
-                    <label for="inputBillingState"
-                      >Billing State/Province</label
-                    >
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="inputBillingState"
-                      formControlName="billingState"
-                    />
-                  </div>
-                  <div class="form-group col-md-4">
-                    <label for="inputBillingPostalCode"
-                      >Billing Zip/Postal Code</label
-                    >
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="inputBillingPostalCode"
-                      formControlName="billingPostalCode"
-                    />
-                  </div>
-                </div>
-                <div class="form-row">
-                  <div class="form-group col-md-4">
-                    <label for="inputBillingCountry">Billing Country</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="inputBillingCountry"
-                      formControlName="billingCountry"
-                    />
-                  </div>
-                  <div class="form-group col-md-4">
-                    <label for="inputShippingStreet">Shipping Street </label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="inputShippingStreet"
-                      formControlName="shippingStreet"
-                    />
-                  </div>
-                  <div class="form-group col-md-4">
-                    <label for="inputShippingCity">Shipping City</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="inputShippingCity"
-                      formControlName="shippingCity"
-                    />
-                  </div>
-                </div>
-                <div class="form-row">
-                  <div class="form-group col-md-4">
-                    <label for="inputShippingState"
-                      >Shipping State/Province
-                    </label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="inputShippingState"
-                      formControlName="shippingState"
-                    />
-                  </div>
-                  <div class="form-group col-md-4">
-                    <label for="inputShippingPostalCode"
-                      >Shipping Zip/Postal Code</label
-                    >
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="inputShippingPostalCode"
-                      formControlName="shippingPostalCode"
-                    />
-                  </div>
-                  <div class="form-group col-md-4">
-                    <label for="inputShippingCountry">Shipping Country</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="inputShippingCountry"
-                      formControlName="shippingCountry"
-                    />
-                  </div>
-                </div>
               </div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-header" id="headingFour">
-              <h5 class="mb-0">
-                <button
-                  class="btn btn-link collapsed"
-                  data-toggle="collapse"
-                  data-target="#collapseDescription"
-                  aria-expanded="false"
-                  aria-controls="collapseDescription"
-                >
-                  Description Information
-                </button>
-              </h5>
-            </div>
-            <div
-              id="collapseDescription"
-              class="collapse"
-              aria-labelledby="headingFour"
-              data-parent="#accordion"
-            >
-              <div class="card-body">
-                <div class="form-group">
-                  <label for="description">Description:</label>
-                  <textarea
-                    formControlName="description"
+              <div class="form-row ">
+                <div class="form-group col-md-4">
+                  <label for="inputAccountSite">Account Site</label>
+                  <input
+                    type="text"
                     class="form-control"
-                    rows="5"
-                    id="description"
-                  ></textarea>
+                    id="inputAccountSite"
+                    formControlName="site"
+                  />
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="inputAccountType">Type</label>
+                  <select
+                    formControlName="type"
+                    id="inputAccountType"
+                    class="form-control"
+                  >
+                    <option value="" selected disabled hidden
+                      >Choose here</option
+                    >
+                    <option
+                      *ngFor="let type of typeValues"
+                      value="{{ type }}"
+                      class="form-control"
+                      >{{ type }}</option
+                    >
+                  </select>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="inputIndustry">Industry</label>
+                  <select formControlName="industry" id="inputIndustry" class="form-control">
+                    <option value="" selected disabled hidden>Choose here</option>
+                    <option
+                      *ngFor="let type of industryValues"
+                      value="{{ type.value }}"
+                      class="form-control">
+                      {{ type.id }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label for="inputAnnualRevenue">Annual Revenue</label>
+                  <input
+                    [ngClass]="{
+                      'is-invalid': form.controls.annualRevenue.errors
+                    }"
+                    type="text"
+                    class="form-control"
+                    id="inputAnnualRevenue"
+                    formControlName="annualRevenue"
+                  />
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="inputRating">Rating</label>
+                  <select
+                    formControlName="rating"
+                    id="inputRating"
+                    class="form-control"
+                  >
+                    <option value="" selected disabled hidden
+                      >Choose here</option
+                    >
+                    <option
+                      *ngFor="let type of ratingValues"
+                      value="{{ type }}"
+                      class="form-control"
+                      >{{ type }}</option
+                    >
+                  </select>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="inputPhone">Phone</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputPhone"
+                    formControlName="phone"
+                  />
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label for="inputFax">Fax</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputFax"
+                    formControlName="fax"
+                  />
+                </div>
+                <div class="form-group col-md-5">
+                  <label for="inputWebsite">Website</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputWebsite"
+                    formControlName="website"
+                  />
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="inputTickerSymbol">Ticker Symbol</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputTickerSymbol"
+                    formControlName="tickerSymbol"
+                  />
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label for="inputOwnership">Ownership</label>
+                  <select
+                    formControlName="ownership"
+                    id="inputOwnership"
+                    class="form-control"
+                  >
+                    <option value="" selected disabled hidden
+                      >Choose here</option
+                    >
+                    <option
+                      *ngFor="let type of ownershipValues"
+                      value="{{ type }}"
+                      class="form-control"
+                      >{{ type }}</option
+                    >
+                  </select>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="inputEmployees">Employees</label>
+                  <input
+                    [ngClass]="{
+                      'is-invalid': form.controls.numberOfEmployees.errors
+                    }"
+                    type="text"
+                    class="form-control"
+                    id="inputEmployees"
+                    formControlName="numberOfEmployees"
+                  />
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="inputSicCode">SIC Code</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputSicCode"
+                    formControlName="sic"
+                  />
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <a
+            class="collapsible__button font-weight-bold"
+            data-bs-toggle="collapse"
+            data-target="#collapseAddressInformation"
+            role="button"
+            aria-expanded="false"
+            aria-controls="collapseAddressInformation"
+          >
+            Address Information
+          </a>
+          <div
+            id="collapseGeneralInformation"
+            class="collapse show"
+            aria-labelledby="headingOne"
+            data-parent="#accordion"
+          >
+            <div class="card-body mx-5 my-5">
+              <div class="form-group">
+                <label for="inputBillingStreet">Billing Street</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="inputBillingStreet"
+                  formControlName="billingStreet"
+                />
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label for="inputBillingCity">Billing City</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputBillingCity"
+                    formControlName="billingCity"
+                  />
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="inputBillingState"
+                    >Billing State/Province</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputBillingState"
+                    formControlName="billingState"
+                  />
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="inputBillingPostalCode"
+                    >Billing Zip/Postal Code</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputBillingPostalCode"
+                    formControlName="billingPostalCode"
+                  />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label for="inputBillingCountry">Billing Country</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputBillingCountry"
+                    formControlName="billingCountry"
+                  />
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="inputShippingStreet">Shipping Street </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputShippingStreet"
+                    formControlName="shippingStreet"
+                  />
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="inputShippingCity">Shipping City</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputShippingCity"
+                    formControlName="shippingCity"
+                  />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label for="inputShippingState"
+                    >Shipping State/Province
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputShippingState"
+                    formControlName="shippingState"
+                  />
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="inputShippingPostalCode"
+                    >Shipping Zip/Postal Code</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputShippingPostalCode"
+                    formControlName="shippingPostalCode"
+                  />
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="inputShippingCountry">Shipping Country</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputShippingCountry"
+                    formControlName="shippingCountry"
+                  />
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="form-row text-center mt-3">
-          <div class="col-md-6">
-            <button *ngIf="updateAccount" (click)="onSubmit(true)" class="btn btn-outline-dark action-button mt-1 mb-1">Submit</button>
-            <button *ngIf="createAccount" (click)="onSubmit(false)" class="btn btn-outline-dark action-button mt-1 mb-1">Submit</button>
-          </div>
-          <div class="col-md-6">
-            <button *ngIf="createAccount" type="button" (click)="cancelAction(true)" class="btn btn-outline-dark action-button mt-1 mb-1">Cancel</button>
-            <button *ngIf="updateAccount" type="button" (click)="cancelAction()" class="btn btn-outline-dark action-button mt-1 mb-1">Cancel</button>
+        <div class="card">
+          <a
+            class="collapsible__button font-weight-bold"
+            data-bs-toggle="collapse"
+            data-target="#collapseDescription"
+            role="button"
+            aria-expanded="false"
+            aria-controls="collapseDescription"
+          >
+            Description Information
+          </a>
+          <div
+            id="collapseDescription"
+            class="collapse show"
+            aria-labelledby="headingFour"
+            data-parent="#accordion"
+          >
+            <div class="card-body mx-5 my-5">
+              <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea
+                  formControlName="description"
+                  class="form-control"
+                  rows="5"
+                  id="description"
+                ></textarea>
+              </div>
+            </div>
           </div>
         </div>
-      </form>
-    </div>
+      </div>
+      <div class="form-row text-center">
+        <div class="col-md-6 my-3">
+          <a *ngIf="updateAccount" (click)="onSubmit(true)"  type="button" style="cursor: pointer; text-decoration: none;" class="btns btns--blue u-position-button-input-right">Submit</a>
+          <a *ngIf="createAccount" (click)="onSubmit(false)" type="button" style="cursor: pointer; text-decoration: none;" class="btns btns--blue u-position-button-input-right">Submit</a>
+        </div>
+        <div class="col-md-6 my-3">
+          <a *ngIf="createAccount" (click)="cancelAction(true)"  style="cursor: pointer; text-decoration: none;" class="btns btns--red  u-position-button-input-right">Cancel</a>
+          <a *ngIf="updateAccount" (click)="cancelAction()"      style="cursor: pointer; text-decoration: none;" class="btns btns--red  u-position-button-input-right">Cancel</a>
+        </div>
+      </div>
+    </form>
   </div>
+</ng-container>
 
-  <!-- VIEW -->
-<div *ngIf="viewAccount">
-  <div class="col-lg-12">
-    <div class="row mt-3 mb-3">
-      <div class="col-6 text-center">
-        <button (click)="cancelAction(true)" type="button" class="btn btn-outline-dark">Go back</button>
+<ng-container *ngIf="viewAccount">
+  <div class="collapse-section">
+    <div class="row">
+      <div class="col-md-6 text-center my-4">
+        <a (click)="cancelAction(true)" type="button" style="cursor: pointer; text-decoration: none;" class="btns btns--blue u-position-button-input-right">Go back</a>
       </div>
-      <div class="col-6 text-center">
-          <button type="button" (click)="createForm(account)" class="btn btn-outline-dark">
-            Update
-        </button>
+      <div class="col-md-6 text-center my-4">
+        <a (click)="createForm(account)" type="button" style="cursor: pointer; text-decoration: none;" class="btns btns--blue u-position-button-input-right">Update</a>
       </div>
     </div>
-
     <div id="accordion">
       <div class="card">
-        <div class="card-header" id="headingOne">
-          <h5 class="mb-0">
-            <button
-              [ngClass]="{
-                'text-danger': isInvalid
-              }"
-              class="btn btn-link"
-              data-toggle="collapse"
-              data-target="#collapseGeneralInformation"
-              aria-expanded="true"
-              aria-controls="collapseGeneralInformation"
-            >
-              Account Information
-            </button>
-          </h5>
-        </div>
-
+        <a
+          class="collapsible__button font-weight-bold"
+          data-bs-toggle="collapse"
+          data-target="#collapseGeneralInformation"
+          role="button"
+          aria-expanded="false"
+          aria-controls="collapseGeneralInformation"
+        >
+          Account Information
+        </a>
         <div
           id="collapseGeneralInformation"
           class="collapse show"
@@ -524,102 +500,95 @@
         </div>
       </div>
       <div class="card">
-        <div class="card-header" id="headingTwo">
-          <h5 class="mb-0">
-            <button
-              class="btn btn-link collapsed"
-              data-toggle="collapse"
-              data-target="#collapseAddressInformation"
-              aria-expanded="true"
-              aria-controls="collapseAddressInformation"
-            >
-              Address Information
-            </button>
-          </h5>
-        </div>
+        <a
+          class="collapsible__button font-weight-bold"
+          data-bs-toggle="collapse"
+          data-target="#collapseAddressInformation"
+          role="button"
+          aria-expanded="false"
+          aria-controls="collapseAddressInformation"
+        >
+          Address Information
+        </a>
         <div
-          id="collapseAddressInformation"
+          id="collapseGeneralInformation"
           class="collapse show"
-          aria-labelledby="headingTwo"
+          aria-labelledby="headingOne"
           data-parent="#accordion"
         >
           <div class="card-body row">
-              <div class="col-md-6">
-                <table class="rwd_auto">
-                  <thead>
-                    <tr></tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th scope="row">Billing Street</th>
-                      <td>{{ account.BillingStreet }}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Billing City</th>
-                      <td>{{ account.BillingCity }}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Billing State/ Province</th>
-                      <td>{{ account.BillingState }}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Billing Zip/Postal Code</th>
-                      <td>{{ account.BillingPostalCode }}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Billing Country</th>
-                      <td>{{ account.BillingCountry }}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div class="col-md-6">
-                <table class="rwd_auto">
-                  <thead>
-                    <tr></tr>
-                  </thead>
-                  <tbody>
-
-                    <tr>
-                      <th scope="row">Shipping City</th>
-                      <td>{{ account.ShippingCity }}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Shipping State/ Province</th>
-                      <td>{{ account.ShippingState }}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Shipping Zip/Postal Code</th>
-                      <td>{{ account.ShippingPostalCode }}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Shipping Country</th>
-                      <td>{{ account.ShippingCountry }}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Shipping Street</th>
-                      <td>{{ account.ShippingStreet }}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+            <div class="col-md-6">
+              <table class="rwd_auto">
+                <thead>
+                  <tr></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row" class="col-width-35">Billing Street</th>
+                    <td>{{ account.BillingStreet }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Billing City</th>
+                    <td>{{ account.BillingCity }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Billing State/ Province</th>
+                    <td>{{ account.BillingState }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Billing Zip/Postal Code</th>
+                    <td>{{ account.BillingPostalCode }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Billing Country</th>
+                    <td>{{ account.BillingCountry }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-md-6">
+              <table class="rwd_auto">
+                <thead>
+                  <tr></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Shipping City</th>
+                    <td>{{ account.ShippingCity }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Shipping State/ Province</th>
+                    <td>{{ account.ShippingState }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Shipping Zip/Postal Code</th>
+                    <td>{{ account.ShippingPostalCode }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Shipping Country</th>
+                    <td>{{ account.ShippingCountry }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Shipping Street</th>
+                    <td>{{ account.ShippingStreet }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
       <div class="card">
-        <div class="card-header" id="headingFour">
-          <h5 class="mb-0">
-            <button
-              class="btn btn-link collapsed"
-              data-toggle="collapse"
-              data-target="#collapseDescription"
-              aria-expanded="true"
-              aria-controls="collapseDescription"
-            >
-              Description Information
-            </button>
-          </h5>
-        </div>
+        <a
+          class="collapsible__button font-weight-bold"
+          data-bs-toggle="collapse"
+          data-target="#collapseDescription"
+          role="button"
+          aria-expanded="false"
+          aria-controls="collapseDescription"
+        >
+          Description Information
+        </a>
         <div
           id="collapseDescription"
           class="collapse show"
@@ -627,7 +596,6 @@
           data-parent="#accordion"
         >
           <div class="card-body row">
-
             <div class="col-md-12">
               <table class="rwd_auto">
                 <thead>
@@ -646,54 +614,54 @@
       </div>
     </div>
   </div>
-</div>
+</ng-container>
 
 <app-modal id="searchAccount" (Close)="onCloseModal($event)" (Open)="OnOpenModal($event)">
-    <div>
-      <h2 class="text-center">Search Parent Account</h2>
-    </div>
-    <div class="row">
-      <div class="col-12">
+  <div>
+    <h2 class="text-center">Search Parent Account</h2>
+  </div>
+  <div class="row">
+    <div class="col-12">
 
-        <div class="input-group input-border mb-3">
-          <input placeholder="Search" [(ngModel)]="searchText" type="text" class="form-control">
-          <div *ngIf="searchText" class="input-group-append">
-            <button title="Delete selected Parent Account" (click)="clearSearch('Accounts')" class="btn btn-outline-dark" type="button">
-              <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/>
-                <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/>
-              </svg>
-            </button>
-          </div>
-          <div class="input-group-append">
-            <button (click)="searchLookUp('Accounts');" class="btn btn-outline-dark"type="button">
-              <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
-                <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
-              </svg>
-            </button>
-          </div>
+      <div class="input-group input-border mb-3">
+        <input placeholder="Search" [(ngModel)]="searchText" type="text" class="form-control">
+        <div *ngIf="searchText" class="input-group-append">
+          <button title="Delete selected Parent Account" (click)="clearSearch('Accounts')" class="btn btn-outline-dark" type="button">
+            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+              <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/>
+              <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/>
+            </svg>
+          </button>
         </div>
-        <div *ngIf="specificSearch" class="mb-3">
-          <p class="text-center">Many matches were found with your search, please be more specific.</p>
+        <div class="input-group-append">
+          <button (click)="searchLookUp('Accounts');" class="btn btn-outline-dark"type="button">
+            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+              <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+            </svg>
+          </button>
         </div>
-        <div *ngIf="LookUpListings" class="list-group" id="list-tab" role="tablist">
-          <a
-            *ngFor="let lookUp of LookUpListings"
-            class="list-group-item list-group-item-action"
-            data-toggle="list"
-            (click)="LookUpSelected(lookUp, 'searchAccount')">{{lookUp.Name}}</a>
-        </div>
+      </div>
+      <div *ngIf="specificSearch" class="mb-3">
+        <p class="text-center">Many matches were found with your search, please be more specific.</p>
+      </div>
+      <div *ngIf="LookUpListings" class="list-group" id="list-tab" role="tablist">
+        <a
+          *ngFor="let lookUp of LookUpListings"
+          class="list-group-item list-group-item-action"
+          data-toggle="list"
+          (click)="LookUpSelected(lookUp, 'searchAccount')">{{lookUp.Name}}</a>
+      </div>
 
-        <div *ngIf="LookUpListings404" class="card text-center mt-3">
-          <div class="card-body">
-            <h5 class="card-title">No Results found!</h5>
-            <p class="card-text">
-              Sorry, but nothing matched your search terms. Please try again with some different keywords.
-            </p>
-          </div>
+      <div *ngIf="LookUpListings404" class="card text-center mt-3">
+        <div class="card-body">
+          <h5 class="card-title">No Results found!</h5>
+          <p class="card-text">
+            Sorry, but nothing matched your search terms. Please try again with some different keywords.
+          </p>
         </div>
       </div>
     </div>
-  </app-modal>
+  </div>
+</app-modal>
