@@ -122,3 +122,16 @@ In the components that you defined of each object will go the selectors (tags) t
 ```
 <app-opportunity-sf></app-opportunity-sf>
 ```
+---
+## Styles
+
+Here we leave some styles already predefined for your application and this package to look cool. You only need to add [these files](https://github.com/software-allies/cap-angular-schematic-responsive/tree/development/src/cap-angular-schematic-responsive/files/src/assets/scss) in your application `/assets/scss`  and import the `main.scss` file in your `src/styles.scss` file in the following way:
+```
+@import '. /assets/scss/main.scss';
+```
+
+You can also do it automatically by calling a schematic for Angular as follows: 
+
+```
+ng add cap-angular-schematic-responsive <App title> false false false
+```
