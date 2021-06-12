@@ -12,39 +12,12 @@ import Swal from 'sweetalert2';
   selector: 'app-opportunity-sf',
   templateUrl: './opportunity-sf.component.html',
   styles: [`
-  .record-detail {
-  }
-  table {
-    border-collapse: collapse;
-    table-layout: fixed;
-  }
-  table.rwd_auto {
-    width: 100%;
-  }
-  .rwd_auto th {
-    text-align: left;
-    width: 45%;
-    padding-top: .5em;
-    padding-bottom: .5em;
-    border-bottom:1px solid #dee2e6;
-    word-wrap: break-word;
-  }
-  .rwd_auto td {
-    text-align: left;
-    padding-top: .5em;
-    padding-bottom: .5em;
-    padding-left: .5em;
-    border-bottom:1px solid #dee2e6;
-    word-wrap: break-word;
-  }
   .action-button {
     min-width: 100px;
   }
-
   div.input-border input {
     border-color: #343a40;
   }
-
   div.input-border input:focus {
     outline:none !important;
     outline-width: 0 !important;
@@ -53,22 +26,6 @@ import Swal from 'sweetalert2';
     -webkit-box-shadow: none !important;
     border-color: #343a40;
     // border-width: 1.5px;
-  }
-
-  /* Mobile ----------- */
-	@media (max-width: 374px) {
-    .rwd_auto {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    .rwd_auto th {
-      text-align: left;
-      width: 45%;
-    }
-
-    table.special td{
-      padding-left:1.9em !important;
-    }
   }
   `]
 })
