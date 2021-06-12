@@ -12,6 +12,11 @@ import Swal from 'sweetalert2';
   selector: 'app-opportunity-sf',
   templateUrl: './opportunity-sf.component.html',
   styles: [`
+  table {
+    border-collapse: collapse;
+    table-layout: fixed;
+    width:100%;
+  }
   .action-button {
     min-width: 100px;
   }

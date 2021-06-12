@@ -12,6 +12,11 @@ import Swal from 'sweetalert2';
   selector: 'app-contact-sf',
   templateUrl: './contact-sf.component.html',
   styles: [`
+  table {
+    border-collapse: collapse;
+    table-layout: fixed;
+    width:100%;
+  }
   div.input-border input {
     border-color: #343a40;
   }

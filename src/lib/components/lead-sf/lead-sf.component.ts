@@ -11,6 +11,11 @@ import { isDate, isString } from 'util';
   selector: 'app-lead-sf',
   templateUrl: './lead-sf.component.html',
   styles: [`
+  table {
+    border-collapse: collapse;
+    table-layout: fixed;
+    width:100%;
+  }
   .action-button {
     min-width: 100px;
   }
