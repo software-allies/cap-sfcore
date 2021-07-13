@@ -17,6 +17,17 @@ import Swal from 'sweetalert2';
     table-layout: fixed;
     width:100%;
   }
+  tr.tr-row>td,
+  tr.tr-row>th{
+    padding-bottom:1rem;
+    padding-top:1rem;
+    border-bottom:1px solid #dee2e6;
+  }
+  tr.tr-space>td,
+  tr.tr-space>th{
+    padding-bottom:1rem;
+    padding-top:1rem;
+  }
   div.input-border input {
     border-color: #343a40;
   }
