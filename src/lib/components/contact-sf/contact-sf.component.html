@@ -403,7 +403,7 @@
         <a (click)="cancelAction(true)" type="button" style="cursor: pointer; text-decoration: none;" class="btns btns--blue u-position-button-input-right">Go back</a>
       </div>
       <div class="col-md-6 text-center my-4">
-        <a (click)="createForm(contact)" type="button" style="cursor: pointer; text-decoration: none;" class="btns btns--blue u-position-button-input-right">Update</a>
+        <a (click)="createForm(contact)" type="button" style="cursor: pointer; text-decoration: none;" class="btns btns--blue u-position-button-input-right">Edit</a>
       </div>
     </div>
     <div id="accordion">
@@ -428,33 +428,33 @@
             <div class="col-md-6">
               <table class="rwd_auto">
                 <tbody>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Name</th>
                     <td>{{contact.Salutation}} {{contact.FirstName}} {{contact.LastName}}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Account Name</th>
                     <td *ngIf="lookUpAccount"> {{lookUpAccount.Name}} </td>
                     <td *ngIf="!lookUpAccount"></td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Title</th>
                     <td>{{ contact.Title }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Department</th>
                     <td>{{ contact.Department }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Birthdate</th>
                     <td>{{ contact.Birthdate | date :'MM/dd/yyyy' : 'UTC/GMT' }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Reports To</th>
                     <td *ngIf="lookUpContact">{{lookUpContact.FirstName}} {{lookUpContact.LastName}}</td>
                     <td *ngIf="!lookUpContact"></td>
                   </tr>
-                  <tr>
+                  <tr class="tr-space">
                     <th scope="row" class="col-width-35">Lead Source</th>
                     <td>{{ contact.LeadSource }}</td>
                   </tr>
@@ -464,35 +464,35 @@
             <div class="col-md-6">
               <table class="rwd_auto">
                 <tbody>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Phone</th>
                     <td>{{ contact.Phone }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Home Phone</th>
                     <td>{{ contact.HomePhone }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Mobile</th>
                     <td>{{ contact.MobilePhone }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Other Phone</th>
                     <td>{{ contact.OtherPhone }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Fax</th>
                     <td>{{ contact.Fax }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Email</th>
                     <td>{{ contact.Email }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Assistant</th>
                     <td>{{ contact.AssistantName }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-space">
                     <th scope="row">Asst. Phone</th>
                     <td>{{ contact.AssistantPhone }}</td>
                   </tr>
@@ -523,23 +523,23 @@
             <div class="col-md-6">
               <table class="rwd_auto">
                 <tbody>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Mailing Street</th>
                     <td>{{ contact.MailingStreet }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Mailing City</th>
                     <td>{{ contact.MailingCity }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Mailing State/ Province</th>
                     <td>{{ contact.MailingState}}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Mailing Zip/Postal Code</th>
                     <td>{{ contact.MailingPostalCode }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-space">
                     <th scope="row">Mailing Country</th>
                     <td>{{ contact.MailingCountry }}</td>
                   </tr>
@@ -549,23 +549,23 @@
             <div class="col-md-6">
               <table class="rwd_auto">
                 <tbody>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Other Street</th>
                     <td>{{ contact.OtherStreet }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Other City</th>
                     <td>{{ contact.OtherCity }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Other Zip/Postal Code</th>
                     <td>{{ contact.OtherPostalCode }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Other Country</th>
                     <td>{{ contact.OtherCountry }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-space">
                     <th scope="row">Other State/ Province</th>
                     <td>{{ contact.OtherState }}</td>
                   </tr>
@@ -596,7 +596,7 @@
             <div class="col-md-12">
               <table class="rwd_auto">
                 <tbody>
-                  <tr>
+                  <tr class="tr-space">
                     <th scope="row">Description</th>
                     <td>{{ contact.Description }}</td>
                   </tr>
