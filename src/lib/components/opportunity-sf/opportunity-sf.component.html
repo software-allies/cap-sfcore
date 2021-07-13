@@ -104,9 +104,9 @@
                   }" type="text" class="form-control" id="inputProbability" formControlName="probability" />
                 </div>
               </div>
-              <div class="form-group form-check">
+              <div class="form-group form-check p-4">
                 <input formControlName="isPrivate" type="checkbox" class="form-check-input" id="inputPrivate" />
-                <label class="form-check-label" for="inputPrivate">Private</label>
+                <label class="form-check-label pl-5" for="inputPrivate">Private</label>
               </div>
             </div>
           </div>
@@ -158,7 +158,7 @@
         <a (click)="cancelAction(true)" type="button" style="cursor: pointer; text-decoration: none;" class="btns btns--blue u-position-button-input-right">Go back</a>
       </div>
       <div class="col-md-6 text-center my-4">
-        <a (click)="createForm(opportunity)" type="button" style="cursor: pointer; text-decoration: none;" class="btns btns--blue u-position-button-input-right">Update</a>
+        <a (click)="createForm(opportunity)" type="button" style="cursor: pointer; text-decoration: none;" class="btns btns--blue u-position-button-input-right">Edit</a>
       </div>
     </div>
     <div id="accordion">
@@ -183,24 +183,24 @@
             <div class="col-md-6">
               <table class="rwd_auto">
                 <tbody>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Opportunity Name</th>
                     <td>{{ opportunity.Name }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Private</th>
                     <td>{{ opportunity.IsPrivate }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Account Name</th>
                     <td *ngIf="lookUpAccount"> {{lookUpAccount.Name}} </td>
                     <td *ngIf="!lookUpAccount"></td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Type</th>
                     <td>{{ opportunity.Type }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-space">
                     <th scope="row">Lead Source</th>
                     <td>{{ opportunity.LeadSource }}</td>
                   </tr>
@@ -214,27 +214,27 @@
                   <tr></tr>
                 </thead>
                 <tbody>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Expected Revenue</th>
                     <td>{{ opportunity.ExpectedRevenue | currency : 'USD' }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Amount</th>
                     <td>{{ opportunity.Amount | currency : 'USD' }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Close Date</th>
                     <td>{{ opportunity.CloseDate | date : 'MM/dd/yyyy' : 'UTC/GMT'}}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Next Step</th>
                     <td>{{ opportunity.NextStep }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Stage</th>
                     <td>{{ opportunity.StageName }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-space">
                     <th scope="row">Probability (%)</th>
                     <td>{{ opportunity.Probability }}%</td>
                   </tr>
@@ -265,7 +265,7 @@
             <div class="col-md-12">
               <table class="rwd_auto">
                 <tbody>
-                  <tr>
+                  <tr class="tr-space">
                     <th scope="row">Description</th>
                     <td>{{ opportunity.Description }}</td>
                   </tr>
