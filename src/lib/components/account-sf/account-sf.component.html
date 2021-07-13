@@ -289,7 +289,7 @@
                   />
                 </div>
                 <div class="form-group col-md-4">
-                  <label for="inputShippingStreet">Shipping Street </label>
+                  <label for="inputShippingStreet">Shipping Street</label>
                   <input
                     type="text"
                     class="form-control"
@@ -395,7 +395,7 @@
         <a (click)="cancelAction(true)" type="button" style="cursor: pointer; text-decoration: none;" class="btns btns--blue u-position-button-input-right">Go back</a>
       </div>
       <div class="col-md-6 text-center my-4">
-        <a (click)="createForm(account)" type="button" style="cursor: pointer; text-decoration: none;" class="btns btns--blue u-position-button-input-right">Update</a>
+        <a (click)="createForm(account)" type="button" style="cursor: pointer; text-decoration: none;" class="btns btns--blue u-position-button-input-right">Edit</a>
       </div>
     </div>
     <div id="accordion">
@@ -419,36 +419,33 @@
           <div class="card-body row">
             <div class="col-md-6">
               <table class="rwd_auto">
-                <thead>
-                  <tr></tr>
-                </thead>
                 <tbody>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row" class="col-width-35">Account Name</th>
                     <td>{{ account.Name }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row" class="col-width-35">Parent Account</th>
                     <td *ngIf="lookUpAccount"> {{lookUpAccount.Name}} </td>
                     <td *ngIf="!lookUpAccount"></td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row" class="col-width-35">Account Number</th>
                     <td>{{ account.AccountNumber }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row" class="col-width-35">Account Site</th>
                     <td>{{ account.Site }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row" class="col-width-35">Type</th>
                     <td>{{ account.Type }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row" class="col-width-35">Industry</th>
                     <td>{{ account.Industry }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-space">
                     <th scope="row" class="col-width-35">Annual Revenue</th>
                     <td>{{ account.AnnualRevenue | currency : 'USD' }}</td>
                   </tr>
@@ -457,39 +454,36 @@
             </div>
             <div class="col-md-6">
               <table class="rwd_auto">
-                <thead>
-                  <tr></tr>
-                </thead>
                 <tbody>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Rating</th>
                     <td>{{ account.Rating }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Phone</th>
                     <td>{{ account.Phone }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Fax</th>
                     <td>{{ account.Fax }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Website</th>
                     <td>{{ account.Website }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Ownership</th>
                     <td>{{ account.Ownership }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Ticker Symbol</th>
                     <td>{{ account.TickerSymbol }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Employees</th>
                     <td>{{ account.NumberOfEmployees | number }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-space">
                     <th scope="row">SIC Code</th>
                     <td>{{ account.Sic }}</td>
                   </tr>
@@ -519,27 +513,24 @@
           <div class="card-body row">
             <div class="col-md-6">
               <table class="rwd_auto">
-                <thead>
-                  <tr></tr>
-                </thead>
                 <tbody>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row" class="col-width-35">Billing Street</th>
                     <td>{{ account.BillingStreet }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Billing City</th>
                     <td>{{ account.BillingCity }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Billing State/ Province</th>
                     <td>{{ account.BillingState }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Billing Zip/Postal Code</th>
                     <td>{{ account.BillingPostalCode }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-space">
                     <th scope="row">Billing Country</th>
                     <td>{{ account.BillingCountry }}</td>
                   </tr>
@@ -552,26 +543,27 @@
                   <tr></tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row">Shipping City</th>
-                    <td>{{ account.ShippingCity }}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Shipping State/ Province</th>
-                    <td>{{ account.ShippingState }}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Shipping Zip/Postal Code</th>
-                    <td>{{ account.ShippingPostalCode }}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Shipping Country</th>
-                    <td>{{ account.ShippingCountry }}</td>
-                  </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Shipping Street</th>
                     <td>{{ account.ShippingStreet }}</td>
                   </tr>
+                  <tr class="tr-row">
+                    <th scope="row">Shipping City</th>
+                    <td>{{ account.ShippingCity }}</td>
+                  </tr>
+                  <tr class="tr-row">
+                    <th scope="row">Shipping State/ Province</th>
+                    <td>{{ account.ShippingState }}</td>
+                  </tr>
+                  <tr class="tr-row">
+                    <th scope="row">Shipping Zip/Postal Code</th>
+                    <td>{{ account.ShippingPostalCode }}</td>
+                  </tr>
+                  <tr class="tr-space">
+                    <th scope="row">Shipping Country</th>
+                    <td>{{ account.ShippingCountry }}</td>
+                  </tr>
+
                 </tbody>
               </table>
             </div>
@@ -598,14 +590,11 @@
           <div class="card-body row">
             <div class="col-md-12">
               <table class="rwd_auto">
-                <thead>
-                  <tr></tr>
-                </thead>
                 <tbody>
-                    <tr>
-                      <th scope="row">Description</th>
-                      <td>{{ account.Description }}</td>
-                    </tr>
+                  <tr class="tr-space">
+                    <th scope="row">Description</th>
+                    <td>{{ account.Description }}</td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -617,7 +606,7 @@
 </ng-container>
 
 <app-modal id="searchAccount" (Close)="onCloseModal($event)" (Open)="OnOpenModal($event)">
-  <div>
+  <div class="modal-title">
     <h2 class="text-center">Search Parent Account</h2>
   </div>
   <div class="row">
