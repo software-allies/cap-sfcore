@@ -2,32 +2,40 @@ import { Injectable , Inject, PLATFORM_ID } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { isPlatformBrowser } from '@angular/common';
+import { CookieService } from 'ngx-cookie-service';
 import { ConfigService } from './config.service';
 import { map } from 'rxjs/operators';
 
 @Injectable()
 export class LoopbackService {
 
-  url: string;
-  limit: number;
-  limitLookUps: number;
+  private url: string;
+  private limit: number = 20;
+  private limitLookUps: number = 100;
+  private cookiesIndex: string = 'logged_in';
+  private token: string = undefined;
 
   constructor(
     private http: HttpClient,
     private configService: ConfigService,
+    private cookieService: CookieService,
     @Inject(PLATFORM_ID) private platformId
   ) {
     this.url = this.configService.endPoint;
-    this.limit = 20;
-    this.limitLookUps = 100;
   }
 
+  /**
+   * Deprecated
+   */
   getToken(): string {
     if (isPlatformBrowser(this.platformId) && localStorage.getItem('User')) {
       return JSON.parse(localStorage.getItem('User')).token;
     }
   }
 
+  /**
+   * Deprecated
+   */
   isUserLoggedIn(): boolean {
     if (isPlatformBrowser(this.platformId) && localStorage.getItem('User')) {
       const userStorage = JSON.parse(localStorage.getItem('User'));
@@ -42,11 +50,20 @@ export class LoopbackService {
     }
   }
 
+  _getToken(field: string = 'token'): string {
+    if (this.cookieService.check(this.cookiesIndex)){
+      if(this.token) return this.token;
+      let cookies: object = JSON.parse(this.cookieService.get(this.cookiesIndex));
+      this.token = cookies[field];
+      return cookies[field];
+    } else return ''
+  }
+
   getAllRequest(tableName: string, searchText: string, attributeSelected: string, applySearchBy: boolean = false, offset: number = 0) {
     const httpOptions = {
       headers: new HttpHeaders({
         'content-type': 'application/json',
-        Authorization: `Bearer ${this.getToken()}`
+        Authorization: `Bearer ${this._getToken()}`
       })
     };
     let query: string;
@@ -64,7 +81,7 @@ export class LoopbackService {
     const httpOptions = {
       headers: new HttpHeaders({
         'content-type': 'application/json',
-        Authorization: `Bearer ${this.getToken()}`
+        Authorization: `Bearer ${this._getToken()}`
       })
     };
     let query: string;
@@ -85,7 +102,7 @@ export class LoopbackService {
     const httpOptions = {
       headers: new HttpHeaders({
         'content-type': 'application/json',
-        Authorization: `Bearer ${this.getToken()}`
+        Authorization: `Bearer ${this._getToken()}`
       })
     };
     return this.http.get(`${this.url}/${tableName}/?filter=${JSON.stringify(query)}`, httpOptions);
@@ -95,7 +112,7 @@ export class LoopbackService {
     const httpOptions = {
       headers: new HttpHeaders({
         'content-type': 'application/json',
-        Authorization: `Bearer ${this.getToken()}`
+        Authorization: `Bearer ${this._getToken()}`
       })
     };
     const regexp = `/${text}/i`;
@@ -116,7 +133,7 @@ export class LoopbackService {
     const httpOptions = {
       headers: new HttpHeaders({
         'content-type': 'application/json',
-        Authorization: `Bearer ${this.getToken()}`
+        Authorization: `Bearer ${this._getToken()}`
       })
     };
     const regexp = `/${text}/i`;
@@ -140,7 +157,7 @@ export class LoopbackService {
     const httpOptions = {
       headers: new HttpHeaders({
         'content-type': 'application/json',
-        Authorization: `Bearer ${this.getToken()}`
+        Authorization: `Bearer ${this._getToken()}`
       })
     };
     return this.http.get(`${this.url}/${query}`, httpOptions);
@@ -150,7 +167,7 @@ export class LoopbackService {
     const httpOptions = {
       headers: new HttpHeaders({
         'content-type': 'application/json',
-        Authorization: `Bearer ${this.getToken()}`
+        Authorization: `Bearer ${this._getToken()}`
       })
     };
     return this.http.get(`${this.url}/${tableName}/${uuid}`, httpOptions);
@@ -160,7 +177,7 @@ export class LoopbackService {
     const httpOptions = {
       headers: new HttpHeaders({
         'content-type': 'application/json',
-        Authorization: `Bearer ${this.getToken()}`
+        Authorization: `Bearer ${this._getToken()}`
       })
     };
     return this.http.get(`${this.url}/${tableName}/${id}`, httpOptions);
@@ -170,7 +187,7 @@ export class LoopbackService {
     const httpOptions = {
       headers: new HttpHeaders({
         'content-type': 'application/json',
-        Authorization: `Bearer ${this.getToken()}`
+        Authorization: `Bearer ${this._getToken()}`
       })
     };
     return this.http.post(`${this.url}/${tableName}`, body, httpOptions);
@@ -180,7 +197,7 @@ export class LoopbackService {
     const httpOptions = {
       headers: new HttpHeaders({
         'content-type': 'application/json',
-        Authorization: `Bearer ${this.getToken()}`
+        Authorization: `Bearer ${this._getToken()}`
       })
     };
     return this.http.put(`${this.url}/${tableName}/${id}`, body, httpOptions);
@@ -190,7 +207,7 @@ export class LoopbackService {
     const httpOptions = {
       headers: new HttpHeaders({
         'content-type': 'application/json',
-        Authorization: `Bearer ${this.getToken()}`
+        Authorization: `Bearer ${this._getToken()}`
       })
     };
     return this.http.delete(`${this.url}/${tableName}/${id}`, httpOptions);
