@@ -125,7 +125,7 @@ import Swal from 'sweetalert2';
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                     <li><a class="dropdown-item" routerLink="/{{objectComponent}}/{{ object.SACAP__UUID__c }}">View</a></li>
-                    <li><a class="dropdown-item" routerLink="/{{objectComponent}}/{{ object.SACAP__UUID__c }}/update">Update</a></li>
+                    <li><a class="dropdown-item" routerLink="/{{objectComponent}}/{{ object.SACAP__UUID__c }}/update">Edit</a></li>
                     <li><a class="dropdown-item" (click)="deleteItem(object.SACAP__UUID__c)">Delete</a></li>
                   </ul>
                 </div>
