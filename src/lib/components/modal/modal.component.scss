@@ -1,5 +1,16 @@
 app-modal {
-    display: none;
+  display: none;
+  font-size:1.6rem;
+  textarea.form-control,
+  input.form-control,
+  select.form-control,
+  button{
+    font-size:1.6rem!important;
+  }
+  h5{font-size: 1.8rem;}
+  div.modal-title>h2{
+    font-size: 3.5rem;
+  }
     .sa-modal {
         position: fixed;
         top: 0;
