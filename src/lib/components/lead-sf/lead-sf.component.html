@@ -222,7 +222,7 @@
         <a (click)="cancelAction(true)" type="button" style="cursor: pointer; text-decoration: none;" class="btns btns--blue u-position-button-input-right">Go back</a>
       </div>
       <div class="col-md-6 text-center my-4">
-        <a (click)="createForm(lead)" type="button" style="cursor: pointer; text-decoration: none;" class="btns btns--blue u-position-button-input-right">Update</a>
+        <a (click)="createForm(lead)" type="button" style="cursor: pointer; text-decoration: none;" class="btns btns--blue u-position-button-input-right">Edit</a>
       </div>
     </div>
     <div id="accordion">
@@ -247,31 +247,31 @@
             <div class="col-md-6">
               <table class="rwd_auto">
                 <tbody>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Name</th>
                     <td>{{ lead.Salutation }} {{ lead.FirstName }} {{ lead.LastName }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Company</th>
                     <td>{{ lead.Company }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Title</th>
                     <td>{{ lead.Title }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Lead Source</th>
                     <td>{{ lead.LeadSource }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Industry</th>
                     <td>{{ lead.Industry }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Annual Revenue</th>
                     <td>{{ lead.AnnualRevenue | currency : 'USD'}}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-space">
                     <th scope="row">Rating</th>
                     <td>{{ lead.Rating }}</td>
                   </tr>
@@ -281,31 +281,31 @@
             <div class="col-md-6">
               <table class="rwd_auto">
                 <tbody>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Phone</th>
                     <td>{{ lead.Phone }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Mobile</th>
                     <td>{{ lead.MobilePhone }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Fax</th>
                     <td>{{ lead.Fax }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Email</th>
                     <td>{{ lead.Email }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Web Site</th>
                     <td>{{ lead.Website }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Lead Status</th>
                     <td>{{ lead.Status }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-space">
                     <th scope="row">No. of Employees</th>
                     <td>{{ lead.NumberOfEmployees | number }}</td>
                   </tr>
@@ -335,19 +335,16 @@
           <div class="card-body row">
             <div class="col-md-6">
               <table class="rwd_auto">
-                <thead>
-                  <tr></tr>
-                </thead>
                 <tbody>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Street</th>
                     <td>{{ lead.Street}}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">City</th>
                     <td>{{ lead.City }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-space">
                     <th scope="row">State/Province</th>
                     <td>{{ lead.State }}</td>
                   </tr>
@@ -356,15 +353,12 @@
             </div>
             <div class="col-md-6">
               <table class="rwd_auto">
-                <thead>
-                  <tr></tr>
-                </thead>
                 <tbody>
-                  <tr>
+                  <tr class="tr-row">
                     <th scope="row">Zip/Postal Code</th>
                     <td>{{ lead.PostalCode }}</td>
                   </tr>
-                  <tr>
+                  <tr class="tr-space">
                     <th scope="row">Country</th>
                     <td>{{ lead.Country }}</td>
                   </tr>
@@ -395,7 +389,7 @@
             <div class="col-md-12">
               <table class="rwd_auto">
                 <tbody>
-                  <tr>
+                  <tr class="tr-space">
                     <th scope="row">Description</th>
                     <td>{{ lead.Description }}</td>
                   </tr>
